@@ -4,7 +4,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Star, Phone, Mail, MapPin, Instagram, Facebook, Twitter } from "lucide-react"
+import { FaStar, FaPhone, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaWalking } from "react-icons/fa"
+import { CiMail, CiLocationOn } from "react-icons/ci";
+import { FiPhoneCall } from "react-icons/fi";
+
 import { AppleNav } from "@/components/apple-nav"
 import { HeroSection } from "@/components/hero-section"
 import { FadeIn } from "@/components/animations/fade-in"
@@ -83,28 +86,47 @@ export default function MakeupArtistPortfolio() {
       <HeroSection />
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white dark:bg-stone-900 transition-colors">
+      <section
+        id="about"
+        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+      >
         <div className="container mx-auto px-4">
           <FadeIn className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">Acerca de Lesley</h2>
+            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
+              Acerca de Lesley
+            </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
-              Soy una maquilladora apasionada, especializada en crear looks atemporales y elegantes para los momentos más importantes de la vida. Mi enfoque combina técnicas clásicas con tendencias modernas para realzar tu belleza natural.
+              Soy una maquilladora apasionada, especializada en crear looks
+              atemporales y elegantes para los momentos más importantes de la
+              vida. Mi enfoque combina técnicas clásicas con tendencias modernas
+              para realzar tu belleza natural.
             </p>
             <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
-              Entrenada en la prestigiosa Academia de Maquillaje Alejandra Torres y con certificaciones de las principales marcas de belleza, aporto tanto arte como profesionalismo a cada experiencia con el cliente. Ya sea el día de tu boda, un evento especial o una sesión fotográfica, me dedico a hacer que te veas y te sientas absolutamente radiante.
+              Entrenada en la prestigiosa Academia de Maquillaje Alejandra
+              Torres y con certificaciones de las principales marcas de belleza,
+              aporto tanto arte como profesionalismo a cada experiencia con el
+              cliente. Ya sea el día de tu boda, un evento especial o una sesión
+              fotográfica, me dedico a hacer que te veas y te sientas
+              absolutamente radiante.
             </p>
           </FadeIn>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors">
+      <section
+        id="services"
+        className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors"
+      >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">Servicios</h2>
+            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
+              Servicios
+            </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              Desde maquillaje de novias hasta sesiones editoriales, ofrezco una gama completa de servicios
-              profesionales de maquillaje adaptados a tus necesidades.
+              Desde maquillaje de novias hasta sesiones editoriales, ofrezco una
+              gama completa de servicios profesionales de maquillaje adaptados a
+              tus necesidades.
             </p>
           </FadeIn>
 
@@ -118,15 +140,25 @@ export default function MakeupArtistPortfolio() {
                   <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-stone-600 dark:text-stone-400">{service.description}</p>
+                  <p className="text-stone-600 dark:text-stone-400">
+                    {service.description}
+                  </p>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-stone-500 dark:text-stone-500">Duración:</span>
-                      <span className="text-sm font-medium text-stone-700 dark:text-stone-300">{service.duration}</span>
+                      <span className="text-sm text-stone-500 dark:text-stone-500">
+                        Duración:
+                      </span>
+                      <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                        {service.duration}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-stone-500 dark:text-stone-500">Precio:</span>
-                      <span className="text-lg font-semibold text-stone-900 dark:text-stone-100">{service.price}</span>
+                      <span className="text-sm text-stone-500 dark:text-stone-500">
+                        Precio:
+                      </span>
+                      <span className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                        {service.price}
+                      </span>
                     </div>
                   </div>
                   <Button
@@ -143,13 +175,18 @@ export default function MakeupArtistPortfolio() {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 bg-white dark:bg-stone-900 transition-colors">
+      <section
+        id="portfolio"
+        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+      >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">Portafolio</h2>
+            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
+              Portafolio
+            </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              Explora mi trabajo reciente mostrando varios estilos y técnicas de maquillaje en diferentes ocasiones y
-              entornos.
+              Explora mi trabajo reciente mostrando varios estilos y técnicas de
+              maquillaje en diferentes ocasiones y entornos.
             </p>
           </FadeIn>
 
@@ -186,12 +223,18 @@ export default function MakeupArtistPortfolio() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors">
+      <section
+        id="testimonials"
+        className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors"
+      >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl lg:text-5xl font-serif text-stone-900 dark:text-stone-100">Lo Que Dicen Mis Clientes</h2>
+            <h2 className="text-4xl lg:text-5xl font-serif text-stone-900 dark:text-stone-100">
+              Lo Que Dicen Mis Clientes
+            </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              La satisfacción de mis clientes es mi mayor recompensa. Aquí tienes algunas de sus experiencias.
+              La satisfacción de mis clientes es mi mayor recompensa. Aquí
+              tienes algunas de sus experiencias.
             </p>
           </FadeIn>
 
@@ -204,7 +247,10 @@ export default function MakeupArtistPortfolio() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex justify-center">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      <FaStar
+                        key={i}
+                        className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                      />
                     ))}
                   </div>
                   <p className="text-stone-600 dark:text-stone-400 italic text-center leading-relaxed">
@@ -220,8 +266,12 @@ export default function MakeupArtistPortfolio() {
                       />
                     </div>
                     <div className="text-center">
-                      <div className="font-semibold text-stone-900 dark:text-stone-100">{testimonial.name}</div>
-                      <div className="text-sm text-stone-500 dark:text-stone-500">{testimonial.role}</div>
+                      <div className="font-semibold text-stone-900 dark:text-stone-100">
+                        {testimonial.name}
+                      </div>
+                      <div className="text-sm text-stone-500 dark:text-stone-500">
+                        {testimonial.role}
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -232,141 +282,127 @@ export default function MakeupArtistPortfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white dark:bg-stone-900 transition-colors">
+      <section
+        id="contact"
+        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+      >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">Ponte en Contacto</h2>
+            <h2 className="text-4xl lg:text-5xl font-serif text-stone-900 dark:text-stone-100">
+              Reserva tu Cita
+            </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              ¿Lista para reservar tu sesión de maquillaje? <br /> <span className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">Me encantaría escucharte y discutir cómo podemos crear tu look perfecto 😍​</span>
+              Reserva tu sesión de maquillaje de forma fácil y rápida.
+              Selecciona la fecha y hora que mejor te convenga.
             </p>
           </FadeIn>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            <FadeIn direction="left" className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Phone className="w-5 h-5 text-stone-600 dark:text-stone-400" />
+          {/* Booking System */}
+          {/* <div className="mb-16">
+            <BookingSystem />
+          </div> */}
+
+          {/* Alternative Contact Methods */}
+          <FadeIn delay={0.5}>
+            <div className="bg-stone-50 dark:bg-stone-800 rounded-2xl p-8">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                  ¿Prefieres contactarme directamente?
+                </h3>
+                <p className="text-stone-600 dark:text-stone-400">
+                  También puedes comunicarte conmigo a través de estos medios
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="text-center group">
+                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <FiPhoneCall className="w-8 h-8 text-stone-600 dark:text-stone-400" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-stone-900 dark:text-stone-100">Teléfono</div>
-                    <div className="text-stone-600 dark:text-stone-400">(+593) 983366831</div>
-                  </div>
+                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Teléfono
+                  </h4>
+                  <p className="text-stone-600 dark:text-stone-400">
+                    (+593) 983366831
+                  </p>
+                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
+                    Lun - Sáb: 9:00 AM - 7:00 PM
+                  </p>
                 </div>
-                <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Mail className="w-5 h-5 text-stone-600 dark:text-stone-400" />
+
+                <div className="text-center group">
+                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <CiMail className="w-8 h-8 text-stone-600 dark:text-stone-400" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-stone-900 dark:text-stone-100">Email</div>
-                    <div className="text-stone-600 dark:text-stone-400">sophia@makeupbysophia.com</div>
-                  </div>
+                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Email
+                  </h4>
+                  <p className="text-stone-600 dark:text-stone-400">
+                    valencia.fiorella_1999@hotmail.com
+                  </p>
+                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
+                    Respuesta en 24 horas
+                  </p>
                 </div>
-                <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <MapPin className="w-5 h-5 text-stone-600 dark:text-stone-400" />
+
+                <div className="text-center group">
+                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <CiLocationOn className="w-8 h-8 text-stone-600 dark:text-stone-400" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-stone-900 dark:text-stone-100">Ubicación</div>
-                    <div className="text-stone-600 dark:text-stone-400">Guayaquil - Ecuador</div>
-                  </div>
+                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Ubicación
+                  </h4>
+                  <p className="text-stone-600 dark:text-stone-400">
+                    Guayaquil - Ecuador
+                  </p>
+                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
+                    Servicio a domicilio disponible
+                  </p>
                 </div>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100">Sígueme</h3>
-                <div className="flex space-x-4">
-                    <Link href="https://www.instagram.com/lesleygarciabeauty" target="_blank" rel="noopener noreferrer">
+
+              <div className="text-center mt-8">
+                <h4 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                  Sígueme en Redes Sociales
+                </h4>
+                <div className="flex justify-center space-x-4">
+                  <Link
+                    href="https://www.instagram.com/lesleygarciabeauty"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Button
                       variant="outline"
                       size="icon"
-                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent transition-all duration-300 hover:scale-110"
+                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
                     >
-                      <Instagram className="w-4 h-4" />
+                      <FaInstagram className="w-6 h-6" />
                     </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent transition-all duration-300 hover:scale-110"
-                    >
-                      <Facebook className="w-4 h-4" />
-                  </Button>
+                  </Link>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent transition-all duration-300 hover:scale-110"
+                    className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
                   >
-                    <Twitter className="w-4 h-4" />
+                    <FaFacebook className="w-6 h-6" />
                   </Button>
+                  <Link
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
+                    >
+                      <FaWhatsapp className="w-6 h-6" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
-            </FadeIn>
-
-            <FadeIn direction="right" delay={0.2}>
-              <Card className="border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:shadow-xl transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <form className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Nombre</label>
-                        <input
-                          type="text"
-                          className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105"
-                          placeholder="Tu nombre"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Apellido</label>
-                        <input
-                          type="text"
-                          className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105"
-                          placeholder="Tu apellido"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Email</label>
-                      <input
-                        type="email"
-                        className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105"
-                        placeholder="tu.email@ejemplo.com"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                        Servicio de Interés
-                      </label>
-                      <select className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105">
-                        <option>Selecciona un servicio</option>
-                        <option>Maquillaje de Novia</option>
-                        <option>Eventos Especiales</option>
-                        <option>Editorial y Moda</option>
-                        <option>Clases de Maquillaje</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Fecha del Evento</label>
-                      <input
-                        type="date"
-                        className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Mensaje</label>
-                      <textarea
-                        rows={4}
-                        className="w-full px-3 py-2 border border-stone-300 dark:border-stone-600 rounded-md focus:outline-none focus:ring-2 focus:ring-stone-500 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 transition-all duration-300 focus:scale-105"
-                        placeholder="Cuéntame sobre tu evento y visión..."
-                      />
-                    </div>
-                    <Button className="w-full bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-stone-200 text-white dark:text-stone-900 transition-all duration-300 hover:scale-105">
-                      Enviar Mensaje
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </FadeIn>
-          </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -375,15 +411,26 @@ export default function MakeupArtistPortfolio() {
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4">
             <div className="text-2xl font-serif">Lesley García</div>
-            <span className="text-stone-400 pt-5">Maquilladora Profesional</span>
+            <span className="text-stone-400 pt-5">
+              Maquilladora Profesional
+            </span>
             <div className="flex justify-center space-x-6">
-              <Link href="#" className="text-stone-400 hover:text-white transition-colors">
+              <Link
+                href="#"
+                className="text-stone-400 hover:text-white transition-colors"
+              >
                 Política de Privacidad
               </Link>
-              <Link href="#" className="text-stone-400 hover:text-white transition-colors">
+              <Link
+                href="#"
+                className="text-stone-400 hover:text-white transition-colors"
+              >
                 Términos de Servicio
               </Link>
-              <Link href="#" className="text-stone-400 hover:text-white transition-colors">
+              <Link
+                href="#"
+                className="text-stone-400 hover:text-white transition-colors"
+              >
                 Política de Reservas
               </Link>
             </div>
@@ -394,5 +441,5 @@ export default function MakeupArtistPortfolio() {
         </div>
       </footer>
     </div>
-  )
+  );
 }

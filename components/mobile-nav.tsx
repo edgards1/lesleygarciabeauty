@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { HiMenu, HiX } from "react-icons/hi"
 import { Button } from "@/components/ui/button"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
@@ -22,7 +22,7 @@ export function MobileNav() {
         onClick={() => setIsOpen(!isOpen)}
         className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent"
       >
-        {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        {isOpen ? <HiX className="h-4 w-4" /> : <HiMenu className="h-4 w-4" />}
       </Button>
 
       {isOpen && (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
+import { HiMenu, HiX } from "react-icons/hi"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
@@ -81,13 +81,13 @@ export function AppleNav() {
                 className="lg:hidden border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent transition-all duration-300"
               >
                 <div className="relative w-5 h-5">
-                  <Menu
+                  <HiMenu
                     className={cn(
                       "absolute inset-0 transition-all duration-300",
                       isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100",
                     )}
                   />
-                  <X
+                  <HiX
                     className={cn(
                       "absolute inset-0 transition-all duration-300",
                       isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0",
