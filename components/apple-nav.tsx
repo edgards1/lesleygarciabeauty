@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 export function AppleNav() {
   const [isOpen, setIsOpen] = useState(false)
@@ -45,7 +46,8 @@ export function AppleNav() {
       >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-serif text-stone-900 dark:text-stone-100 transition-colors">Lesley García</div>
+            {/* <div className="text-2xl font-serif text-stone-900 dark:text-stone-100 transition-colors">Lesley García</div> */}
+            <Image src="icons/logo_LG.svg" alt="Lesley García" width={50} height={50} />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">

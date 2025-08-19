@@ -10,6 +10,11 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const metadata: Metadata = {
   title: "Lesley García | Maquilladora Profesional",
+  icons: {
+    icon: [
+      { url: "icons/logo_LG.svg", type: "image/svg+xml" }
+    ],
+  },
   description:
     "Booking profesional de maquillaje. Especializada en novias, eventos especiales y sesiones editoriales."
 }

@@ -43,12 +43,12 @@ export default function MakeupArtistPortfolio() {
   ]
 
   const portfolioImages = [
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de novia" },
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de noche" },
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje natural" },
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje editorial" },
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de fiesta" },
-    { src: "/placeholder.svg?height=400&width=300", alt: "Look de maquillaje creativo" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de novia" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de noche" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje natural" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje editorial" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de fiesta" },
+    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje creativo" },
   ]
 
   const testimonials = [
