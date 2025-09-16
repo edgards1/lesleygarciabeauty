@@ -120,42 +120,6 @@ export function HeroSection() {
                   </span>
                 </button>
               </div>
-
-              {/* Minimalist stats */}
-              <div
-                className="flex items-center gap-12 pt-8"
-                style={{
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? "translateY(0)" : "translateY(20px)",
-                  transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2.2s",
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-4xl font-extralight text-stone-900 dark:text-stone-100 mb-1">8+</div>
-                  <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.2em]">Años</div>
-                </div>
-                <div className="w-px h-16 bg-stone-200 dark:bg-stone-700" />
-                <div className="text-center">
-                  <div className="text-4xl font-extralight text-stone-900 dark:text-stone-100 mb-1">500+</div>
-                  <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.2em]">Clientes</div>
-                </div>
-                <div className="w-px h-16 bg-stone-200 dark:bg-stone-700" />
-                <div className="flex items-center gap-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar
-                        key={i}
-                        className="w-4 h-4 fill-amber-400 text-amber-400 transition-all duration-300"
-                        style={{
-                          transform: isLoaded ? "scale(1)" : "scale(0)",
-                          transition: `all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${2.4 + i * 0.1}s`,
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-sm text-stone-600 dark:text-stone-400 ml-2 font-light">Excelencia</span>
-                </div>
-              </div>
             </div>
 
             {/* Image Section - Takes 5 columns */}

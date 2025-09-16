@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,11 +11,15 @@ import { FiPhoneCall } from "react-icons/fi";
 
 import { AppleNav } from "@/components/apple-nav"
 import { HeroSection } from "@/components/hero-section"
+import { VideoPreview } from "@/components/video-preview"
+import { ImagePreview } from "@/components/image-preview"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer } from "@/components/animations/stagger-container"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
 export default function MakeupArtistPortfolio() {
+  const [activeFilter, setActiveFilter] = useState("Todos")
+
   const services = [
     {
       title: "Maquillaje de Novia",
@@ -43,13 +48,62 @@ export default function MakeupArtistPortfolio() {
   ]
 
   const portfolioImages = [
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de novia" },
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de noche" },
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje natural" },
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje editorial" },
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje de fiesta" },
-    { src: "icons/placeholder.svg?height=400&width=300", alt: "Look de maquillaje creativo" },
+    { 
+      src: "/img/novia_01.JPG", 
+      alt: "Maquillaje de Novia",
+      category: ["Novias", "Evento Especial"],
+      type: "image",
+      hoverImage: "/img/novia_1.JPG" // Imagen alternativa en hover
+    },
+    { 
+      src: "/img/video_ebano_1.mov", 
+      alt: "Maquillaje de piel ébano",
+      category: "Piel Ébano",
+      type: "video",
+      previewImage: "/img/ebano_1.jpg" // Imagen de preview estático
+    },
+    { 
+      src: "/img/social_10.jpg", 
+      alt: "Maquillaje Social",
+      category: ["Social", "Evento Especial"],
+      type: "image",
+      hoverImage: "/img/social_010.jpg" // Imagen alternativa en hover
+    },
+    { 
+      src: "/img/video_social_6.MOV", 
+      alt: "Maquillaje para evento social",
+      category: "Social",
+      type: "video",
+      previewImage: "/img/social_6.jpg" // Imagen de preview estático
+    },
+    { 
+      src: "/img/social_7.jpg", 
+      alt: "Maquillaje editorial - Look dramático",
+      category: ["Editorial", "Piel Ébano"],
+      type: "image",
+      hoverImage: "/img/social_6.jpg" // Imagen alternativa en hover
+    },
+    { 
+      src: "/img/social_3.JPG", 
+      alt: "Maquillaje Social",
+      category: "Social",
+      type: "image",
+      hoverImage: "/img/social_03.JPG" // Imagen alternativa en hover
+    },
   ]
+
+  const portfolioCategories = ["Todos", "Novias", "Piel Ébano", "Evento Especial", "Social"]
+
+  const filteredImages = activeFilter === "Todos" 
+    ? portfolioImages 
+    : portfolioImages.filter(media => {
+        // Si la categoría es un array, verificar si incluye el filtro activo
+        if (Array.isArray(media.category)) {
+          return media.category.includes(activeFilter)
+        }
+        // Si es string, comparar directamente
+        return media.category === activeFilter
+      })
 
   const testimonials = [
     {
@@ -116,109 +170,241 @@ export default function MakeupArtistPortfolio() {
       {/* Services Section */}
       <section
         id="services"
-        className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors"
+        className="py-24 bg-gradient-to-br from-stone-50 via-white to-stone-100 relative overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, #fafaf9 0%, #ffffff 50%, #EFC88B20 100%)`
+        }}
       >
-        <div className="container mx-auto px-4">
-          <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
-              Servicios
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 opacity-4">
+          <div className="absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl" style={{backgroundColor: '#EFC88B'}}></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-stone-300 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{backgroundColor: '#EFC88B40'}}></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <FadeIn className="text-center space-y-6 mb-20">
+            <div className="inline-flex items-center px-4 py-2 text-stone-700 rounded-full text-sm font-medium mb-4" 
+                 style={{backgroundColor: '#EFC88B40'}}>
+              <FaStar className="w-4 h-4 mr-2" style={{color: '#8B6F1B'}} />
+              Servicios Profesionales
+            </div>
+            <h2 className="text-5xl font-serif text-stone-900 leading-tight">
+              Servicios de Belleza
+              <span className="block text-3xl font-light mt-2" style={{color: '#8B6F1B'}}>
+                Realizando sueños de belleza
+              </span>
             </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              Desde maquillaje de novias hasta sesiones editoriales, ofrezco una
-              gama completa de servicios profesionales de maquillaje adaptados a
-              tus necesidades.
+            <p className="text-xl text-stone-600 max-w-3xl mx-auto leading-relaxed">
+              Desde maquillaje de novias hasta sesiones editoriales, ofrezco una 
+              gama completa de servicios profesionales adaptados a tus necesidades únicas.
             </p>
           </FadeIn>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <StaggerContainer className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-700 hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+                className="group relative bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
               >
-                <CardContent className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-stone-600 dark:text-stone-400">
-                    {service.description}
-                  </p>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-stone-500 dark:text-stone-500">
-                        Duración:
-                      </span>
-                      <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                {/* Service Number Badge */}
+                <div className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center" 
+                     style={{background: `linear-gradient(135deg, #EFC88B, #D4A574)`}}>
+                  <span className="text-white text-sm font-bold">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                {/* Decorative Top Border */}
+                <div className="h-1 transition-all duration-300" 
+                     style={{background: `linear-gradient(90deg, #EFC88B, #D4A574, #8B6F1B)`}}></div>
+
+                <CardContent className="p-8 space-y-6">
+                  {/* Service Icon */}
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                       style={{background: `linear-gradient(135deg, #EFC88B30, #F5F5F4)`}}>
+                    {index === 0 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
+                    {index === 1 && <FaWalking className="w-8 h-8" style={{color: '#8B6F1B'}} />}
+                    {index === 2 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
+                    {index === 3 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
+                  </div>
+
+                  {/* Service Title */}
+                  <div>
+                    <h3 className="text-2xl font-serif text-stone-900 mb-3 transition-colors duration-300" 
+                        style={{color: index === 0 ? '#8B6F1B' : undefined}}>
+                      {service.title}
+                    </h3>
+                    <p className="text-stone-600 leading-relaxed text-base">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  {/* Service Details */}
+                  <div className="space-y-4 pt-4 border-t border-stone-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#EFC88B'}}></div>
+                        <span className="text-sm font-medium text-stone-700">
+                          Duración
+                        </span>
+                      </div>
+                      <span className="text-sm text-stone-900 font-semibold bg-stone-100 px-3 py-1 rounded-full">
                         {service.duration}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-stone-500 dark:text-stone-500">
-                        Precio:
-                      </span>
-                      <span className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#EFC88B'}}></div>
+                        <span className="text-sm font-medium text-stone-700">
+                          Inversión
+                        </span>
+                      </div>
+                      <span className="text-xl font-bold text-white px-4 py-2 rounded-full" 
+                            style={{backgroundColor: '#8B6F1B', background: `linear-gradient(135deg, #8B6F1B, #EFC88B)`}}>
                         {service.price}
                       </span>
                     </div>
                   </div>
+
+                  {/* CTA Button */}
                   <Button
                     onClick={() => scrollToSection("contact")}
-                    className="w-full bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-stone-200 text-white dark:text-stone-900 transition-all duration-300 hover:scale-105"
+                    className="w-full bg-gradient-to-r from-stone-800 to-stone-900 hover:from-stone-900 hover:to-black text-white border-0 h-12 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
+                    style={{
+                      background: `linear-gradient(135deg, #8B6F1B, #6B5416)`,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = `linear-gradient(135deg, #EFC88B, #D4A574)`
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = `linear-gradient(135deg, #8B6F1B, #6B5416)`
+                    }}
                   >
-                    Reservar Ahora
+                    <span className="flex items-center justify-center space-x-2">
+                      <span>Reservar Cita</span>
+                      <FaWhatsapp className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
+                    </span>
                   </Button>
+
+                  {/* Popular Badge for Featured Service */}
+                  {index === 0 && (
+                    <div className="absolute -top-2 left-6">
+                      <div className="text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg" 
+                           style={{background: `linear-gradient(135deg, #8B6F1B, #EFC88B)`}}>
+                        MÁS POPULAR
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
           </StaggerContainer>
+
+          {/* Bottom CTA Section */}
+          <FadeIn className="text-center mt-16">
+            <div className="rounded-3xl p-8 max-w-4xl mx-auto border border-stone-200"
+                 style={{background: `linear-gradient(135deg, #EFC88B20, #F5F5F4)`}}>
+              <h3 className="text-2xl font-serif text-stone-900 mb-4">
+                ¿No encuentras el servicio que buscas?
+              </h3>
+              <p className="text-stone-600 mb-6 text-lg">
+                Ofrezco servicios personalizados adaptados a tus necesidades específicas.
+              </p>
+              <Button
+                onClick={() => scrollToSection("contact")}
+                variant="outline"
+                className="bg-white hover:bg-stone-50 text-stone-900 border-stone-300 hover:border-stone-400 px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md"
+                style={{
+                  borderColor: '#EFC88B',
+                  color: '#8B6F1B'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#EFC88B20'
+                  e.currentTarget.style.borderColor = '#8B6F1B'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'white'
+                  e.currentTarget.style.borderColor = '#EFC88B'
+                }}
+              >
+                Consulta Personalizada
+              </Button>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Portfolio Section */}
       <section
         id="portfolio"
-        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+        className="py-20 bg-white transition-colors"
       >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
+            <h2 className="text-4xl font-serif text-stone-900">
               Portafolio
             </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Explora mi trabajo reciente mostrando varios estilos y técnicas de
               maquillaje en diferentes ocasiones y entornos.
             </p>
+            
+            {/* Portfolio filters */}
+            <div className="flex flex-wrap justify-center gap-3 mt-8">
+              {portfolioCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveFilter(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeFilter === category
+                      ? "bg-stone-900 text-white shadow-lg"
+                      : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </FadeIn>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioImages.map((image, index) => (
-              <div
-                key={index}
-                className="group relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
-              >
-                <Image
-                  src={image.src || "/placeholder.svg"}
-                  alt={image.alt}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <p className="text-sm font-medium">{image.alt}</p>
-                </div>
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {filteredImages.map((media, index) => (
+              <div key={index}>
+                {media.type === "video" ? (
+                  <VideoPreview
+                    videoSrc={media.src}
+                    previewImage={media.previewImage}
+                    alt={media.alt}
+                    category={media.category}
+                  />
+                ) : (
+                  <ImagePreview
+                    src={media.src}
+                    hoverImage={media.hoverImage}
+                    alt={media.alt}
+                    category={media.alt}
+                  />
+                )}
               </div>
             ))}
           </StaggerContainer>
 
-          <FadeIn delay={0.5} className="text-center mt-12">
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 bg-transparent dark:bg-transparent transition-all duration-300 hover:scale-105"
-            >
-              Ver Portafolio Completo
-            </Button>
-          </FadeIn>
+          {/* Portfolio Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
+            {[
+              { number: "500+", label: "Clientes Satisfechas" },
+              { number: "8+", label: "Años de Experiencia" },
+              { number: "200+", label: "Novias Maquilladas" },
+              { number: "50+", label: "Eventos Especiales" }
+            ].map((stat, index) => (
+              <FadeIn key={index} delay={0.2 + index * 0.1} className="text-center">
+                <div className="text-3xl font-light text-stone-900 mb-2">{stat.number}</div>
+                <div className="text-sm text-stone-600 uppercase tracking-wider">{stat.label}</div>
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -326,7 +512,7 @@ export default function MakeupArtistPortfolio() {
                     (+593) 983366831
                   </p>
                   <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
-                    Lun - Sáb: 9:00 AM - 7:00 PM
+                    Lun - Sáb: 9:00 AM - 5:00 PM
                   </p>
                 </div>
 
