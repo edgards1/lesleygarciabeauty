@@ -85,11 +85,19 @@ const config: Config = {
   				to: {
   					height: '0'
   				}
-  			}
+  			},
+			spin988: {
+			"0%": { transform: "scale(1) rotate(0deg)" },
+			"20%, 25%": { transform: "scale(1.3) rotate(90deg)" },
+			"45%, 50%": { transform: "scale(1) rotate(180deg)" },
+			"70%, 75%": { transform: "scale(1.3) rotate(270deg)" },
+			"95%, 100%": { transform: "scale(1) rotate(360deg)" },
+			},
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+			spin988: "spin988 2s linear infinite",
   		}
   	}
   },

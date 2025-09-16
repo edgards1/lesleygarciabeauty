@@ -19,232 +19,251 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative pt-24 pb-20 bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200 dark:from-stone-900 dark:via-stone-800 dark:to-stone-700 transition-colors overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(0,0,0,0.3)_1px,_transparent_0)] bg-[size:32px_32px]"></div>
+    <section className="relative min-h-screen flex items-center justify-center bg-white dark:bg-stone-900 transition-colors overflow-hidden">
+      {/* Minimalist background pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-stone-50/30 to-stone-100/50 dark:from-transparent dark:via-stone-800/30 dark:to-stone-700/50" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-stone-100/20 dark:bg-stone-800/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-stone-200/30 dark:bg-stone-700/30 rounded-full blur-3xl" />
       </div>
       
-      <div className="container mx-auto px-4 relative">
-        <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[80vh]">
-          <div className="space-y-8 lg:pr-8">
-            {/* Badge */}
-            <div
-              className="inline-block"
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                transform: isLoaded ? "translateY(0)" : "translateY(20px)",
-                transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s",
-              }}
-            >
-              <Badge
-                variant="outline"
-                className="border-stone-400/50 dark:border-stone-500/50 text-stone-700 dark:text-stone-300 backdrop-blur-sm bg-white/50 dark:bg-stone-800/50 px-4 py-2 text-sm font-medium tracking-wide"
-              >
-                ✨ Maquilladora Profesional Certificada
-              </Badge>
-            </div>
-
-            {/* Main Heading */}
-            <div className="space-y-6">
-              <h1
-                className="text-5xl lg:text-7xl xl:text-8xl font-light text-stone-900 dark:text-stone-100 leading-[0.9] tracking-tight"
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            {/* Content - Takes 7 columns */}
+            <div className="lg:col-span-7 space-y-12">
+              {/* Badge */}
+              <div
+                className="inline-block"
                 style={{
                   opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? "translateY(0)" : "translateY(40px)",
-                  transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s",
+                  transform: isLoaded ? "translateY(0)" : "translateY(30px)",
+                  transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s",
                 }}
               >
-                <span className="block font-serif italic text-stone-600 dark:text-stone-400 text-2xl lg:text-3xl mb-4 tracking-wider">
-                  Lesley García
-                </span>
-                <span className="block">Belleza que</span>
-                <span className="relative block bg-gradient-to-r from-stone-900 via-stone-700 to-stone-900 dark:from-stone-100 dark:via-stone-300 dark:to-stone-100 bg-clip-text text-transparent">
-                  Trasciende
-                  <div
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-stone-400 to-transparent transform scale-x-0 origin-center transition-transform duration-1500 delay-1200"
-                    style={{ transform: isLoaded ? "scaleX(1)" : "scaleX(0)" }}
-                  />
-                </span>
-              </h1>
+                {/* <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-stone-200/60 dark:border-stone-700/60 bg-white/60 dark:bg-stone-800/60 backdrop-blur-sm">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-sm font-medium text-stone-700 dark:text-stone-300 tracking-wide">
+                    Disponible para reservas
+                  </span>
+                </div> */}
+              </div>
 
-              <p
-                className="text-lg lg:text-xl text-stone-600 dark:text-stone-400 leading-relaxed max-w-lg font-light"
+              {/* Main heading - More dramatic */}
+              <div className="space-y-8">
+                <div
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transform: isLoaded ? "translateY(0)" : "translateY(50px)",
+                    transition: "all 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.5s",
+                  }}
+                >
+                  <h1 className="text-6xl lg:text-8xl xl:text-9xl font-extralight text-stone-900 dark:text-stone-100 leading-[0.85] tracking-tighter">
+                    {/* <span className="block font-serif italic text-stone-500 dark:text-stone-400 text-lg lg:text-xl mb-6 tracking-[0.2em] uppercase">
+                      Lesley García
+                    </span> */}
+                    <span className="block">Belleza</span>
+                    <span className="block relative">
+                      <span className="bg-gradient-to-r from-stone-900 via-stone-600 to-stone-900 dark:from-stone-100 dark:via-stone-400 dark:to-stone-100 bg-clip-text text-transparent">
+                        Atemporal
+                      </span>
+                      <div
+                        className="absolute -bottom-2 left-0 h-px bg-gradient-to-r from-transparent via-stone-400 dark:via-stone-500 to-transparent"
+                        style={{
+                          width: isLoaded ? "100%" : "0%",
+                          transition: "width 2s cubic-bezier(0.4, 0, 0.2, 1) 2s",
+                        }}
+                      />
+                    </span>
+                  </h1>
+                </div>
+
+                <p
+                  className="text-xl lg:text-2xl text-stone-600 dark:text-stone-400 leading-relaxed max-w-2xl font-light"
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transform: isLoaded ? "translateY(0)" : "translateY(30px)",
+                    transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.2s",
+                  }}
+                >
+                  Especialista en crear looks sofisticados que resaltan tu esencia única.
+                  <span className="block mt-4 text-lg text-stone-500 dark:text-stone-500 italic">
+                    Cada rostro es una obra de arte esperando ser revelada.
+                  </span>
+                </p>
+              </div>
+
+              {/* CTA Buttons - More sophisticated */}
+              <div
+                className="flex flex-col sm:flex-row gap-6"
+                style={{
+                  opacity: isLoaded ? 1 : 0,
+                  transform: isLoaded ? "translateY(0)" : "translateY(30px)",
+                  transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.8s",
+                }}
+              >
+                <button
+                  onClick={() => scrollToSection("portfolio")}
+                  className="group relative px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-none font-medium tracking-wide transition-all duration-700 hover:bg-stone-800 dark:hover:bg-stone-200 hover:scale-105 hover:shadow-2xl"
+                >
+                  <span className="relative z-10">Explorar Portfolio</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-stone-800 to-stone-900 dark:from-stone-200 dark:to-stone-100 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                </button>
+                
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="group px-8 py-4 border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 rounded-none font-medium tracking-wide transition-all duration-500 hover:border-stone-900 dark:hover:border-stone-100 hover:text-stone-900 dark:hover:text-stone-100"
+                >
+                  <span className="relative">
+                    Reservar Consulta
+                    <div className="absolute bottom-0 left-0 w-0 h-px bg-stone-900 dark:bg-stone-100 group-hover:w-full transition-all duration-500" />
+                  </span>
+                </button>
+              </div>
+
+              {/* Minimalist stats */}
+              <div
+                className="flex items-center gap-12 pt-8"
                 style={{
                   opacity: isLoaded ? 1 : 0,
                   transform: isLoaded ? "translateY(0)" : "translateY(20px)",
-                  transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s",
-                }}
-              >
-                Especialista en maquillaje de alta gama para novias, eventos y sesiones editoriales. 
-                <span className="block mt-2 text-stone-500 dark:text-stone-500 text-base italic">
-                  "Cada rostro cuenta una historia única, mi arte la realza"
-                </span>
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div
-              className="flex flex-col sm:flex-row gap-4 pt-4"
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                transform: isLoaded ? "translateY(0)" : "translateY(20px)",
-                transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1s",
-              }}
-            >
-              <Button
-                size="lg"
-                onClick={() => scrollToSection("portfolio")}
-                className="bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-stone-200 text-white dark:text-stone-900 transition-all duration-500 hover:scale-105 hover:shadow-2xl border-0 px-8 py-4 text-base font-medium tracking-wide"
-              >
-                Explorar Portafolio
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => scrollToSection("contact")}
-                className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 bg-white/80 dark:bg-stone-900/80 backdrop-blur-sm transition-all duration-500 hover:scale-105 px-8 py-4 text-base font-medium tracking-wide"
-              >
-                Reservar Consulta
-              </Button>
-            </div>
-
-            {/* Stats */}
-            <div
-              className="flex items-center gap-8 pt-8"
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                transform: isLoaded ? "translateY(0)" : "translateY(20px)",
-                transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s",
-              }}
-            >
-              <div className="text-center">
-                <div className="text-3xl font-light text-stone-900 dark:text-stone-100">8+</div>
-                <div className="text-sm text-stone-500 dark:text-stone-500 uppercase tracking-widest">Años</div>
-              </div>
-              <div className="w-px h-12 bg-stone-300 dark:bg-stone-600"></div>
-              <div className="text-center">
-                <div className="text-3xl font-light text-stone-900 dark:text-stone-100">500+</div>
-                <div className="text-sm text-stone-500 dark:text-stone-500 uppercase tracking-widest">Clientes</div>
-              </div>
-              <div className="w-px h-12 bg-stone-300 dark:bg-stone-600"></div>
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className="w-4 h-4 fill-amber-400 text-amber-400 transition-all duration-300"
-                      style={{
-                        transform: isLoaded ? "scale(1)" : "scale(0)",
-                        transition: `all 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${1.4 + i * 0.1}s`,
-                      }}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-stone-600 dark:text-stone-400 ml-2">5.0</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Section */}
-          <div className="relative lg:pl-8">
-            <div
-              className="relative"
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                transform: isLoaded ? "translateX(0) rotate(0deg)" : "translateX(60px) rotate(3deg)",
-                transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s",
-              }}
-            >
-              {/* Main Image Container */}
-              <div className="aspect-[3/4] relative rounded-3xl overflow-hidden shadow-2xl bg-stone-100 dark:bg-stone-800">
-                {!imageLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-stone-100 dark:bg-stone-800">
-                    <LoadingSpinner size="lg" />
-                  </div>
-                )}
-                <Image
-                  src="/placeholder.svg?height=700&width=525"
-                  alt="Lesley García - Maquilladora Profesional"
-                  fill
-                  className="object-cover transition-all duration-700"
-                  style={{ 
-                    opacity: imageLoaded ? 1 : 0,
-                    transform: imageLoaded ? "scale(1)" : "scale(1.1)"
-                  }}
-                  onLoad={() => setImageLoaded(true)}
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-              </div>
-
-              {/* Floating Elements */}
-              <div
-                className="absolute -top-6 -right-6 w-24 h-24 bg-white/90 dark:bg-stone-800/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl border border-stone-200/50 dark:border-stone-700/50"
-                style={{
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? "translateY(0) scale(1)" : "translateY(-20px) scale(0.8)",
-                  transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1) 1.4s",
+                  transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2.2s",
                 }}
               >
                 <div className="text-center">
-                  <div className="text-lg font-light text-stone-900 dark:text-stone-100">8+</div>
-                  <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-wider">Años</div>
+                  <div className="text-4xl font-extralight text-stone-900 dark:text-stone-100 mb-1">8+</div>
+                  <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.2em]">Años</div>
+                </div>
+                <div className="w-px h-16 bg-stone-200 dark:bg-stone-700" />
+                <div className="text-center">
+                  <div className="text-4xl font-extralight text-stone-900 dark:text-stone-100 mb-1">500+</div>
+                  <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.2em]">Clientes</div>
+                </div>
+                <div className="w-px h-16 bg-stone-200 dark:bg-stone-700" />
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar
+                        key={i}
+                        className="w-4 h-4 fill-amber-400 text-amber-400 transition-all duration-300"
+                        style={{
+                          transform: isLoaded ? "scale(1)" : "scale(0)",
+                          transition: `all 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${2.4 + i * 0.1}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm text-stone-600 dark:text-stone-400 ml-2 font-light">Excelencia</span>
                 </div>
               </div>
+            </div>
 
+            {/* Image Section - Takes 5 columns */}
+            <div className="lg:col-span-5 relative">
               <div
-                className="absolute -bottom-8 -left-8 bg-white/95 dark:bg-stone-800/95 backdrop-blur-lg p-6 rounded-2xl shadow-2xl border border-stone-200/50 dark:border-stone-700/50 max-w-xs"
+                className="relative"
                 style={{
                   opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? "translateY(0) scale(1)" : "translateY(30px) scale(0.9)",
-                  transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1) 1.6s",
+                  transform: isLoaded ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
+                  transition: "all 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s",
                 }}
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-stone-900 dark:text-stone-100">Valoración</span>
+                {/* Main Image */}
+                <div className="aspect-[3/4] relative overflow-hidden bg-stone-50 dark:bg-stone-800">
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-stone-100 dark:bg-stone-800">
+                      <div className="w-8 h-8 border-2 border-stone-300 border-t-stone-900 dark:border-stone-600 dark:border-t-stone-100 rounded-full animate-spin" />
+                    </div>
+                  )}
+                  <Image
+                    src="/placeholder.svg?height=800&width=600"
+                    alt="Lesley García - Maquilladora Profesional"
+                    fill
+                    className="object-cover transition-all duration-1000"
+                    style={{ 
+                      opacity: imageLoaded ? 1 : 0,
+                      transform: imageLoaded ? "scale(1)" : "scale(1.05)",
+                      filter: imageLoaded ? "grayscale(0%)" : "grayscale(100%)"
+                    }}
+                    onLoad={() => setImageLoaded(true)}
+                    priority
+                  />
+                  
+                  {/* Subtle overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </div>
+
+                {/* Floating credential badge */}
+                <div
+                  className="absolute -top-4 -right-4 bg-white dark:bg-stone-800 rounded-full p-6 shadow-2xl border border-stone-100 dark:border-stone-700"
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transform: isLoaded ? "translateY(0) rotate(0deg)" : "translateY(20px) rotate(5deg)",
+                    transition: "all 1.4s cubic-bezier(0.4, 0, 0.2, 1) 2.5s",
+                  }}
+                >
+                  <div className="text-center">
+                    <div className="text-2xl font-extralight text-stone-900 dark:text-stone-100 mb-1">8+</div>
+                    <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.15em]">Años</div>
+                    <div className="text-xs text-stone-400 dark:text-stone-600 mt-1">Experiencia</div>
+                  </div>
+                </div>
+
+                {/* Minimalist testimonial */}
+                <div
+                  className="absolute -bottom-8 -left-8 bg-white/95 dark:bg-stone-800/95 backdrop-blur-lg p-6 max-w-xs border-l-2 border-amber-400 shadow-lg"
+                  style={{
+                    opacity: isLoaded ? 1 : 0,
+                    transform: isLoaded ? "translateY(0)" : "translateY(30px)",
+                    transition: "all 1.4s cubic-bezier(0.4, 0, 0.2, 1) 3s",
+                  }}
+                >
+                  <div className="space-y-2">
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
                         <FaStar
                           key={i}
-                          className="w-3 h-3 fill-amber-400 text-amber-400 transition-all duration-300"
+                          className="w-3 h-3 fill-amber-400 text-amber-400"
                           style={{
-                            transform: isLoaded ? "scale(1)" : "scale(0)",
-                            transition: `all 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${1.8 + i * 0.1}s`,
+                            opacity: isLoaded ? 1 : 0,
+                            transition: `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${3.2 + i * 0.1}s`,
                           }}
                         />
                       ))}
                     </div>
-                  </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                    "Profesional excepcional con un ojo artístico increíble"
-                  </p>
-                  <div className="text-xs text-stone-500 dark:text-stone-500">
-                    — Cliente verificada
+                    <p className="text-sm text-stone-700 dark:text-stone-300 font-light leading-relaxed">
+                      "Arte excepcional, resultados perfectos"
+                    </p>
+                    <div className="text-xs text-stone-500 dark:text-stone-500 italic">
+                      — María Elena, Novia
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Decorative Elements */}
-              <div
-                className="absolute top-12 -left-4 w-2 h-2 bg-amber-400 rounded-full opacity-60"
-                style={{
-                  opacity: isLoaded ? 0.6 : 0,
-                  transition: "opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 2s",
-                }}
-              ></div>
-              <div
-                className="absolute bottom-20 -right-2 w-1 h-1 bg-stone-400 rounded-full opacity-40"
-                style={{
-                  opacity: isLoaded ? 0.4 : 0,
-                  transition: "opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 2.2s",
-                }}
-              ></div>
+                {/* Geometric accent */}
+                <div
+                  className="absolute top-1/3 -left-2 w-1 h-20 bg-gradient-to-b from-amber-400 to-transparent"
+                  style={{
+                    opacity: isLoaded ? 0.6 : 0,
+                    transition: "opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 3.5s",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1) 3.5s",
+        }}
+      >
+        <span className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.2em]">Explorar</span>
+        <div className="w-px h-8 bg-stone-300 dark:bg-stone-600 animate-pulse" />
       </div>
     </section>
   )
