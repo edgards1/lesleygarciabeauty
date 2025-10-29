@@ -1,7 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
-import "../styles/globals.css"
+// @ts-ignore: allow importing global CSS without module declarations
+import "@/styles/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { InitialLoader } from "@/components/initial-loader"
 
@@ -28,7 +29,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange={false}>
-          <InitialLoader />
+          {/* <InitialLoader /> */}
           {children}
         </ThemeProvider>
       </body>

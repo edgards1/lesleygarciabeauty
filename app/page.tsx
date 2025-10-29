@@ -546,84 +546,118 @@ export default function MakeupArtistPortfolio() {
                   </p>
                 </div>
               </div>
-
-              <div className="text-center mt-8">
-                <h4 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
-                  Sígueme en Redes Sociales
-                </h4>
-                <div className="flex justify-center space-x-4">
-                  <Link
-                    href="https://www.instagram.com/lesleygarciabeauty"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
-                    >
-                      <FaInstagram className="w-6 h-6" />
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
-                  >
-                    <FaFacebook className="w-6 h-6" />
-                  </Button>
-                  <Link
-                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="border-stone-300 dark:border-stone-600 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 bg-white dark:bg-stone-800 transition-all duration-300 hover:scale-110 shadow-lg w-14 h-14"
-                    >
-                      <FaWhatsapp className="w-6 h-6" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
             </div>
           </FadeIn>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-stone-900 dark:bg-stone-950 text-white py-6 transition-colors">
+      <footer className="bg-stone-900 dark:bg-stone-950 text-white pt-6 transition-colors">
         <div className="container mx-auto px-4">
-          <FadeIn className="text-center space-y-4">
-            <div className="text-2xl font-serif">Lesley García</div>
-            <span className="text-stone-400 pt-5">
-              Maquilladora Profesional
-            </span>
-            <div className="flex justify-center space-x-6">
-              <Link
-                href="#"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                Política de Privacidad
-              </Link>
-              <Link
-                href="#"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                Términos de Servicio
-              </Link>
-              <Link
-                href="#"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                Política de Reservas
-              </Link>
-            </div>
-            <div className="text-stone-400 text-sm">
-              © 2024 Lesley García. Todos los derechos reservados.
-            </div>
-          </FadeIn>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Columna Izquierda - Logo y Frase */}
+            <FadeIn className="text-center md:text-left space-y-4">
+              <div className="text-3xl font-serif">Lesley García</div>
+              <p className="text-stone-400 text-lg leading-relaxed max-w-md mx-auto sm:text-center md:mx-0 md:text-left">
+                Creando momentos de belleza únicos que resaltan tu esencia natural. 
+                Cada look es una obra de arte diseñada especialmente para ti.
+              </p>
+                <div className="text-stone-500 text-sm pt-4 hidden md:block">
+                © {new Date().getFullYear()} Lesley García Beauty. Todos los derechos reservados.
+                </div>
+              </FadeIn>
+
+              {/* Columna Derecha - Redes Sociales y Botón de Citas */}
+              <FadeIn delay={0.2} className="text-center md:text-right space-y-6">
+                <div>
+                <h4 className="text-lg font-semibold text-white mb-4">
+                  Sígueme en Redes Sociales
+                </h4>
+                <div className="flex justify-center md:justify-end space-x-4 mb-6">
+                  <Link
+                  href="https://www.instagram.com/lesleygarciabeauty"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
+                  >
+                    <FaInstagram className="w-5 h-5" />
+                  </Button>
+                  </Link>
+                  <Button
+                  variant="outline"
+                  size="icon"
+                  className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
+                  >
+                  <FaFacebook className="w-5 h-5" />
+                  </Button>
+                  <Link
+                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
+                  >
+                    <FaWhatsapp className="w-5 h-5" />
+                  </Button>
+                  </Link>
+                </div>
+                </div>
+                
+                {/* Botón de Agendar Citas */}
+                <Link
+                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                <Button
+                  className="w-44 px-8 py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-[#D4A574] to-[#8B6F1B]"
+                  onMouseEnter={(e) => {
+                  e.currentTarget.style.background = `linear-gradient(135deg, #D4A574, #8B6F1B)`
+                  }}
+                  onMouseLeave={(e) => {
+                  e.currentTarget.style.background = `linear-gradient(135deg, #EFC88B, #D4A574)`
+                  }}
+                >
+                  <FaWhatsapp className="w-4 h-4 mr-2" />
+                  Agendar Cita
+                </Button>
+                </Link>
+
+                {/* Enlaces legales */}
+                <div className="flex flex-wrap justify-center md:justify-end space-x-4 text-sm md:py-4 sm:py-1 border-0 md:border-t md:border-stone-700">
+                <Link
+                  href="#"
+                  className="text-stone-400 hover:text-white transition-colors"
+                >
+                  Política de Privacidad
+                </Link>
+                <Link
+                  href="#"
+                  className="text-stone-400 hover:text-white transition-colors"
+                >
+                  Términos de Servicio
+                </Link>
+                <Link
+                  href="#"
+                  className="text-stone-400 hover:text-white transition-colors"
+                >
+                  Política de Reservas
+                </Link>
+                </div>
+
+                {/* Copyright - mobile: mostrar debajo de los enlaces legales */}
+                <div className="block md:hidden text-stone-500 text-sm pb-2 text-center md:text-right">
+                © {new Date().getFullYear()} Lesley García Beauty. Todos los derechos reservados.
+                </div>
+              </FadeIn>
+          </div>
         </div>
       </footer>
     </div>
