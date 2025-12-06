@@ -1,5 +1,9 @@
+/* @tailwind directives are valid in Tailwind CSS projects */
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind utilities;
 
 @layer utilities {
@@ -10,7 +14,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 42,35.71%,94.51%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;

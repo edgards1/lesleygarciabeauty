@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { FaStar } from "react-icons/fa"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 import { LoadingSpinner } from "@/components/loading-spinner"
+import Portada  from "@/public/img/ebano_1.jpg"
 
 export function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -86,10 +87,10 @@ export function HeroSection() {
                     transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.2s",
                   }}
                 >
-                  Especialista en crear looks sofisticados que resaltan tu esencia única.
-                  <span className="block mt-4 text-lg text-stone-500 dark:text-stone-500 italic">
+                  Cada rostro es único y merece un maquillaje que refleje su esencia y personalidad.
+                  {/* <span className="block mt-4 text-lg text-stone-500 dark:text-stone-500 italic">
                     Cada rostro es una obra de arte esperando ser revelada.
-                  </span>
+                  </span> */}
                 </p>
               </div>
 
@@ -115,7 +116,7 @@ export function HeroSection() {
                   className="group px-8 py-4 border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 rounded-none font-medium tracking-wide transition-all duration-500 hover:border-stone-900 dark:hover:border-stone-100 hover:text-stone-900 dark:hover:text-stone-100"
                 >
                   <span className="relative">
-                    Reservar Consulta
+                    Agendar Cita
                     <div className="absolute bottom-0 left-0 w-0 h-px bg-stone-900 dark:bg-stone-100 group-hover:w-full transition-all duration-500" />
                   </span>
                 </button>
@@ -140,7 +141,7 @@ export function HeroSection() {
                     </div>
                   )}
                   <Image
-                    src="/placeholder.svg?height=800&width=600"
+                    src={Portada.src}
                     alt="Lesley García - Maquilladora Profesional"
                     fill
                     className="object-cover transition-all duration-1000"
@@ -156,62 +157,6 @@ export function HeroSection() {
                   {/* Subtle overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
                 </div>
-
-                {/* Floating credential badge */}
-                <div
-                  className="absolute -top-4 -right-4 bg-white dark:bg-stone-800 rounded-full p-6 shadow-2xl border border-stone-100 dark:border-stone-700"
-                  style={{
-                    opacity: isLoaded ? 1 : 0,
-                    transform: isLoaded ? "translateY(0) rotate(0deg)" : "translateY(20px) rotate(5deg)",
-                    transition: "all 1.4s cubic-bezier(0.4, 0, 0.2, 1) 2.5s",
-                  }}
-                >
-                  <div className="text-center">
-                    <div className="text-2xl font-extralight text-stone-900 dark:text-stone-100 mb-1">8+</div>
-                    <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-[0.15em]">Años</div>
-                    <div className="text-xs text-stone-400 dark:text-stone-600 mt-1">Experiencia</div>
-                  </div>
-                </div>
-
-                {/* Minimalist testimonial */}
-                <div
-                  className="absolute -bottom-8 -left-8 bg-white/95 dark:bg-stone-800/95 backdrop-blur-lg p-6 max-w-xs border-l-2 border-amber-400 shadow-lg"
-                  style={{
-                    opacity: isLoaded ? 1 : 0,
-                    transform: isLoaded ? "translateY(0)" : "translateY(30px)",
-                    transition: "all 1.4s cubic-bezier(0.4, 0, 0.2, 1) 3s",
-                  }}
-                >
-                  <div className="space-y-2">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className="w-3 h-3 fill-amber-400 text-amber-400"
-                          style={{
-                            opacity: isLoaded ? 1 : 0,
-                            transition: `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${3.2 + i * 0.1}s`,
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-sm text-stone-700 dark:text-stone-300 font-light leading-relaxed">
-                      "Arte excepcional, resultados perfectos"
-                    </p>
-                    <div className="text-xs text-stone-500 dark:text-stone-500 italic">
-                      — María Elena, Novia
-                    </div>
-                  </div>
-                </div>
-
-                {/* Geometric accent */}
-                <div
-                  className="absolute top-1/3 -left-2 w-1 h-20 bg-gradient-to-b from-amber-400 to-transparent"
-                  style={{
-                    opacity: isLoaded ? 0.6 : 0,
-                    transition: "opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 3.5s",
-                  }}
-                />
               </div>
             </div>
           </div>

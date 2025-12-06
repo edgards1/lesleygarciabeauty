@@ -5,9 +5,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { FaStar, FaPhone, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaWalking } from "react-icons/fa"
+import { FaStar, FaPhone, FaEnvelope, FaHeart, FaInstagram, FaFacebook, FaAward, FaWhatsapp, FaWalking } from "react-icons/fa"
 import { CiMail, CiLocationOn } from "react-icons/ci";
 import { FiPhoneCall } from "react-icons/fi";
+import { IoSparklesSharp } from "react-icons/io5";
+
 
 import { AppleNav } from "@/components/apple-nav"
 import { HeroSection } from "@/components/hero-section"
@@ -16,6 +18,7 @@ import { ImagePreview } from "@/components/image-preview"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer } from "@/components/animations/stagger-container"
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
+import aboutPhoto from "@/public/img/ebano_1.jpg"
 
 export default function MakeupArtistPortfolio() {
   const [activeFilter, setActiveFilter] = useState("Todos")
@@ -145,26 +148,68 @@ export default function MakeupArtistPortfolio() {
         className="py-20 bg-white dark:bg-stone-900 transition-colors"
       >
         <div className="container mx-auto px-4">
-          <FadeIn className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
-              Acerca de Lesley
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Image */}
+          <div className="relative">
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-elegant">
+              <img 
+                src={aboutPhoto.src} 
+                alt="Lesley García" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-6 rounded-2xl shadow-rose">
+              <p className="text-3xl font-bold">10+</p>
+              <p className="text-sm">Años de experiencia</p>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Sobre <span className="text-gradient-rose">Mí</span>
             </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
-              Soy una maquilladora apasionada, especializada en crear looks
-              atemporales y elegantes para los momentos más importantes de la
-              vida. Mi enfoque combina técnicas clásicas con tendencias modernas
-              para realzar tu belleza natural.
+            
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Soy Lesley García, maquilladora profesional especializada en realzar la belleza natural de cada persona. 
+              Mi filosofía es simple: cada rostro es único y merece un maquillaje que refleje su esencia y personalidad.
             </p>
-            <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
-              Entrenada en la prestigiosa Academia de Maquillaje Alejandra
-              Torres y con certificaciones de las principales marcas de belleza,
-              aporto tanto arte como profesionalismo a cada experiencia con el
-              cliente. Ya sea el día de tu boda, un evento especial o una sesión
-              fotográfica, me dedico a hacer que te veas y te sientas
-              absolutamente radiante.
+
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Con más de 10 años de experiencia en el mundo de la belleza, he tenido el honor de trabajar en bodas, 
+              eventos especiales, sesiones editoriales y fashion shows. Mi formación incluye certificaciones internacionales 
+              en maquillaje profesional y técnicas de belleza avanzadas.
             </p>
-          </FadeIn>
+
+            {/* Values */}
+            <div className="grid sm:grid-cols-3 gap-6 mt-8">
+              <div className="text-center p-4">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
+                  <IoSparklesSharp className="w-6 h-6 text-blush-foreground" />
+                </div>
+                <h3 className="font-semibold mb-1">Creatividad</h3>
+                <p className="text-sm text-muted-foreground">Arte personalizado</p>
+              </div>
+              
+              <div className="text-center p-4">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
+                  <FaAward className="w-6 h-6 text-blush-foreground" />
+                </div>
+                <h3 className="font-semibold mb-1">Excelencia</h3>
+                <p className="text-sm text-muted-foreground">Calidad premium</p>
+              </div>
+              
+              <div className="text-center p-4">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
+                  <FaHeart className="w-6 h-6 text-blush-foreground" />
+                </div>
+                <h3 className="font-semibold mb-1">Pasión</h3>
+                <p className="text-sm text-muted-foreground">Amor por el detalle</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
       </section>
 
       {/* Services Section */}
