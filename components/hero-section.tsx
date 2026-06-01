@@ -42,7 +42,7 @@ export function HeroSection() {
       </div>
 
       {/* ── Content overlay ── */}
-      <div className="relative z-10 h-full flex flex-col justify-center pb-24 sm:pb-28 lg:justify-center lg:pb-0">
+      <div className="relative z-10 min-h-screen flex flex-col justify-center items-center">
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 xl:px-20">
           <div className="max-w-3xl">
             {/* Subtle category line */}

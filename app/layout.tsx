@@ -14,6 +14,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Lesley Garcia | Makeup Artist y UGC",
+  // metadataBase: new URL("https://lesleygarciabeauty.com"),
+  metadataBase: new URL("https://localhost:3000"),
   icons: {
     icon: [{ url: "/icons/logo_LG.svg", type: "image/svg+xml" }],
   },
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
     title: "Lesley Garcia | Makeup Artist y UGC",
     description:
       "Maquillaje profesional y contenido UGC para marcas de belleza, skincare y campañas digitales.",
-    url: "https://lesleygarciabeauty.com",
+    url: "https://localhost:3000",
     siteName: "Lesley Garcia Beauty",
     locale: "es-EC",
     type: "website",
@@ -69,9 +71,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 "@context": "https://schema.org",
                 "@type": "LocalBusiness",
                 name: "Lesley Garcia Beauty",
-                url: "https://lesleygarciabeauty.com",
+                url: "https://localhost:3000",
                 telephone: "+593983366831",
-                image: "https://lesleygarciabeauty.com/img/portada.jpeg",
+                image: "https://localhost:3000/img/portada.jpeg",
                 description:
                   "Maquillaje profesional y contenido UGC para marcas de belleza.",
                 sameAs: [

@@ -6,20 +6,15 @@ export const aboutContent = {
     "He trabajado con marcas y clientes que buscan imagen impecable y contenido que convierte. Cada look esta pensado para camara, luz y narrativa.",
   ],
   stats: [
-    { label: "Experiencia", value: "8+ anos" },
-    { label: "Campanas UGC", value: "120+" },
-    { label: "Clientes", value: "500+" },
+    { label: "Experiencia", value: "5+ años" },
+    { label: "Campanas UGC", value: "50+" },
+    { label: "Clientes", value: "300+" },
   ],
   specialties: [
-    "Maquillaje profesional",
-    "Skincare y belleza editorial",
-    "UGC para marcas de cosmetica",
-    "Produccion para TikTok e Instagram",
-  ],
-  certifications: [
     "Especializacion en maquillaje social y novias",
-    "Formacion en direccion creativa y contenido",
-    "Certificacion en piel y cuidado facial",
+    "Skincare y belleza editorial",
+    "UGC para marcas",
+    "Produccion para TikTok e Instagram",
   ],
   image: "/img/about-me.png",
 };

@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/sections/site-header";
+import { Navbar } from "@/sections/navbar";
 import { HeroSection } from "@/sections/hero-section";
 import { AboutSection } from "@/sections/about-section";
 import { ServicesSection } from "@/sections/services-section";
@@ -13,14 +14,15 @@ import { SiteFooter } from "@/sections/site-footer";
 export default function MakeupArtistPortfolio() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SiteHeader />
-      <main className="pt-28">
+      {/* <SiteHeader /> */}
+      <Navbar />
+      <main className="relative z-0">
         <div id="hero">
           <HeroSection />
         </div>
         <AboutSection />
         <ServicesSection />
-        <PortfolioSection />
+        {/* <PortfolioSection /> */}
         <UgcResultsSection />
         <TestimonialsSection />
         <BrandsSection />

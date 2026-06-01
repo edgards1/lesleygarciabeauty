@@ -17,22 +17,6 @@ export function AboutSection() {
             {aboutContent.description[1]}
           </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {aboutContent.stats.map((item) => (
-              <div
-                key={item.label}
-                className="rounded-2xl border border-stone-200 bg-white px-4 py-5"
-              >
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {item.label}
-                </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">
-                  {item.value}
-                </p>
-              </div>
-            ))}
-          </div>
-
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-stone-200 bg-white p-5">
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -44,16 +28,21 @@ export function AboutSection() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-stone-200 bg-white p-5">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Certificaciones
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-foreground">
-                {aboutContent.certifications.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {aboutContent.stats.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-stone-200 bg-white px-4 py-5"
+                >
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-lg font-semibold text-foreground">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
           </div>
         </div>
 
