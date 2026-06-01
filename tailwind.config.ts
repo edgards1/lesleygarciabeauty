@@ -12,6 +12,12 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+      fontFamily: {
+        jost: ['var(--font-jost)'],
+        cormorant: ['var(--font-cormorant)'],
+        serif: ['var(--font-cormorant)'],
+        sans: ['var(--font-jost)'],
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

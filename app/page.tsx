@@ -1,112 +1,127 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { FaStar, FaPhone, FaEnvelope, FaHeart, FaInstagram, FaFacebook, FaAward, FaWhatsapp, FaWalking } from "react-icons/fa"
-import { CiMail, CiLocationOn } from "react-icons/ci";
-import { FiPhoneCall } from "react-icons/fi";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  FaStar,
+  FaPhone,
+  FaEnvelope,
+  FaHeart,
+  FaInstagram,
+  FaFacebook,
+  FaAward,
+  FaWhatsapp,
+  FaWalking,
+} from "react-icons/fa";
+import { MdPhotoCamera } from "react-icons/md";
 import { IoSparklesSharp } from "react-icons/io5";
+import { GiLoveLetter } from "react-icons/gi";
 
-
-import { AppleNav } from "@/components/apple-nav"
-import { HeroSection } from "@/components/hero-section"
-import { VideoPreview } from "@/components/video-preview"
-import { ImagePreview } from "@/components/image-preview"
-import { FadeIn } from "@/components/animations/fade-in"
-import { StaggerContainer } from "@/components/animations/stagger-container"
-import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
-import aboutPhoto from "@/public/img/ebano_1.jpg"
+import { AppleNav } from "@/components/apple-nav";
+import { HeroSection } from "@/components/hero-section";
+import { VideoPreview } from "@/components/video-preview";
+import { ImagePreview } from "@/components/image-preview";
+import { ContactForm } from "@/components/contact-form";
+import { FadeIn } from "@/components/animations/fade-in";
+import { StaggerContainer } from "@/components/animations/stagger-container";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import aboutPhoto from "@/public/img/ebano_1.jpg";
 
 export default function MakeupArtistPortfolio() {
-  const [activeFilter, setActiveFilter] = useState("Todos")
+  const [activeFilter, setActiveFilter] = useState("Todos");
 
   const services = [
     {
       title: "Maquillaje de Novia",
-      description: "Look completo de novia incluyendo sesión de prueba y aplicación el día de la boda",
-      price: "Desde $350",
+      description:
+        "Look completo de novia incluyendo sesión de prueba y aplicación el día de la boda",
+      price: "Desde $250",
       duration: "3-4 horas",
     },
     {
-      title: "Eventos Especiales",
-      description: "Maquillaje perfecto para galas, fiestas, sesiones fotográficas y ocasiones especiales",
-      price: "Desde $150",
-      duration: "1-2 horas",
-    },
-    {
-      title: "Editorial y Moda",
-      description: "Looks de alta moda para revistas, campañas y proyectos creativos",
-      price: "Desde $200",
+      title: "Maquillaje Social",
+      description: "Perfecto para eventos, fiestas y ocasiones especiales",
+      price: "Desde $70",
       duration: "2-3 horas",
     },
     {
-      title: "Clases de Maquillaje",
-      description: "Tutoriales personalizados uno a uno y entrenamiento en técnicas",
+      title: "Curso de Automaquillaje",
+      description:
+        "Tutoriales personalizados uno a uno y entrenamiento en técnicas",
       price: "Desde $120",
-      duration: "1.5 horas",
+      duration: "8 clases",
     },
-  ]
+    {
+      title: "Perfeccionamiento",
+      description:
+        "Sesiones personalizadas para perfeccionar técnicas específicas o aprender nuevos estilos",
+      price: "Desde $120",
+      duration: "8 clases",
+    },
+  ];
 
   const portfolioImages = [
-    { 
-      src: "/img/novia_01.JPG", 
+    {
+      src: "/img/novia_01.JPG",
       alt: "Maquillaje de Novia",
       category: ["Novias", "Evento Especial"],
       type: "image",
-      hoverImage: "/img/novia_1.JPG" // Imagen alternativa en hover
+      hoverImage: "/img/novia_1.JPG", // Imagen alternativa en hover
     },
-    { 
-      src: "/img/video_ebano_1.mov", 
+    {
+      src: "/img/video_ebano_1.mov",
       alt: "Maquillaje de piel ébano",
       category: "Piel Ébano",
       type: "video",
-      previewImage: "/img/ebano_1.jpg" // Imagen de preview estático
+      previewImage: "/img/ebano_1.jpg", // Imagen de preview estático
     },
-    { 
-      src: "/img/social_10.jpg", 
+    {
+      src: "/img/social_10.jpg",
       alt: "Maquillaje Social",
       category: ["Social", "Evento Especial"],
       type: "image",
-      hoverImage: "/img/social_010.jpg" // Imagen alternativa en hover
+      hoverImage: "/img/social_010.jpg", // Imagen alternativa en hover
     },
-    { 
-      src: "/img/video_social_6.MOV", 
+    {
+      src: "/img/video_social_6.MOV",
       alt: "Maquillaje para evento social",
       category: "Social",
       type: "video",
-      previewImage: "/img/social_6.jpg" // Imagen de preview estático
+      previewImage: "/img/social_6.jpg", // Imagen de preview estático
     },
-    { 
-      src: "/img/social_7.jpg", 
+    {
+      src: "/img/social_7.jpg",
       alt: "Maquillaje editorial - Look dramático",
       category: ["Editorial", "Piel Ébano"],
       type: "image",
-      hoverImage: "/img/social_6.jpg" // Imagen alternativa en hover
+      hoverImage: "/img/social_6.jpg", // Imagen alternativa en hover
     },
-    { 
-      src: "/img/social_3.JPG", 
+    {
+      src: "/img/social_3.JPG",
       alt: "Maquillaje Social",
       category: "Social",
       type: "image",
-      hoverImage: "/img/social_03.JPG" // Imagen alternativa en hover
+      hoverImage: "/img/social_03.JPG", // Imagen alternativa en hover
     },
-  ]
+  ];
 
-  const portfolioCategories = ["Todos", "Novias", "Piel Ébano", "Evento Especial", "Social"]
+  const portfolioCategories = [
+    "Todos",
+    "Novias",
+    "Piel Ébano",
+    "Evento Especial",
+    "Social",
+  ];
 
-  const filteredImages = activeFilter === "Todos" 
-    ? portfolioImages 
-    : portfolioImages.filter(media => {
-        // Si la categoría es un array, verificar si incluye el filtro activo
-        if (Array.isArray(media.category)) {
-          return media.category.includes(activeFilter)
-        }
-        // Si es string, comparar directamente
-        return media.category === activeFilter
-      })
+  const filteredImages = activeFilter === "Todos" ? portfolioImages : portfolioImages.filter((media) => {
+    if (Array.isArray(media.category)) {
+      return media.category.includes(activeFilter);
+    }
+    return media.category === activeFilter;
+  });
 
   const testimonials = [
     {
@@ -133,182 +148,215 @@ export default function MakeupArtistPortfolio() {
       rating: 5,
       image: "/placeholder.svg?height=60&width=60",
     },
-  ]
+  ];
 
-  const { scrollToSection } = useSmoothScroll()
+  const { scrollToSection } = useSmoothScroll();
 
   return (
     <div className="min-h-screen bg-white dark:bg-stone-900 transition-colors">
       <AppleNav />
       <HeroSection />
 
-      {/* About Section */}
+      {/* About Section - Editorial Style */}
       <section
         id="about"
-        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+        className="py-24 bg-white dark:bg-stone-900 transition-colors relative overflow-hidden"
       >
-        <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Image */}
-          <div className="relative">
-            <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-elegant">
-              <img 
-                src={aboutPhoto.src} 
-                alt="Lesley García" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-6 rounded-2xl shadow-rose">
-              <p className="text-3xl font-bold">10+</p>
-              <p className="text-sm">Años de experiencia</p>
-            </div>
-          </div>
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-stone-100 dark:bg-stone-800 rounded-full blur-[100px] opacity-40 pointer-events-none" />
 
-          {/* Content */}
-          <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Sobre <span className="text-gradient-rose">Mí</span>
-            </h2>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Soy Lesley García, maquilladora profesional especializada en realzar la belleza natural de cada persona. 
-              Mi filosofía es simple: cada rostro es único y merece un maquillaje que refleje su esencia y personalidad.
-            </p>
+        <div className="container">
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-center max-w-7xl mx-auto">
+            {/* Image Column - Editorial Layout */}
+            <FadeIn className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] z-10">
+                {/* Decorative border frame */}
+                <div className="absolute -inset-4 border border-stone-200 dark:border-stone-800 rounded-3xl opacity-50 hidden sm:block" />
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Con más de 10 años de experiencia en el mundo de la belleza, he tenido el honor de trabajar en bodas, 
-              eventos especiales, sesiones editoriales y fashion shows. Mi formación incluye certificaciones internacionales 
-              en maquillaje profesional y técnicas de belleza avanzadas.
-            </p>
+                {/* Main Image */}
+                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] group">
+                  <img
+                    src={aboutPhoto.src}
+                    alt="Lesley García - Maquilladora Profesional"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
-            {/* Values */}
-            <div className="grid sm:grid-cols-3 gap-6 mt-8">
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
-                  <IoSparklesSharp className="w-6 h-6 text-blush-foreground" />
+                {/* Floating Experience Badge */}
+                <div className="absolute -bottom-6 -right-6 lg:-right-8 bg-white/90 dark:bg-stone-950/90 backdrop-blur-md border border-stone-200/50 dark:border-stone-800/50 text-stone-900 dark:text-stone-100 p-6 rounded-2xl shadow-xl z-20 flex flex-col items-center justify-center min-w-[140px] transform hover:-translate-y-2 transition-transform duration-500">
+                  <p className="text-4xl font-serif font-light tracking-tighter mb-1">
+                    6<span className="text-2xl text-stone-400">+</span>
+                  </p>
+                  <p className="text-xs uppercase tracking-widest text-stone-500 dark:text-stone-400 font-medium text-center">
+                    Años de
+                    <br />
+                    Experiencia
+                  </p>
                 </div>
-                <h3 className="font-semibold mb-1">Creatividad</h3>
-                <p className="text-sm text-muted-foreground">Arte personalizado</p>
               </div>
-              
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
-                  <FaAward className="w-6 h-6 text-blush-foreground" />
+            </FadeIn>
+
+            {/* Content Column */}
+            <div className="space-y-8 lg:py-8">
+              <FadeIn delay={0.2} className="space-y-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-px w-6 bg-stone-300 dark:bg-stone-700" />
+                  <h2 className="text-2xl uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400">
+                    Conoce mi historia
+                  </h2>
                 </div>
-                <h3 className="font-semibold mb-1">Excelencia</h3>
-                <p className="text-sm text-muted-foreground">Calidad premium</p>
-              </div>
-              
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blush flex items-center justify-center">
-                  <FaHeart className="w-6 h-6 text-blush-foreground" />
+
+                <div className="space-y-6 text-stone-600 dark:text-stone-400 text-lg leading-relaxed font-light">
+                  <p>
+                    Soy{" "}
+                    <strong className="font-semibold text-stone-900 dark:text-stone-200">
+                      Lesley García
+                    </strong>
+                    , maquilladora profesional y creadora de contenido UGC. Mi
+                    pasión es el arte de la belleza en todas sus facetas: desde
+                    preparar la piel perfecta para una novia, hasta comunicar la
+                    esencia de una marca a través del lente.
+                  </p>
+
+                  <div className="pl-6 border-l-2 border-stone-200 dark:border-stone-700 py-2 my-8 italic text-stone-500 dark:text-stone-400">
+                    "Elevando estéticas e impulsando marcas: maquillaje premium
+                    y creación de contenido UGC estratégico."
+                  </div>
+
+                  <p>
+                    Como maquilladora, diseño looks atemporales para bodas,
+                    sesiones editoriales y eventos exclusivos. Como creadora
+                    UGC, colaboro con marcas de skincare y cosmética para
+                    desarrollar contenido digital auténtico, estético y de alta
+                    conversión. Mi visión artística garantiza resultados
+                    impecables tanto en persona como en pantalla.
+                  </p>
                 </div>
-                <h3 className="font-semibold mb-1">Pasión</h3>
-                <p className="text-sm text-muted-foreground">Amor por el detalle</p>
-              </div>
+              </FadeIn>
+
+              {/* Values/Pillars List */}
+              <StaggerContainer className="grid sm:grid-cols-3 gap-6 pt-8 mt-8 border-t border-stone-100 dark:border-stone-800">
+                <div className="group">
+                  <div className="w-10 h-10 mb-4 rounded-full border border-stone-200 dark:border-stone-700 flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 group-hover:border-transparent transition-all duration-300">
+                    <IoSparklesSharp className="w-4 h-4 text-stone-700 dark:text-stone-300 group-hover:text-white dark:group-hover:text-stone-900 transition-colors" />
+                  </div>
+                  <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Visión Artística
+                  </h3>
+                  <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                    Maquillaje social y personalizado para resaltar tu belleza.
+                  </p>
+                </div>
+
+                <div className="group">
+                  <div className="w-10 h-10 mb-4 rounded-full border border-stone-200 dark:border-stone-700 flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 group-hover:border-transparent transition-all duration-300">
+                    <MdPhotoCamera className="w-4 h-4 text-stone-700 dark:text-stone-300 group-hover:text-white dark:group-hover:text-stone-900 transition-colors" />
+                  </div>
+                  <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Contenido UGC
+                  </h3>
+                  <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                    Fotografía y video estético, orgánico y listo para campañas
+                    de marca.
+                  </p>
+                </div>
+
+                <div className="group">
+                  <div className="w-10 h-10 mb-4 rounded-full border border-stone-200 dark:border-stone-700 flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 group-hover:border-transparent transition-all duration-300">
+                    <FaAward className="w-4 h-4 text-stone-700 dark:text-stone-300 group-hover:text-white dark:group-hover:text-stone-900 transition-colors" />
+                  </div>
+                  <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                    Excelencia
+                  </h3>
+                  <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                    Alta gama en productos y atención meticulosa en cada
+                    detalle.
+                  </p>
+                </div>
+              </StaggerContainer>
             </div>
           </div>
         </div>
-      </div>
       </section>
 
       {/* Services Section */}
       <section
         id="services"
-        className="py-24 bg-gradient-to-br from-stone-50 via-white to-stone-100 relative overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, #fafaf9 0%, #ffffff 50%, #EFC88B20 100%)`
-        }}
+        className="py-24 bg-stone-50 dark:bg-stone-800 relative overflow-hidden"
       >
-        {/* Background Decorative Elements */}
-        <div className="absolute inset-0 opacity-4">
-          <div className="absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl" style={{backgroundColor: '#EFC88B'}}></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-stone-300 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{backgroundColor: '#EFC88B40'}}></div>
-        </div>
-
         <div className="container mx-auto px-4 relative z-10">
           <FadeIn className="text-center space-y-6 mb-20">
-            <div className="inline-flex items-center px-4 py-2 text-stone-700 rounded-full text-sm font-medium mb-4" 
-                 style={{backgroundColor: '#EFC88B40'}}>
-              <FaStar className="w-4 h-4 mr-2" style={{color: '#8B6F1B'}} />
-              Servicios Profesionales
-            </div>
-            <h2 className="text-5xl font-serif text-stone-900 leading-tight">
-              Servicios de Belleza
-              <span className="block text-3xl font-light mt-2" style={{color: '#8B6F1B'}}>
-                Realizando sueños de belleza
-              </span>
+            <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-100 leading-tight">
+              Servicios de Maquillaje
+              {/* <span className="block text-3xl font-light mt-2 text-stone-600 dark:text-stone-400">
+                Transforma tu look con precisión, estilo y duración para cada
+                ocasión
+              </span> */}
             </h2>
             <p className="text-xl text-stone-600 max-w-3xl mx-auto leading-relaxed">
-              Desde maquillaje de novias hasta sesiones editoriales, ofrezco una 
-              gama completa de servicios profesionales adaptados a tus necesidades únicas.
+              Desde maquillaje de novias hasta producciones y sesiones
+              editoriales, ofrezco una gama completa de servicios profesionales
+              adaptados a tus necesidades únicas.
             </p>
           </FadeIn>
 
-          <StaggerContainer className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <StaggerContainer className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="group relative bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+                className="group relative bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 hover:border-stone-900 dark:hover:border-stone-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-visible rounded-2xl"
               >
+                {/* Popular Badge for Featured Service */}
+                {index === 0 && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                    <div className="bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-4 py-1.5 rounded-md text-[10px] font-bold tracking-wider shadow-lg uppercase">
+                      Popular
+                    </div>
+                  </div>
+                )}
+
                 {/* Service Number Badge */}
-                <div className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center" 
-                     style={{background: `linear-gradient(135deg, #EFC88B, #D4A574)`}}>
-                  <span className="text-white text-sm font-bold">
-                    {String(index + 1).padStart(2, '0')}
+                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 transition-colors duration-300 z-0">
+                  <span className="text-stone-900 dark:text-stone-100 group-hover:text-white dark:group-hover:text-stone-900 text-sm font-bold">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                {/* Decorative Top Border */}
-                <div className="h-1 transition-all duration-300" 
-                     style={{background: `linear-gradient(90deg, #EFC88B, #D4A574, #8B6F1B)`}}></div>
-
-                <CardContent className="p-8 space-y-6">
+                <CardContent className="p-8 space-y-5">
                   {/* Service Icon */}
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                       style={{background: `linear-gradient(135deg, #EFC88B30, #F5F5F4)`}}>
-                    {index === 0 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
-                    {index === 1 && <FaWalking className="w-8 h-8" style={{color: '#8B6F1B'}} />}
-                    {index === 2 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
-                    {index === 3 && <FaStar className="w-8 h-8" style={{color: '#8B6F1B'}} />}
+                  <div className="w-14 h-14 rounded-xl bg-stone-50 dark:bg-stone-800 flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 transition-all duration-300">
+                    {index === 0 && (
+                      <GiLoveLetter className="w-7 h-7 text-stone-900 dark:text-stone-100 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
+                    )}
+                    {index === 1 && (
+                      <MdPhotoCamera className="w-7 h-7 text-stone-900 dark:text-stone-100 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
+                    )}
+                    {index === 2 && (
+                      <FaStar className="w-7 h-7 text-stone-900 dark:text-stone-100 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
+                    )}
+                    {index === 3 && (
+                      <FaStar className="w-7 h-7 text-stone-900 dark:text-stone-100 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
+                    )}
                   </div>
 
                   {/* Service Title */}
-                  <div>
-                    <h3 className="text-2xl font-serif text-stone-900 mb-3 transition-colors duration-300" 
-                        style={{color: index === 0 ? '#8B6F1B' : undefined}}>
+                  <div className="min-h-[110px]">
+                    <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-3 leading-tight">
                       {service.title}
                     </h3>
-                    <p className="text-stone-600 leading-relaxed text-base">
+                    <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm">
                       {service.description}
                     </p>
                   </div>
 
                   {/* Service Details */}
-                  <div className="space-y-4 pt-4 border-t border-stone-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#EFC88B'}}></div>
-                        <span className="text-sm font-medium text-stone-700">
-                          Duración
-                        </span>
-                      </div>
-                      <span className="text-sm text-stone-900 font-semibold bg-stone-100 px-3 py-1 rounded-full">
-                        {service.duration}
+                  <div className="space-y-3 pt-5 border-t border-stone-200 dark:border-stone-700">
+                    <div className="flex items-center justify-between py-2">
+                      <span className="text-xs uppercase tracking-wider font-medium text-stone-500 dark:text-stone-400">
+                        Duración
                       </span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#EFC88B'}}></div>
-                        <span className="text-sm font-medium text-stone-700">
-                          Inversión
-                        </span>
-                      </div>
-                      <span className="text-xl font-bold text-white px-4 py-2 rounded-full" 
-                            style={{backgroundColor: '#8B6F1B', background: `linear-gradient(135deg, #8B6F1B, #EFC88B)`}}>
-                        {service.price}
+                      <span className="text-sm text-stone-900 dark:text-stone-100 font-semibold">
+                        {service.duration}
                       </span>
                     </div>
                   </div>
@@ -316,65 +364,34 @@ export default function MakeupArtistPortfolio() {
                   {/* CTA Button */}
                   <Button
                     onClick={() => scrollToSection("contact")}
-                    className="w-full bg-gradient-to-r from-stone-800 to-stone-900 hover:from-stone-900 hover:to-black text-white border-0 h-12 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
-                    style={{
-                      background: `linear-gradient(135deg, #8B6F1B, #6B5416)`,
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = `linear-gradient(135deg, #EFC88B, #D4A574)`
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = `linear-gradient(135deg, #8B6F1B, #6B5416)`
-                    }}
+                    className="w-full bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 border-0 h-11 rounded-lg font-medium text-sm transition-all duration-300 hover:shadow-lg group"
                   >
-                    <span className="flex items-center justify-center space-x-2">
+                    <span className="flex items-center justify-center gap-2">
                       <span>Reservar Cita</span>
-                      <FaWhatsapp className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
+                      <FaWhatsapp className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     </span>
                   </Button>
-
-                  {/* Popular Badge for Featured Service */}
-                  {index === 0 && (
-                    <div className="absolute -top-2 left-6">
-                      <div className="text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg" 
-                           style={{background: `linear-gradient(135deg, #8B6F1B, #EFC88B)`}}>
-                        MÁS POPULAR
-                      </div>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             ))}
           </StaggerContainer>
 
           {/* Bottom CTA Section */}
-          <FadeIn className="text-center mt-16">
-            <div className="rounded-3xl p-8 max-w-4xl mx-auto border border-stone-200"
-                 style={{background: `linear-gradient(135deg, #EFC88B20, #F5F5F4)`}}>
-              <h3 className="text-2xl font-serif text-stone-900 mb-4">
-                ¿No encuentras el servicio que buscas?
+          <FadeIn className="text-center mt-20">
+            <div className="rounded-2xl p-10 max-w-3xl mx-auto bg-white dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 shadow-sm">
+              <h3 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-3">
+                ¿Necesitas algo diferente?
               </h3>
-              <p className="text-stone-600 mb-6 text-lg">
-                Ofrezco servicios personalizados adaptados a tus necesidades específicas.
+              <p className="text-stone-600 dark:text-stone-400 mb-8 text-base leading-relaxed max-w-xl mx-auto">
+                Cada cliente es único. Ofrezco servicios personalizados
+                adaptados a tus necesidades específicas.
               </p>
               <Button
                 onClick={() => scrollToSection("contact")}
                 variant="outline"
-                className="bg-white hover:bg-stone-50 text-stone-900 border-stone-300 hover:border-stone-400 px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md"
-                style={{
-                  borderColor: '#EFC88B',
-                  color: '#8B6F1B'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#EFC88B20'
-                  e.currentTarget.style.borderColor = '#8B6F1B'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'white'
-                  e.currentTarget.style.borderColor = '#EFC88B'
-                }}
+                className="bg-transparent hover:bg-stone-900 dark:hover:bg-stone-100 text-stone-900 dark:text-stone-100 hover:text-white dark:hover:text-stone-900 border-2 border-stone-900 dark:border-stone-100 px-8 py-6 rounded-lg font-medium text-sm transition-all duration-300 hover:shadow-lg"
               >
-                Consulta Personalizada
+                Solicitar Consulta Personalizada
               </Button>
             </div>
           </FadeIn>
@@ -384,18 +401,18 @@ export default function MakeupArtistPortfolio() {
       {/* Portfolio Section */}
       <section
         id="portfolio"
-        className="py-20 bg-white transition-colors"
+        className="py-20 bg-white dark:bg-stone-900 transition-colors"
       >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-serif text-stone-900">
+            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
               Portafolio
             </h2>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
               Explora mi trabajo reciente mostrando varios estilos y técnicas de
               maquillaje en diferentes ocasiones y entornos.
             </p>
-            
+
             {/* Portfolio filters */}
             <div className="flex flex-wrap justify-center gap-3 mt-8">
               {portfolioCategories.map((category) => (
@@ -404,8 +421,8 @@ export default function MakeupArtistPortfolio() {
                   onClick={() => setActiveFilter(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeFilter === category
-                      ? "bg-stone-900 text-white shadow-lg"
-                      : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+                      ? "bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 shadow-lg"
+                      : "bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700"
                   }`}
                 >
                   {category}
@@ -423,6 +440,7 @@ export default function MakeupArtistPortfolio() {
                     previewImage={media.previewImage}
                     alt={media.alt}
                     category={media.category}
+                    priority={index < 3}
                   />
                 ) : (
                   <ImagePreview
@@ -430,6 +448,7 @@ export default function MakeupArtistPortfolio() {
                     hoverImage={media.hoverImage}
                     alt={media.alt}
                     category={media.alt}
+                    priority={index < 3}
                   />
                 )}
               </div>
@@ -442,11 +461,19 @@ export default function MakeupArtistPortfolio() {
               { number: "500+", label: "Clientes Satisfechas" },
               { number: "8+", label: "Años de Experiencia" },
               { number: "200+", label: "Novias Maquilladas" },
-              { number: "50+", label: "Eventos Especiales" }
+              { number: "50+", label: "Eventos Especiales" },
             ].map((stat, index) => (
-              <FadeIn key={index} delay={0.2 + index * 0.1} className="text-center">
-                <div className="text-3xl font-light text-stone-900 mb-2">{stat.number}</div>
-                <div className="text-sm text-stone-600 uppercase tracking-wider">{stat.label}</div>
+              <FadeIn
+                key={index}
+                delay={0.2 + index * 0.1}
+                className="text-center"
+              >
+                <div className="text-3xl font-light text-stone-900 dark:text-stone-100 mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-sm text-stone-600 dark:text-stone-400 uppercase tracking-wider">
+                  {stat.label}
+                </div>
               </FadeIn>
             ))}
           </div>
@@ -460,7 +487,7 @@ export default function MakeupArtistPortfolio() {
       >
         <div className="container mx-auto px-4">
           <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl lg:text-5xl font-serif text-stone-900 dark:text-stone-100">
+            <h2 className="text-4xl font-serif text-stone-900 dark:text-stone-100">
               Lo Que Dicen Mis Clientes
             </h2>
             <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
@@ -515,84 +542,30 @@ export default function MakeupArtistPortfolio() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="py-20 bg-white dark:bg-stone-900 transition-colors"
+        className="py-20 bg-white dark:bg-stone-900 transition-colors relative overflow-hidden"
       >
-        <div className="container mx-auto px-4">
-          <FadeIn className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl lg:text-5xl font-serif text-stone-900 dark:text-stone-100">
-              Reserva tu Cita
+        {/* Background decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-stone-100 dark:bg-stone-800 rounded-full blur-3xl opacity-30" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-stone-100 dark:bg-stone-800 rounded-full blur-3xl opacity-30" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <FadeIn className="text-center space-y-6 mb-20">
+            <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-100 leading-tight">
+              Agenda tu Experiencia
+              <span className="block text-3xl font-light mt-2 text-stone-600 dark:text-stone-400 italic">
+                Transforma tu belleza hoy
+              </span>
             </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              Reserva tu sesión de maquillaje de forma fácil y rápida.
-              Selecciona la fecha y hora que mejor te convenga.
+            <p className="text-xl text-stone-600 dark:text-stone-400 max-w-3xl mx-auto leading-relaxed">
+              Estoy aquí para hacer realidad tu visión de belleza. Contáctame
+              para reservar tu cita y comenzar tu transformación.
             </p>
           </FadeIn>
 
-          {/* Booking System */}
-          {/* <div className="mb-16">
-            <BookingSystem />
-          </div> */}
-
-          {/* Alternative Contact Methods */}
-          <FadeIn delay={0.5}>
-            <div className="bg-stone-50 dark:bg-stone-800 rounded-2xl p-8">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                  ¿Prefieres contactarme directamente?
-                </h3>
-                <p className="text-stone-600 dark:text-stone-400">
-                  También puedes comunicarte conmigo a través de estos medios
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="text-center group">
-                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <FiPhoneCall className="w-8 h-8 text-stone-600 dark:text-stone-400" />
-                  </div>
-                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                    Teléfono
-                  </h4>
-                  <p className="text-stone-600 dark:text-stone-400">
-                    (+593) 983366831
-                  </p>
-                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
-                    Lun - Sáb: 9:00 AM - 5:00 PM
-                  </p>
-                </div>
-
-                <div className="text-center group">
-                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <CiMail className="w-8 h-8 text-stone-600 dark:text-stone-400" />
-                  </div>
-                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                    Email
-                  </h4>
-                  <p className="text-stone-600 dark:text-stone-400">
-                    valencia.fiorella_1999@hotmail.com
-                  </p>
-                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
-                    Respuesta en 24 horas
-                  </p>
-                </div>
-
-                <div className="text-center group">
-                  <div className="w-16 h-16 bg-white dark:bg-stone-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <CiLocationOn className="w-8 h-8 text-stone-600 dark:text-stone-400" />
-                  </div>
-                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                    Ubicación
-                  </h4>
-                  <p className="text-stone-600 dark:text-stone-400">
-                    Guayaquil - Ecuador
-                  </p>
-                  <p className="text-sm text-stone-500 dark:text-stone-500 mt-1">
-                    Servicio a domicilio disponible
-                  </p>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
+          {/* FORMULARIO DE CONTACTO */}
+          <ContactForm />
         </div>
       </section>
 
@@ -604,79 +577,73 @@ export default function MakeupArtistPortfolio() {
             <FadeIn className="text-center md:text-left space-y-4">
               <div className="text-3xl font-serif">Lesley García</div>
               <p className="text-stone-400 text-lg leading-relaxed max-w-md mx-auto sm:text-center md:mx-0 md:text-left">
-                Creando momentos de belleza únicos que resaltan tu esencia natural. 
-                Cada look es una obra de arte diseñada especialmente para ti.
+                Creando momentos de belleza únicos que resaltan tu esencia
+                natural. Cada look es una obra de arte diseñada especialmente
+                para ti.
               </p>
-                <div className="text-stone-500 text-sm pt-4 hidden md:block">
-                © {new Date().getFullYear()} Lesley García Beauty. Todos los derechos reservados.
-                </div>
-              </FadeIn>
+              <div className="text-stone-500 text-sm pt-4 hidden md:block">
+                © {new Date().getFullYear()} Lesley García Beauty. Todos los
+                derechos reservados.
+              </div>
+            </FadeIn>
 
-              {/* Columna Derecha - Redes Sociales y Botón de Citas */}
-              <FadeIn delay={0.2} className="text-center md:text-right space-y-6">
-                <div>
+            {/* Columna Derecha - Redes Sociales y Botón de Citas */}
+            <FadeIn delay={0.2} className="text-center md:text-right space-y-6">
+              <div>
                 <h4 className="text-lg font-semibold text-white mb-4">
                   Sígueme en Redes Sociales
                 </h4>
                 <div className="flex justify-center md:justify-end space-x-4 mb-6">
                   <Link
-                  href="https://www.instagram.com/lesleygarciabeauty"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                    href="https://www.instagram.com/lesleygarciabeauty"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
+                    >
+                      <FaInstagram className="w-5 h-5" />
+                    </Button>
+                  </Link>
                   <Button
                     variant="outline"
                     size="icon"
                     className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
                   >
-                    <FaInstagram className="w-5 h-5" />
-                  </Button>
-                  </Link>
-                  <Button
-                  variant="outline"
-                  size="icon"
-                  className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
-                  >
-                  <FaFacebook className="w-5 h-5" />
+                    <FaFacebook className="w-5 h-5" />
                   </Button>
                   <Link
-                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
-                  >
-                    <FaWhatsapp className="w-5 h-5" />
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="border-stone-600 text-stone-300 hover:bg-stone-800 hover:text-white hover:border-stone-500 bg-transparent transition-all duration-300 hover:scale-110 w-12 h-12"
+                    >
+                      <FaWhatsapp className="w-5 h-5" />
+                    </Button>
                   </Link>
                 </div>
-                </div>
-                
-                {/* Botón de Agendar Citas */}
-                <Link
+              </div>
+
+              {/* Botón de Agendar Citas */}
+              <Link
                 href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
                 target="_blank"
                 rel="noopener noreferrer"
-                >
-                <Button
-                  className="w-44 px-8 py-3 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-[#D4A574] to-[#8B6F1B]"
-                  onMouseEnter={(e) => {
-                  e.currentTarget.style.background = `linear-gradient(135deg, #D4A574, #8B6F1B)`
-                  }}
-                  onMouseLeave={(e) => {
-                  e.currentTarget.style.background = `linear-gradient(135deg, #EFC88B, #D4A574)`
-                  }}
-                >
+              >
+                <Button className="w-44 px-8 py-3 bg-white dark:bg-stone-800 text-stone-900 dark:text-white border border-stone-300 dark:border-stone-600 hover:bg-stone-100 dark:hover:bg-stone-700 font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg">
                   <FaWhatsapp className="w-4 h-4 mr-2" />
                   Agendar Cita
                 </Button>
-                </Link>
+              </Link>
 
-                {/* Enlaces legales */}
-                <div className="flex flex-wrap justify-center md:justify-end space-x-4 text-sm md:py-4 sm:py-1 border-0 md:border-t md:border-stone-700">
+              {/* Enlaces legales */}
+              <div className="flex flex-wrap justify-center md:justify-end space-x-4 text-sm md:py-4 sm:py-1">
                 <Link
                   href="#"
                   className="text-stone-400 hover:text-white transition-colors"
@@ -695,13 +662,14 @@ export default function MakeupArtistPortfolio() {
                 >
                   Política de Reservas
                 </Link>
-                </div>
+              </div>
 
-                {/* Copyright - mobile: mostrar debajo de los enlaces legales */}
-                <div className="block md:hidden text-stone-500 text-sm pb-2 text-center md:text-right">
-                © {new Date().getFullYear()} Lesley García Beauty. Todos los derechos reservados.
-                </div>
-              </FadeIn>
+              {/* Copyright - mobile: mostrar debajo de los enlaces legales */}
+              <div className="block md:hidden text-stone-500 text-sm pb-2 text-center md:text-right">
+                © {new Date().getFullYear()} Lesley García Beauty. Todos los
+                derechos reservados.
+              </div>
+            </FadeIn>
           </div>
         </div>
       </footer>

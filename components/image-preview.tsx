@@ -10,6 +10,7 @@ interface ImagePreviewProps {
   alt: string
   className?: string
   category: string | string[]
+  priority?: boolean
 }
 
 export function ImagePreview({ 
@@ -17,9 +18,11 @@ export function ImagePreview({
   hoverImage, 
   alt, 
   className = "", 
-  category 
+  category,
+  priority = false
 }: ImagePreviewProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const [hoverImageLoaded, setHoverImageLoaded] = useState(false)
 
   // Determinar la categoría principal para mostrar
   const primaryCategory = Array.isArray(category) ? category[0] : category
@@ -30,7 +33,7 @@ export function ImagePreview({
 
   return (
     <div
-      className={`group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-transparent ${className}`}
+      className={`group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-stone-100 dark:bg-stone-800 ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -40,21 +43,29 @@ export function ImagePreview({
         alt={alt}
         fill
         className={`absolute inset-0 object-cover group-hover:scale-110 transition-all duration-700 ${
-          isHovered && hoverImage ? "opacity-0" : "opacity-100"
+          isHovered && hoverImage && hoverImageLoaded ? "opacity-0" : "opacity-100"
         }`}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
+        quality={85}
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
       />
 
-      {/* Imagen de hover (si existe) */}
+      {/* Imagen de hover (si existe) - carga lazy */}
       {hoverImage && (
         <Image
           src={hoverImage}
           alt={`${alt}`}
           fill
           className={`absolute inset-0 object-cover group-hover:scale-110 transition-all duration-700 ${
-            isHovered ? "opacity-100" : "opacity-0"
+            isHovered && hoverImageLoaded ? "opacity-100" : "opacity-0"
           }`}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          loading="lazy"
+          quality={85}
+          onLoad={() => setHoverImageLoaded(true)}
         />
       )}
 

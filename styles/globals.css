@@ -47,16 +47,16 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --font-inter: "Inter", sans-serif;
-    --font-playfair: "Playfair Display", serif;
+    --font-jost: "Jost", sans-serif;
+    --font-cormorant: "Cormorant Garamond", serif;
   }
 
   .font-serif {
-    font-family: var(--font-playfair);
+    font-family: var(--font-cormorant);
   }
 
   .font-sans {
-    font-family: var(--font-inter);
+    font-family: var(--font-jost);
   }
 
   .dark {
@@ -204,6 +204,25 @@
 
   .animate-slide-down {
     animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Hero shimmer accent animation */
+  @keyframes heroShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-hero-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 140, 0.08) 25%,
+      rgba(255, 215, 140, 0.15) 50%,
+      rgba(255, 215, 140, 0.08) 75%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: heroShimmer 4s ease-in-out infinite;
   }
 
   /* Backdrop blur enhancement */

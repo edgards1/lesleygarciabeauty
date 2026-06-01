@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { FaWhatsapp } from "react-icons/fa"
 
@@ -10,6 +10,7 @@ interface VideoPreviewProps {
   alt: string
   className?: string
   category: string | string[]
+  priority?: boolean
 }
 
 export function VideoPreview({ 
@@ -17,17 +18,49 @@ export function VideoPreview({
   previewImage, 
   alt, 
   className = "", 
-  category 
+  category,
+  priority = false
 }: VideoPreviewProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
   // Enlace de WhatsApp para cotización
   const whatsappLink = "https://wa.me/593983366831?text=Hola%2C%20%C2%BFqu%C3%A9%20tal%3F%0AQuisiera%20cotizar%20este%20look%20de%20maquillaje%20%E2%99%A5%EF%B8%8F"
 
+  // Lazy load del video cuando esté en el viewport
+  useEffect(() => {
+    if (!videoRef.current) return
+
+    // Si tiene prioridad, carga inmediatamente
+    if (priority) {
+      setVideoLoaded(true)
+      videoRef.current.load()
+      return
+    }
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && videoRef.current) {
+            setVideoLoaded(true)
+            videoRef.current.load()
+            observerRef.current?.disconnect()
+          }
+        })
+      },
+      { rootMargin: "50px" }
+    )
+
+    observerRef.current.observe(videoRef.current)
+
+    return () => observerRef.current?.disconnect()
+  }, [priority])
+
   const handleMouseEnter = async () => {
     setIsHovered(true)
-    if (videoRef.current) {
+    if (videoRef.current && videoLoaded) {
       try {
         videoRef.current.currentTime = 0
         await videoRef.current.play()
@@ -47,7 +80,7 @@ export function VideoPreview({
 
   return (
     <div
-      className={`group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-transparent ${className}`}
+      className={`group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-stone-100 dark:bg-stone-800 ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -61,21 +94,32 @@ export function VideoPreview({
             isHovered ? 'opacity-0' : 'opacity-100'
           }`}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={priority}
+          loading={priority ? undefined : "lazy"}
+          quality={85}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         />
       )}
 
       {/* Video (equivalente a imagen de hover) */}
       <video
         ref={videoRef}
-        src={videoSrc}
         className={`absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ${
           isHovered ? 'opacity-100' : 'opacity-0'
         }`}
         muted
         loop
         playsInline
-        preload="metadata"
-      />
+        preload="none"
+      >
+        {videoLoaded && (
+          <>
+            <source src={videoSrc} type="video/mp4" />
+            <source src={videoSrc} type="video/quicktime" />
+          </>
+        )}
+      </video>
 
       {/* Overlay de fondo para mejor legibilidad */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
