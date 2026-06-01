@@ -1,24 +1,48 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Jost, Cormorant_Garamond } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 // @ts-ignore: allow importing global CSS without module declarations
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const playfair = Playfair_Display({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
-  title: "Lesley García | Maquilladora Profesional",
+  title: "Lesley Garcia | Makeup Artist y UGC",
   icons: {
     icon: [{ url: "/icons/logo_LG.svg", type: "image/svg+xml" }],
   },
   description:
-    "Maquilladora profesional. Especializada en novias, pieles negras y sesiones editoriales.",
+    "Maquilladora profesional y creadora UGC. Belleza premium, contenido para marcas y resultados medibles.",
+  openGraph: {
+    title: "Lesley Garcia | Makeup Artist y UGC",
+    description:
+      "Maquillaje profesional y contenido UGC para marcas de belleza, skincare y campañas digitales.",
+    url: "https://lesleygarciabeauty.com",
+    siteName: "Lesley Garcia Beauty",
+    locale: "es-EC",
+    type: "website",
+    images: [
+      {
+        url: "/img/portada.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Lesley Garcia Beauty",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lesley Garcia | Makeup Artist y UGC",
+    description:
+      "Maquillaje profesional y contenido UGC para marcas de belleza, skincare y campañas digitales.",
+    images: ["/img/portada.jpeg"],
+  },
 };
 
 interface RootLayoutProps {
@@ -29,7 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${jost.variable} ${cormorant.variable} font-sans antialiased`}
+        className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -38,6 +62,32 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange={false}
         >
           {children}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                name: "Lesley Garcia Beauty",
+                url: "https://lesleygarciabeauty.com",
+                telephone: "+593983366831",
+                image: "https://lesleygarciabeauty.com/img/portada.jpeg",
+                description:
+                  "Maquillaje profesional y contenido UGC para marcas de belleza.",
+                sameAs: [
+                  "https://www.instagram.com/lesleygarciabeauty",
+                  "https://www.tiktok.com/@lesleygarciabeauty",
+                  "https://www.facebook.com/lesleygarciabeauty",
+                ],
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Quito",
+                  addressCountry: "EC",
+                },
+                areaServed: "EC",
+              }),
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>

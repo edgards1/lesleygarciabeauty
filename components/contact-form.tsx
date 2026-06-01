@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/form";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import { CiMail, CiLocationOn } from "react-icons/ci";
-import { FiPhoneCall } from "react-icons/fi";
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerContainer } from "@/components/animations/stagger-container";
 import { contactFormSchema } from "@/lib/validations/contact.validation";
@@ -79,18 +78,17 @@ export function ContactForm() {
 
       // Formatear mensaje para WhatsApp
       const whatsappMessage = `
-🌟 *NUEVA CONSULTA DE CLIENTE* 🌟
+    NUEVA CONSULTA DE CLIENTE
 
-📋 *NOMBRE CLIENTE:* ${whatsappData.nombre}
-📧 *EMAIL:* ${whatsappData.email}
-📱 *TELÉFONO:* ${whatsappData.telefono}
-💄 *SERVICIO INTERÉS:* ${whatsappData.servicio}
+    NOMBRE CLIENTE: ${whatsappData.nombre}
+    EMAIL: ${whatsappData.email}
+    TELEFONO: ${whatsappData.telefono}
+    SERVICIO INTERES: ${whatsappData.servicio}
 
-💬 *MENSAJE:*
-${whatsappData.mensaje}
+    MENSAJE:
+    ${whatsappData.mensaje}
 
----
-_Enviado desde el formulario web_
+    Enviado desde el formulario web
       `.trim();
 
       // Enviar a WhatsApp (abre WhatsApp con el mensaje pre-formateado)
@@ -114,7 +112,7 @@ _Enviado desde el formulario web_
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+    <div className="grid lg:grid-cols-2 gap-12 mx-auto">
       {/* Contact Form */}
       <FadeIn delay={0.3}>
         <div className="bg-stone-50 dark:bg-stone-800 rounded-3xl p-8 md:p-10 border border-stone-200 dark:border-stone-700">
@@ -255,22 +253,14 @@ _Enviado desde el formulario web_
               />
 
               {submitStatus === "success" && (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 text-green-800 dark:text-green-200 text-sm flex items-start gap-2">
-                  <span className="text-lg">✓</span>
-                  <span>
-                    ¡Mensaje enviado con éxito! Se ha enviado el email y se
-                    abrirá WhatsApp para completar el envío.
-                  </span>
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 text-green-800 dark:text-green-200 text-sm">
+                  Mensaje enviado con exito. Se envio el email y se abrira WhatsApp para completar el envio.
                 </div>
               )}
 
               {submitStatus === "error" && (
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-800 dark:text-red-200 text-sm flex items-start gap-2">
-                  <span className="text-lg">✗</span>
-                  <span>
-                    Hubo un error al enviar el mensaje. Por favor intenta
-                    nuevamente o contáctanos directamente por WhatsApp.
-                  </span>
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-800 dark:text-red-200 text-sm">
+                  Hubo un error al enviar el mensaje. Por favor intenta nuevamente o contactanos por WhatsApp.
                 </div>
               )}
 
@@ -301,7 +291,7 @@ _Enviado desde el formulario web_
         {/* WhatsApp y Ubicación - Grid de 2 columnas */}
         <StaggerContainer className="grid md:grid-cols-2 gap-7">
           <Link
-            href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
+            href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20quisiera%20agendar%20una%20cita"
             target="_blank"
             rel="noopener noreferrer"
             className="block group"

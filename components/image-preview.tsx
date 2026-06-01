@@ -11,6 +11,7 @@ interface ImagePreviewProps {
   className?: string
   category: string | string[]
   priority?: boolean
+  showCta?: boolean
 }
 
 export function ImagePreview({ 
@@ -19,7 +20,8 @@ export function ImagePreview({
   alt, 
   className = "", 
   category,
-  priority = false
+  priority = false,
+  showCta = true
 }: ImagePreviewProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [hoverImageLoaded, setHoverImageLoaded] = useState(false)
@@ -29,7 +31,7 @@ export function ImagePreview({
   const hasMultipleCategories = Array.isArray(category) && category.length > 1
 
   // Enlace de WhatsApp para cotización
-  const whatsappLink = "https://wa.me/593983366831?text=Hola%2C%20%C2%BFqu%C3%A9%20tal%3F%0AQuisiera%20cotizar%20este%20look%20de%20maquillaje%20%E2%99%A5%EF%B8%8F"
+  const whatsappLink = "https://wa.me/593983366831?text=Hola%2C%20quisiera%20cotizar%20este%20look%20de%20maquillaje"
 
   return (
     <div
@@ -91,29 +93,30 @@ export function ImagePreview({
       )}
 
       {/* Overlay informativo principal - esquina inferior */}
-      <div className="absolute bottom-4 left-4 right-4 transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200 z-10">
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block backdrop-blur-md bg-black/40 rounded-xl p-4 border border-white/10 shadow-lg hover:bg-black/50 transition-all duration-300 group/link pointer-events-auto"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <h3 className="text-white font-semibold text-base leading-tight mb-1 group-hover/link:text-green-300 transition-colors">
-                Cotizar ahora
-              </h3>
-              <p className="text-white/80 text-sm">
-                Agenda tu cita de maquillaje profesional
-              </p>
+      {showCta ? (
+        <div className="absolute bottom-4 left-4 right-4 transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200 z-10">
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block backdrop-blur-md bg-black/40 rounded-xl p-4 border border-white/10 shadow-lg hover:bg-black/50 transition-all duration-300 group/link pointer-events-auto"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h3 className="text-white font-semibold text-base leading-tight mb-1 group-hover/link:text-green-300 transition-colors">
+                  Cotizar ahora
+                </h3>
+                <p className="text-white/80 text-sm">
+                  Agenda tu cita de maquillaje profesional
+                </p>
+              </div>
+              <div className="ml-3 opacity-70 group-hover:opacity-100 group-hover/link:text-green-400 transition-all duration-300">
+                <FaWhatsapp className="w-5 h-5 text-green-500" />
+              </div>
             </div>
-            {/* Ícono de WhatsApp */}
-            <div className="ml-3 opacity-70 group-hover:opacity-100 group-hover/link:text-green-400 transition-all duration-300">
-              <FaWhatsapp className="w-5 h-5 text-green-500" />
-            </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
+      ) : null}
 
       {/* Hover effect border */}
       <div
