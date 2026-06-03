@@ -13,10 +13,11 @@ const config: Config = {
   theme: {
   	extend: {
       fontFamily: {
-				inter: ['var(--font-inter)'],
+				geist: ['var(--font-geist-sans)'],
 				playfair: ['var(--font-playfair)'],
 				serif: ['var(--font-playfair)'],
-				sans: ['var(--font-inter)'],
+				sans: ['var(--font-geist-sans)'],
+				script: ['var(--font-caveat)'],
       },
   		colors: {
   			background: 'hsl(var(--background))',
