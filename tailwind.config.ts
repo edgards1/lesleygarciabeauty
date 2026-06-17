@@ -13,10 +13,10 @@ const config: Config = {
   theme: {
   	extend: {
       fontFamily: {
-        jost: ['var(--font-jost)'],
-        cormorant: ['var(--font-cormorant)'],
-        serif: ['var(--font-cormorant)'],
-        sans: ['var(--font-jost)'],
+        bodoni: ['var(--font-playfair)'],
+        inter: ['var(--font-inter)'],
+        serif: ['var(--font-playfair)'],
+        sans: ['var(--font-inter)'],
       },
   		colors: {
   			background: 'hsl(var(--background))',

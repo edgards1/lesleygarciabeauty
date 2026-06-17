@@ -1,15 +1,28 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Jost, Cormorant_Garamond } from "next/font/google";
+import { Playfair_Display, Inter, Caveat } from "next/font/google";
 // @ts-ignore: allow importing global CSS without module declarations
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const playfairDisplay = Playfair_Display({
+  weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-bodoni",
+  display: "swap",
+  style: ["normal", "italic"],
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${jost.variable} ${cormorant.variable} font-sans antialiased`}
+        className={`${playfairDisplay.variable} ${caveat.variable} ${inter.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

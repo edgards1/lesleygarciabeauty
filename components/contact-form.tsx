@@ -22,9 +22,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaWhatsapp, FaEnvelope, FaArrowRight } from "react-icons/fa";
 import { CiMail, CiLocationOn } from "react-icons/ci";
-import { FiPhoneCall } from "react-icons/fi";
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerContainer } from "@/components/animations/stagger-container";
 import { contactFormSchema } from "@/lib/validations/contact.validation";
@@ -45,7 +44,7 @@ export function ContactForm() {
       service: "",
       message: "",
     },
-    mode: "onBlur", // Valida cuando el usuario sale del campo
+    mode: "onBlur",
   });
 
   const onSubmit = async (data: ContactFormInput) => {
@@ -53,7 +52,6 @@ export function ContactForm() {
     setSubmitStatus("idle");
 
     try {
-      // Enviar email mediante API
       const emailResponse = await fetch("/api/send-email", {
         method: "POST",
         headers: {
@@ -68,7 +66,6 @@ export function ContactForm() {
         throw new Error(result.error || "Error al enviar el email");
       }
 
-      // Preparar datos para WhatsApp
       const whatsappData = {
         nombre: data.name,
         email: data.email,
@@ -77,28 +74,25 @@ export function ContactForm() {
         mensaje: data.message,
       };
 
-      // Formatear mensaje para WhatsApp
       const whatsappMessage = `
-🌟 *NUEVA CONSULTA DE CLIENTE* 🌟
+*NUEVA CONSULTA DE CLIENTE*
 
-📋 *NOMBRE CLIENTE:* ${whatsappData.nombre}
-📧 *EMAIL:* ${whatsappData.email}
-📱 *TELÉFONO:* ${whatsappData.telefono}
-💄 *SERVICIO INTERÉS:* ${whatsappData.servicio}
+*NOMBRE CLIENTE:* ${whatsappData.nombre}
+*EMAIL:* ${whatsappData.email}
+*TELÉFONO:* ${whatsappData.telefono}
+*SERVICIO INTERÉS:* ${whatsappData.servicio}
 
-💬 *MENSAJE:*
+*MENSAJE:*
 ${whatsappData.mensaje}
 
 ---
 _Enviado desde el formulario web_
       `.trim();
 
-      // Enviar a WhatsApp (abre WhatsApp con el mensaje pre-formateado)
       const whatsappNumber =
         process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "593983366831";
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(whatsappMessage)}`;
 
-      // Abrir WhatsApp en una nueva pestaña
       window.open(whatsappUrl, "_blank");
 
       setSubmitStatus("success");
@@ -114,37 +108,40 @@ _Enviado desde el formulario web_
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+    <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-16 max-w-6xl mx-auto">
       {/* Contact Form */}
       <FadeIn delay={0.3}>
-        <div className="bg-stone-50 dark:bg-stone-800 rounded-3xl p-8 md:p-10 border border-stone-200 dark:border-stone-700">
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-stone-900 dark:text-stone-100 mb-2">
+        <div className="bg-stone-50 dark:bg-stone-800/50 rounded-3xl p-8 md:p-10 border border-stone-200/60 dark:border-stone-700/60">
+          <div className="mb-10">
+            <h3 className="text-2xl font-serif text-stone-900 dark:text-stone-100 mb-3">
               Envíame un mensaje
             </h3>
-            <p className="text-stone-600 dark:text-stone-400">
-              Completa el formulario y te responderé a la brevedad
+            <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+              Completa el formulario y te responderé en menos de 24 horas
             </p>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-5"
+            >
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-stone-900 dark:text-stone-100">
-                      Nombre completo *
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                      Nombre completo
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Tu nombre completo"
                         {...field}
-                        className="bg-white dark:bg-stone-900 border-stone-300 dark:border-stone-600 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl"
+                        className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs text-red-600 dark:text-red-400" />
+                    <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
                   </FormItem>
                 )}
               />
@@ -155,18 +152,18 @@ _Enviado desde el formulario web_
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-stone-900 dark:text-stone-100">
-                        Email *
+                      <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                        Email
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="tu@email.com"
                           {...field}
-                          className="bg-white dark:bg-stone-900 border-stone-300 dark:border-stone-600 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl"
+                          className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
                         />
                       </FormControl>
-                      <FormMessage className="text-xs text-red-600 dark:text-red-400" />
+                      <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
                     </FormItem>
                   )}
                 />
@@ -176,7 +173,7 @@ _Enviado desde el formulario web_
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-stone-900 dark:text-stone-100">
+                      <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
                         Teléfono
                       </FormLabel>
                       <FormControl>
@@ -184,10 +181,10 @@ _Enviado desde el formulario web_
                           type="tel"
                           placeholder="+593 999 999 999"
                           {...field}
-                          className="bg-white dark:bg-stone-900 border-stone-300 dark:border-stone-600 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl"
+                          className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
                         />
                       </FormControl>
-                      <FormMessage className="text-xs text-red-600 dark:text-red-400" />
+                      <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
                     </FormItem>
                   )}
                 />
@@ -198,37 +195,40 @@ _Enviado desde el formulario web_
                 name="service"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-stone-900 dark:text-stone-100">
-                      Servicio de interés *
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                      Servicio de interés
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-white dark:bg-stone-900 border-stone-300 dark:border-stone-600 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl">
+                        <SelectTrigger className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
                           <SelectValue placeholder="Selecciona un servicio" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Maquillaje de Novia">
+                      <SelectContent className="rounded-xl border-stone-200 dark:border-stone-700">
+                        <SelectItem value="Maquillaje de Novia" className="text-sm">
                           Maquillaje de Novia
                         </SelectItem>
-                        <SelectItem value="Eventos Especiales">
+                        <SelectItem value="Eventos Especiales" className="text-sm">
                           Eventos Especiales
                         </SelectItem>
-                        <SelectItem value="Editorial y Moda">
+                        <SelectItem value="Editorial y Moda" className="text-sm">
                           Editorial y Moda
                         </SelectItem>
-                        <SelectItem value="Clases de AutoMaquillaje">
+                        <SelectItem value="Clases de AutoMaquillaje" className="text-sm">
                           Clases de Automaquillaje
                         </SelectItem>
-                        <SelectItem value="Otro servicio">
+                        <SelectItem value="UGC Creator" className="text-sm">
+                          UGC Creator
+                        </SelectItem>
+                        <SelectItem value="Otro servicio" className="text-sm">
                           Otro servicio
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage className="text-xs text-red-600 dark:text-red-400" />
+                    <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
                   </FormItem>
                 )}
               />
@@ -238,38 +238,36 @@ _Enviado desde el formulario web_
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-stone-900 dark:text-stone-100">
-                      Mensaje *
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                      Cuéntame sobre tu evento
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Cuéntame sobre tu evento o necesidades..."
-                        rows={5}
+                        placeholder="Fecha del evento, tipo de look que buscas, inspiración..."
+                        rows={4}
                         {...field}
-                        className="bg-white dark:bg-stone-900 border-stone-300 dark:border-stone-600 focus:border-stone-900 dark:focus:border-stone-100 rounded-xl resize-none"
+                        className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 rounded-xl resize-none text-sm transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.05)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs text-red-600 dark:text-red-400" />
+                    <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
                   </FormItem>
                 )}
               />
 
               {submitStatus === "success" && (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 text-green-800 dark:text-green-200 text-sm flex items-start gap-2">
-                  <span className="text-lg">✓</span>
+                <div className="bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-xl p-4 text-sm flex items-center gap-3">
+                  <span className="text-lg">&#10003;</span>
                   <span>
-                    ¡Mensaje enviado con éxito! Se ha enviado el email y se
-                    abrirá WhatsApp para completar el envío.
+                    Mensaje enviado. Se abrirá WhatsApp para completar el envío.
                   </span>
                 </div>
               )}
 
               {submitStatus === "error" && (
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-800 dark:text-red-200 text-sm flex items-start gap-2">
-                  <span className="text-lg">✗</span>
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-700 dark:text-red-300 text-sm flex items-center gap-3">
+                  <span className="text-lg">&#10007;</span>
                   <span>
-                    Hubo un error al enviar el mensaje. Por favor intenta
-                    nuevamente o contáctanos directamente por WhatsApp.
+                    Error al enviar. Intenta nuevamente o escríbeme por WhatsApp.
                   </span>
                 </div>
               )}
@@ -277,7 +275,7 @@ _Enviado desde el formulario web_
               <Button
                 type="submit"
                 disabled={isSubmitting || !form.formState.isValid}
-                className="w-full bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 h-12 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 h-12 rounded-xl font-medium text-sm transition-all duration-300 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed group mt-2"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -286,8 +284,8 @@ _Enviado desde el formulario web_
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <FaEnvelope className="w-4 h-4" />
                     Enviar Mensaje
+                    <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 )}
               </Button>
@@ -298,81 +296,96 @@ _Enviado desde el formulario web_
 
       {/* Contact Methods */}
       <div className="space-y-5">
-        {/* WhatsApp y Ubicación - Grid de 2 columnas */}
-        <StaggerContainer className="grid md:grid-cols-2 gap-7">
+        <StaggerContainer className="space-y-4">
+          {/* WhatsApp */}
           <Link
             href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
             target="_blank"
             rel="noopener noreferrer"
             className="block group"
           >
-            <div className="bg-stone-50 dark:bg-stone-800 rounded-2xl p-8 hover:bg-white dark:hover:bg-stone-900 border border-transparent hover:border-stone-900 dark:hover:border-stone-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer h-full">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="relative">
-                  <div className="w-20 h-20 bg-white dark:bg-stone-700 rounded-2xl flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 transition-all duration-300 shadow-lg group-hover:shadow-2xl group-hover:rotate-6">
-                    <FaWhatsapp className="w-9 h-9 text-green-500 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse" />
+            <div className="bg-stone-50 dark:bg-stone-800/50 rounded-2xl p-7 hover:bg-white dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+              <div className="flex items-start gap-5">
+                <div className="w-14 h-14 bg-stone-900 dark:bg-stone-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                  <FaWhatsapp className="w-6 h-6 text-white dark:text-stone-900" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-lg text-stone-900 dark:text-stone-100 mb-1">
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-1 text-sm">
                     WhatsApp
                   </h4>
-                  <p className="text-stone-600 dark:text-stone-400 font-medium mb-1">
+                  <p className="text-stone-600 dark:text-stone-400 text-sm mb-2">
                     (+593) 983366831
                   </p>
-                  <p className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-wide">
-                    Lun - Sáb: 9:00 AM - 6:00 PM
-                  </p>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] text-stone-500 dark:text-stone-500 uppercase tracking-wider">
+                      Lun - Sáb: 9:00 AM - 6:00 PM
+                    </span>
+                  </div>
                 </div>
+                <FaArrowRight className="w-4 h-4 text-stone-300 dark:text-stone-600 group-hover:text-stone-900 dark:group-hover:text-stone-100 group-hover:translate-x-1 transition-all duration-300 mt-1 flex-shrink-0" />
               </div>
             </div>
           </Link>
 
-          <div className="group bg-stone-50 dark:bg-stone-800 rounded-2xl p-8 hover:bg-white dark:hover:bg-stone-900 border border-transparent hover:border-stone-900 dark:hover:border-stone-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-20 h-20 bg-white dark:bg-stone-700 rounded-2xl flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 transition-all duration-300 shadow-lg group-hover:shadow-2xl group-hover:rotate-6">
-                <CiLocationOn className="w-9 h-9 text-stone-600 dark:text-stone-400 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
+          {/* Email */}
+          <Link
+            href="mailto:lesleygarciabeauty@gmail.com"
+            className="block group"
+          >
+            <div className="bg-stone-50 dark:bg-stone-800/50 rounded-2xl p-7 hover:bg-white dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+              <div className="flex items-start gap-5">
+                <div className="w-14 h-14 bg-stone-900 dark:bg-stone-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                  <CiMail className="w-6 h-6 text-white dark:text-stone-900" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-1 text-sm">
+                    Email
+                  </h4>
+                  <p className="text-stone-600 dark:text-stone-400 text-sm mb-2 truncate">
+                    lesleygarciabeauty@gmail.com
+                  </p>
+                  <span className="text-[10px] text-stone-500 dark:text-stone-500 uppercase tracking-wider">
+                    Respuesta en 24 horas
+                  </span>
+                </div>
+                <FaArrowRight className="w-4 h-4 text-stone-300 dark:text-stone-600 group-hover:text-stone-900 dark:group-hover:text-stone-100 group-hover:translate-x-1 transition-all duration-300 mt-1 flex-shrink-0" />
               </div>
-              <div>
-                <h4 className="font-bold text-lg text-stone-900 dark:text-stone-100 mb-1">
+            </div>
+          </Link>
+
+          {/* Ubicación */}
+          <div className="bg-stone-50 dark:bg-stone-800/50 rounded-2xl p-7">
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 bg-stone-900 dark:bg-stone-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <CiLocationOn className="w-6 h-6 text-white dark:text-stone-900" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-semibold text-stone-900 dark:text-stone-100 mb-1 text-sm">
                   Ubicación
                 </h4>
-                <p className="text-stone-600 dark:text-stone-400 font-medium mb-1">
-                  Guayaquil - Ecuador
+                <p className="text-stone-600 dark:text-stone-400 text-sm mb-2">
+                  Guayaquil, Ecuador
                 </p>
-                <p className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-wide">
+                <span className="text-[10px] text-stone-500 dark:text-stone-500 uppercase tracking-wider">
                   Servicio a domicilio disponible
-                </p>
+                </span>
               </div>
             </div>
           </div>
         </StaggerContainer>
 
-        {/* Email - Ancho completo independiente */}
-        <Link
-          href="mailto:lesleygarciabeauty@gmail.com"
-          className="block group"
-        >
-          <div className="bg-stone-50 dark:bg-stone-800 rounded-2xl p-8 hover:bg-white dark:hover:bg-stone-900 border border-transparent hover:border-stone-900 dark:hover:border-stone-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-20 h-20 bg-white dark:bg-stone-700 rounded-2xl flex items-center justify-center group-hover:bg-stone-900 dark:group-hover:bg-stone-100 transition-all duration-300 shadow-lg group-hover:shadow-2xl group-hover:rotate-6">
-                <CiMail className="w-9 h-9 text-stone-600 dark:text-stone-400 group-hover:text-white dark:group-hover:text-stone-900 transition-colors duration-300" />
-              </div>
-              <div>
-                <h4 className="font-bold text-lg text-stone-900 dark:text-stone-100 mb-1">
-                  Email
-                </h4>
-                <p className="text-stone-600 dark:text-stone-400 font-medium mb-1 text-sm break-all">
-                  lesleygarciabeauty@gmail.com
-                </p>
-                <p className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-wide">
-                  Respuesta en 24 horas
-                </p>
-              </div>
-            </div>
+        {/* Disponibility note */}
+        <FadeIn delay={0.5}>
+          <div className="bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-2xl p-7 text-center">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-white/50 dark:text-stone-500 mb-3 font-medium">
+              Disponibilidad
+            </p>
+            <p className="text-sm font-medium leading-relaxed">
+              Temporada de bodas 2026 — Reserva con anticipación
+            </p>
           </div>
-        </Link>
+        </FadeIn>
       </div>
     </div>
   );
