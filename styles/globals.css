@@ -249,14 +249,24 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
-  /* Ticker / marquee animation */
+  /* Ticker / marquee animation — seamless infinite loop */
   @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+
+  .animate-ticker {
+    animation: ticker 25s linear infinite;
+  }
+
+  /* UGC gallery auto-scroll */
+  @keyframes ugc-marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 
-  .animate-ticker {
-    animation: ticker 30s linear infinite;
+  .animate-ugc-marquee {
+    animation: ugc-marquee 40s linear infinite;
   }
 
   /* Desktop nav active underline */
@@ -268,5 +278,25 @@
     right: 0;
     height: 1px;
     background: currentColor;
+  }
+
+  /* Uniform filtered grid — 4 columns, same height */
+  .portfolio-filtered-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 1023px) {
+    .portfolio-filtered-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .portfolio-filtered-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
   }
 }

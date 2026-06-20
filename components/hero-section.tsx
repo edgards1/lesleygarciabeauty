@@ -34,32 +34,10 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden bg-white"
+      className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]"
     >
-      {/* Top announcement ticker */}
-      <div className="relative z-10 border-b border-black/5 bg-white overflow-hidden" style={fade(0.05)}>
-        <div className="animate-ticker flex whitespace-nowrap py-2">
-          <span className="flex items-center gap-6 pr-6 text-[9px] font-medium uppercase tracking-[0.35em] text-[#0a0a0a]/50">
-            <span>Reserva tu fecha de novia 2026</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-            <span>Disponible para UGC Creator</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-            <span>Maquillaje Profesional en Guayaquil</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-          </span>
-          <span className="flex items-center gap-6 pr-6 text-[9px] font-medium uppercase tracking-[0.35em] text-[#0a0a0a]/50">
-            <span>Reserva tu fecha de novia 2026</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-            <span>Disponible para UGC Creator</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-            <span>Maquillaje Profesional en Guayaquil</span>
-            <span className="text-[#0a0a0a]/20">&middot;</span>
-          </span>
-        </div>
-      </div>
-
       {/* Hero — full-bleed image with layered shadow + text overlay */}
-      <div className="relative isolate flex min-h-[560px] flex-col justify-center overflow-hidden bg-[#0a0a0a] sm:min-h-[680px] lg:min-h-[820px]">
+      <div className="relative isolate flex h-full flex-col justify-center overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
@@ -79,17 +57,13 @@ export function HeroSection() {
           aria-hidden
           className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/15"
         />
-        {/* <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/55"
-        /> */}
         <div
           aria-hidden
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_55%,transparent_0%,rgba(0,0,0,0.35)_85%)]"
         />
 
         {/* Content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 sm:px-8 sm:py-20 lg:px-12">
+        <div className="container mx-auto relative z-10 items-start sm:px-8 sm:py-20">
           <div className="max-w-2xl">
             {/* Eyebrow */}
             <div className="mb-6 flex items-center gap-3" style={fade(0.15)}>
@@ -137,7 +111,7 @@ export function HeroSection() {
                 onClick={() => smoothScrollTo("contact")}
                 className="group inline-flex h-12 items-center justify-center bg-white px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-[#0a0a0a] transition-all duration-300 hover:bg-transparent hover:ring-1 hover:ring-white hover:text-white"
               >
-                Reservar Consulta
+                Agenda tu Cita
                 <span className="ml-3 inline-block h-px w-5 bg-current transition-all duration-300 group-hover:w-7" />
               </button>
               <button

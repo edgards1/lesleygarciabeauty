@@ -382,7 +382,7 @@ _Enviado desde el formulario web_
               Disponibilidad
             </p>
             <p className="text-sm font-medium leading-relaxed">
-              Temporada de bodas 2026 — Reserva con anticipación
+              Temporada de bodas 2026 — Agenda con anticipación
             </p>
           </div>
         </FadeIn>
