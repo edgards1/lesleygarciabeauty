@@ -4,6 +4,7 @@ import { Playfair_Display, Inter, Caveat } from "next/font/google";
 // @ts-ignore: allow importing global CSS without module declarations
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const playfairDisplay = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange={false}
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

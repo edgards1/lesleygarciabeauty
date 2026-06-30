@@ -102,7 +102,7 @@ export default function PoliticasPage() {
       </header>
 
       {/* Hero */}
-      <section className="bg-stone-50 py-6 sm:py-12 lg:py-24">
+      <section className="bg-stone-50 py-6 sm:py-6 lg:py-6">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
             <div className="mb-6 flex items-center gap-4">
@@ -150,7 +150,7 @@ export default function PoliticasPage() {
       </div>
 
       {/* Content */}
-      <main className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+      <main className="mx-auto max-w-[1400px] px-5 py-8 sm:px-8 sm:py-8 lg:px-12 lg:py-3 mb-8">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_280px] lg:gap-20">
           {/* Main content */}
           <div className="space-y-20">

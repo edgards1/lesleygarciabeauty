@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,7 +18,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerContainer } from "@/components/animations/stagger-container";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
-import aboutPhoto from "@/public/img/ebano_1.jpg";
+import aboutPhoto from "@/public/img/portada.png";
 
 export default function MakeupArtistPortfolio() {
   const { scrollToSection } = useSmoothScroll();
@@ -93,14 +94,14 @@ export default function MakeupArtistPortfolio() {
         id="about"
         className="relative min-h-screen overflow-hidden bg-white dark:bg-stone-900 transition-colors flex items-center"
       >
-        <div className="container mx-auto px-5 sm:px-8 w-full pt-16">
-          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-stretch">
+        <div className="container mx-auto px-5 sm:px-8 w-full py-16">
+          <div className="grid lg:grid-cols-[2fr_1fr] gap-10 lg:gap-16 items-stretch">
             {/* Text column — vertically centered */}
             <FadeIn
               delay={0.15}
               className="flex flex-col justify-center py-16 sm:py-20 lg:py-0"
             >
-              <div className="space-y-7 max-w-xl">
+              <div className="space-y-7 max-w-3xl">
                 <div className="flex items-center gap-4">
                   <div className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
                   <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
@@ -121,9 +122,6 @@ export default function MakeupArtistPortfolio() {
                   dedicada a crear looks que realzan la belleza natural de cada
                   mujer. Ofrezco maquillaje para bodas, quinceañeras y eventos
                   especiales con un acabado impecable y de larga duración.
-                  Además, imparto cursos personalizados para quienes desean
-                  aprender o perfeccionar técnicas profesionales de maquillaje
-                  con un enfoque inclusivo y adaptado a cada tipo de piel.
                 </p>
                 <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 font-normal leading-relaxed">
                   Además, imparto cursos personalizados para quienes desean
@@ -189,153 +187,236 @@ export default function MakeupArtistPortfolio() {
       {/* Services Section */}
       <section
         id="services"
-        className="py-24 sm:py-32 bg-white dark:bg-stone-900 transition-colors"
+        className="relative z-10 bg-white dark:bg-stone-900 transition-colors"
       >
-        <div className="container mx-auto px-5 sm:px-8">
-          {/* Header — matches About section pattern */}
-          <FadeIn className="mb-16 sm:mb-20">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
-                Servicios
-              </span>
-            </div>
-            <h2 className="font-serif text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100 max-w-lg">
-              Lo que hago
-              <span className="text-stone-300 dark:text-stone-600">.</span>
-            </h2>
-            <p className="mt-6 max-w-md text-base leading-[1.6] text-stone-500 dark:text-stone-400">
-              Maquillaje profesional y contenido UGC para novias y marcas de
-              belleza.
-            </p>
-          </FadeIn>
-
-          {/* Service cards — uniform 2×2 grid */}
-          <StaggerContainer className="grid sm:grid-cols-2 gap-5 mb-20">
-            {/* Novia */}
-            <div className="group p-7 sm:p-8 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg transition-all duration-300 hover:border-stone-300 dark:hover:border-stone-600 cursor-pointer">
-              <h3 className="text-xl sm:text-2xl font-serif text-stone-900 dark:text-stone-100 mb-3 leading-tight">
-                Maquillaje de novia
-              </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 leading-[1.6] mb-6">
-                Look completo con sesión de prueba y aplicación el día de la
-                boda. Técnicas adaptadas a tu estilo.
-              </p>
-              <div className="flex items-center gap-3 text-xs text-stone-400 dark:text-stone-500 mb-6">
-                <span>Desde $250</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>3–4 horas</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>Incluye prueba</span>
+        {/* Novia — editorial block */}
+        <div className="py-20 sm:py-28 bg-stone-900 dark:bg-stone-950">
+          <div className="container mx-auto px-5 sm:px-8">
+            <FadeIn>
+              <div className="flex items-center gap-4 mb-3">
+                <div className="h-px w-8 bg-stone-600" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
+                  Para novias
+                </span>
               </div>
+            </FadeIn>
+            <div className="grid lg:grid-cols-3 gap-12 lg:gap-20 items-center">
+              <FadeIn delay={0.1} className="hidden lg:block">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/img/novia_01.webp"
+                    alt="Maquillaje de novia"
+                    fill
+                    sizes="50vw"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.2}>
+                <div>
+                  <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-800 select-none block mb-4">
+                    01
+                  </span>
+                  <h2 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-100 mb-4">
+                    Maquillaje
+                    <br />
+                    <span className="italic text-stone-500">de novia</span>
+                  </h2>
+                  <p className="text-base text-stone-400 leading-[1.7] mb-8 max-w-md">
+                    Una experiencia completa: prueba previa para perfeto el look,
+                    y aplicación el día de tu boda. Mezclamos, probamos y
+                    refinamos hasta que te sientas exactamente como imaginaste.
+                  </p>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20de%20novia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 h-12 bg-white dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-stone-900 transition-all duration-300 hover:bg-stone-100 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
+                  >
+                    Agendar Sesión de Prueba
+                    <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
+                  </a>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+
+        {/* Productos — cada servicio como un bloque editorial */}
+        {/* Social (1ro) — texto a la izquierda, fondo claro */}
+        <div className="py-20 sm:py-28 bg-white dark:bg-stone-900">
+          <div className="container mx-auto px-5 sm:px-8">
+            <FadeIn>
+              <FadeIn className="flex items-center gap-4 mb-3">
+                <div className="h-px w-8 bg-stone-300 dark:bg-stone-600" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
+                  Para eventos
+                </span>
+              </FadeIn>
+            </FadeIn>
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <FadeIn delay={0.1}>
+                <div>
+                  <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-200 dark:text-stone-800 select-none block mb-4">
+                    02
+                  </span>
+                  <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100 mb-4">
+                    Maquillaje Social
+                  </h3>
+                  <p className="text-base text-stone-500 dark:text-stone-400 leading-[1.7] mb-8 max-w-md">
+                    Fiestas, graduaciones, noches especiales. Un look que
+                    destaque en persona y en foto, sin perder naturalidad.
+                  </p>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20social"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 h-12 bg-stone-900 dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-white dark:text-stone-900 transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
+                  >
+                    Reservar Fecha
+                    <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
+                  </a>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.2} className="hidden lg:block">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/img/social_4.webp"
+                    alt="Maquillaje Social"
+                    fill
+                    sizes="50vw"
+                    className="object-cover hover:scale-[1.02] transition-transform duration-500"
+                  />
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+
+        {/* Automaquillaje (2do) — imagen a la izquierda, fondo oscuro como Novia */}
+        <div className="py-20 sm:py-28 bg-stone-900 dark:bg-stone-950">
+          <div className="container mx-auto px-5 sm:px-8">
+            <FadeIn>
+              <FadeIn className="flex items-center gap-4 mb-3">
+                <div className="h-px w-8 bg-stone-600" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
+                  Para ti
+                </span>
+              </FadeIn>
+            </FadeIn>
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <FadeIn delay={0.1} className="hidden lg:block order-last lg:order-first">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/img/ebano_1.webp"
+                    alt="Automaquillaje"
+                    fill
+                    sizes="50vw"
+                    className="object-cover hover:scale-[1.02] transition-transform duration-500"
+                  />
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.2}>
+                <div className="lg:text-right">
+                  <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-800 select-none block mb-4 lg:text-right">
+                    03
+                  </span>
+                  <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-100 mb-4">
+                    Automaquillaje
+                  </h3>
+                  <p className="text-base text-stone-400 leading-[1.7] mb-8 max-w-md lg:ml-auto">
+                    Sesión uno a uno donde aprendes técnicas para tu rostro, tu
+                    estilo y tu presupuesto. Sales con práctica y una rutina
+                    que puedes repetir cada día.
+                  </p>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20curso%20de%20automaquillaje"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 h-12 bg-white dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-stone-900 transition-all duration-300 hover:bg-stone-100 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
+                  >
+                    Agendar Clase
+                    <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
+                  </a>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+
+        {/* UGC (3ro) — texto a la izquierda, fondo claro */}
+        <div className="py-20 sm:py-28 bg-white dark:bg-stone-900">
+          <div className="container mx-auto px-5 sm:px-8">
+            <FadeIn>
+              <FadeIn className="flex items-center gap-4 mb-3">
+                <div className="h-px w-8 bg-stone-300 dark:bg-stone-600" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
+                  Para marcas
+                </span>
+              </FadeIn>
+            </FadeIn>
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <FadeIn delay={0.1}>
+                <div>
+                  <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-200 dark:text-stone-800 select-none block mb-4">
+                    04
+                  </span>
+                  <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100 mb-4">
+                    Contenido UGC
+                  </h3>
+                  <p className="text-base text-stone-500 dark:text-stone-400 leading-[1.7] mb-8 max-w-md">
+                    Filmación, edición y entrega de contenido orgánico listo
+                    para publicar. Sin productor, sin complicaciones — las
+                    marcas lo suben tal cual.
+                  </p>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20UGC"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 h-12 bg-stone-900 dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-white dark:text-stone-900 transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
+                  >
+                    Solicitar Propuesta
+                    <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
+                  </a>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.2} className="hidden lg:block">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/img/social_010.webp"
+                    alt="Contenido UGC"
+                    fill
+                    sizes="50vw"
+                    className="object-cover hover:scale-[1.02] transition-transform duration-500"
+                  />
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="border-t border-stone-200 dark:border-stone-700 py-16">
+          <div className="container mx-auto px-5 sm:px-8">
+            <FadeIn className="text-center">
+              <h3 className="text-2xl sm:text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3 tracking-[-0.02em]">
+                ¿Necesitas algo <span className="italic">fuera de catálogo</span>?
+              </h3>
+              <p className="text-sm text-stone-500 dark:text-stone-400 mb-8 max-w-md mx-auto leading-[1.6]">
+                Cada cliente es única. Cuéntame lo que necesitas y creo un paquete a tu medida.
+              </p>
               <a
-                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20de%20novia"
+                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20necesito%20un%20servicio%20personalizado"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-5 py-3 rounded-md text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 hover:bg-stone-800 dark:hover:bg-stone-200"
+                className="inline-flex items-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg"
               >
-                Agendar Sesión de Prueba
+                Consulta personalizada
                 <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
               </a>
-            </div>
-
-            {/* UGC */}
-            <div className="group p-7 sm:p-8 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg transition-all duration-300 hover:border-stone-300 dark:hover:border-stone-600 cursor-pointer">
-              <h3 className="text-xl sm:text-2xl font-serif text-stone-900 dark:text-stone-100 mb-3 leading-tight">
-                Contenido UGC
-              </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 leading-[1.6] mb-6">
-                Filmación, edición y publicación de contenido orgánico para
-                marcas. Publican tal cual — sin productor extra.
-              </p>
-              <div className="flex items-center gap-3 text-xs text-stone-400 dark:text-stone-500 mb-6">
-                <span>Consultar</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>Entrega 3–5 días</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>3 piezas incluidas</span>
-              </div>
-              <a
-                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20UGC"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-5 py-3 rounded-md text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 hover:bg-stone-800 dark:hover:bg-stone-200"
-              >
-                Solicitar Propuesta
-                <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-              </a>
-            </div>
-
-            {/* Automaquillaje */}
-            <div className="group p-7 sm:p-8 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg transition-all duration-300 hover:border-stone-300 dark:hover:border-stone-600 cursor-pointer">
-              <h3 className="text-xl sm:text-2xl font-serif text-stone-900 dark:text-stone-100 mb-3 leading-tight">
-                Automaquillaje
-              </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 leading-[1.6] mb-6">
-                Sesiones personalizadas uno a uno para que aprendas a
-                maquillarte con confianza.
-              </p>
-              <div className="flex items-center gap-3 text-xs text-stone-400 dark:text-stone-500 mb-6">
-                <span>Desde $120</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>8 sesiones</span>
-              </div>
-              <a
-                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20curso%20de%20automaquillaje"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-5 py-3 rounded-md text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 hover:bg-stone-800 dark:hover:bg-stone-200"
-              >
-                Agendar Clase
-                <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-              </a>
-            </div>
-
-            {/* Social */}
-            <div className="group p-7 sm:p-8 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-lg transition-all duration-300 hover:border-stone-300 dark:hover:border-stone-600 cursor-pointer">
-              <h3 className="text-xl sm:text-2xl font-serif text-stone-900 dark:text-stone-100 mb-3 leading-tight">
-                Maquillaje Social
-              </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 leading-[1.6] mb-6">
-                Eventos, fiestas y ocasiones especiales. Un look que destaque
-                sin perder naturalidad.
-              </p>
-              <div className="flex items-center gap-3 text-xs text-stone-400 dark:text-stone-500 mb-6">
-                <span>Desde $70</span>
-                <span className="w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600" />
-                <span>2–3 horas</span>
-              </div>
-              <a
-                href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20social"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-5 py-3 rounded-md text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 hover:bg-stone-800 dark:hover:bg-stone-200"
-              >
-                Reservar Fecha
-                <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-              </a>
-            </div>
-          </StaggerContainer>
-
-          {/* Bottom CTA — no card wrapper */}
-          <FadeIn className="text-center">
-            <h3 className="text-2xl sm:text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3 tracking-[-0.02em]">
-              ¿Necesitas algo <span className="italic">fuera de catálogo</span>?
-            </h3>
-            <p className="text-sm text-stone-500 dark:text-stone-400 mb-8 max-w-md mx-auto leading-[1.6]">
-              Cada cliente es única. Cuéntame lo que necesitas y creo un paquete
-              a tu medida.
-            </p>
-            <a
-              href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20necesito%20un%20servicio%20personalizado"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-7 py-3.5 rounded-md text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 hover:bg-stone-800 dark:hover:bg-stone-200"
-            >
-              Consulta personalizada
-              <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-            </a>
-          </FadeIn>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -391,32 +472,32 @@ export default function MakeupArtistPortfolio() {
               <div className="flex gap-5 animate-ugc-marquee w-max group-hover:[animation-play-state:paused]">
                 {[
                   {
-                    src: "/img/social_1.jpg",
+                    src: "/img/social_1.webp",
                     brand: "Skincare Brand",
                     type: "Reel",
                   },
                   {
-                    src: "/img/social_2.jpg",
+                    src: "/img/social_2.webp",
                     brand: "Cosmética",
                     type: "Story",
                   },
                   {
-                    src: "/img/social_5.jpg",
+                    src: "/img/social_5.webp",
                     brand: "Belleza Natural",
                     type: "Post",
                   },
                   {
-                    src: "/img/social_8.jpg",
+                    src: "/img/social_8.webp",
                     brand: "Beauty Brand",
                     type: "Reel",
                   },
                   {
-                    src: "/img/social_9.jpg",
+                    src: "/img/social_9.webp",
                     brand: "Skincare Premium",
                     type: "Carrusel",
                   },
                   {
-                    src: "/img/social_10.jpg",
+                    src: "/img/social_10.webp",
                     brand: "Cosmética Profesional",
                     type: "Post",
                   },
@@ -456,32 +537,32 @@ export default function MakeupArtistPortfolio() {
                 {/* Duplicate for seamless loop */}
                 {[
                   {
-                    src: "/img/social_1.jpg",
+                    src: "/img/social_1.webp",
                     brand: "Skincare Brand",
                     type: "Reel",
                   },
                   {
-                    src: "/img/social_2.jpg",
+                    src: "/img/social_2.webp",
                     brand: "Cosmética",
                     type: "Story",
                   },
                   {
-                    src: "/img/social_5.jpg",
+                    src: "/img/social_5.webp",
                     brand: "Belleza Natural",
                     type: "Post",
                   },
                   {
-                    src: "/img/social_8.jpg",
+                    src: "/img/social_8.webp",
                     brand: "Beauty Brand",
                     type: "Reel",
                   },
                   {
-                    src: "/img/social_9.jpg",
+                    src: "/img/social_9.webp",
                     brand: "Skincare Premium",
                     type: "Carrusel",
                   },
                   {
-                    src: "/img/social_10.jpg",
+                    src: "/img/social_10.webp",
                     brand: "Cosmética Profesional",
                     type: "Post",
                   },

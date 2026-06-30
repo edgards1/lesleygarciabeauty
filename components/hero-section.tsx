@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 
 function smoothScrollTo(id: string) {
@@ -106,14 +107,13 @@ export function HeroSection() {
               className="mt-10 flex flex-wrap items-center gap-3"
               style={fade(0.7)}
             >
-              <button
-                type="button"
-                onClick={() => smoothScrollTo("contact")}
+              <Link
+                href="/agendar"
                 className="group inline-flex h-12 items-center justify-center bg-white px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-[#0a0a0a] transition-all duration-300 hover:bg-transparent hover:ring-1 hover:ring-white hover:text-white"
               >
                 Agenda tu Cita
                 <span className="ml-3 inline-block h-px w-5 bg-current transition-all duration-300 group-hover:w-7" />
-              </button>
+              </Link>
               <button
                 type="button"
                 onClick={() => smoothScrollTo("portfolio")}

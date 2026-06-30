@@ -20,48 +20,48 @@ interface PortfolioItem {
 
 const portfolioData: PortfolioItem[] = [
   {
-    src: "/img/novia_01.JPG",
+    src: "/img/novia_01.webp",
     alt: "Maquillaje de Novia",
     category: ["Novias", "Evento Especial"],
     type: "image",
-    hoverImage: "/img/novia_1.JPG",
+    hoverImage: "/img/novia_1.webp",
   },
   {
     src: "/img/video_ebano_1.mov",
     alt: "Maquillaje de piel ebano",
     category: ["Piel Ebano"],
     type: "video",
-    previewImage: "/img/ebano_1.jpg",
+    previewImage: "/img/ebano_1.webp",
     videoSrc: "/img/video_ebano_1.mov",
   },
   {
-    src: "/img/social_10.jpg",
+    src: "/img/social_4.webp",
     alt: "Maquillaje Social",
     category: ["Social", "Evento Especial"],
     type: "image",
-    hoverImage: "/img/social_010.jpg",
+    hoverImage: "/img/social_04.webp",
   },
   {
-    src: "/img/social_7.jpg",
+    src: "/img/novia_02.webp",
     alt: "Maquillaje editorial",
-    category: ["Social", "Piel Ebano"],
+    category: ["Novias"],
     type: "image",
-    hoverImage: "/img/social_6.jpg",
+    hoverImage: "/img/novia_2.webp",
   },
   {
-    src: "/img/video_social_6.MOV",
+    src: "/img/video_novia_glam.MOV",
     alt: "Maquillaje para evento social",
-    category: ["Social"],
+    category: ["Novias"],
     type: "video",
-    previewImage: "/img/social_6.jpg",
-    videoSrc: "/img/video_social_6.MOV",
+    previewImage: "/img/social_6.webp",
+    videoSrc: "/img/video_novia_glam.MOV",
   },
   {
-    src: "/img/social_3.JPG",
+    src: "/img/social_3.webp",
     alt: "Maquillaje Social",
     category: ["Social"],
     type: "image",
-    hoverImage: "/img/social_03.JPG",
+    hoverImage: "/img/social_03.jpg",
   },
 ]
 
@@ -155,7 +155,7 @@ function PortfolioCard({
                     : "(max-width: 640px) 50vw, 25vw"
                 }
                 quality={80}
-                className="absolute inset-0 object-cover transition-all duration-700 ease-out group-hover:scale-105 opacity-0 group-hover:opacity-100"
+                className={`absolute inset-0 object-cover transition-all duration-700 ease-out group-hover:scale-105 opacity-0 group-hover:opacity-100${item.hoverImage === "/img/novia_2.webp" || item.hoverImage === "/img/social_04.webp" ? " group-hover:object-[center_30%]" : ""}`}
               />
             )}
           </>
@@ -370,6 +370,8 @@ export function PortfolioSection() {
           start: "top top",
           end: () => `+=${totalScroll}`,
           pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
           scrub: 1,
           invalidateOnRefresh: true,
         },
@@ -432,11 +434,6 @@ export function PortfolioSection() {
                   </span>
                   <span className="hero-word inline-block italic">solo</span>
                 </h2>
-
-                <p className="text-sm md:text-base text-stone-500 dark:text-stone-400 max-w-lg mx-auto leading-relaxed">
-                  Maquillaje profesional y contenido UGC que eleva marcas y
-                  resalta la belleza natural.
-                </p>
               </div>
             </div>
           </div>
@@ -450,6 +447,7 @@ export function PortfolioSection() {
               {portfolioData.map((item, i) => (
                 <PortfolioCard key={item.src} item={item} index={i} />
               ))}
+              <div className="flex-shrink-0 w-[30vw] md:w-[20vw]" aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -488,11 +486,6 @@ export function PortfolioSection() {
                 </span>
                 <span className="hero-word inline-block italic">solo</span>
               </h2>
-
-              <p className="text-sm md:text-base text-stone-500 dark:text-stone-400 max-w-lg mx-auto leading-relaxed">
-                Maquillaje profesional y contenido UGC que eleva marcas y
-                resalta la belleza natural.
-              </p>
             </div>
           </div>
 

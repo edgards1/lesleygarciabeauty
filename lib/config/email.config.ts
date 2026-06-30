@@ -1,31 +1,32 @@
-import type { EmailConfig } from "@/lib/types/contact.types";
+interface ResendConfig {
+  apiKey: string;
+  fromEmail: string;
+  fromName: string;
+}
 
-export const getEmailConfig = (): EmailConfig => {
-  const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+export const getResendConfig = (): ResendConfig => {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.EMAIL_FROM;
+  const fromName = process.env.EMAIL_FROM_NAME || "Formulario Web - Lesley García Beauty";
 
-  if (!host || !port || !user || !pass) {
+  if (!apiKey) {
     throw new Error(
-      "Faltan variables de entorno SMTP. Verificar archivo .env.local"
+      "Falta la variable RESEND_API_KEY en el archivo .env.local"
     );
   }
 
-  return {
-    host,
-    port: parseInt(port),
-    secure: parseInt(port) === 465,
-    auth: {
-      user,
-      pass,
-    },
-  };
+  if (!fromEmail) {
+    throw new Error(
+      "Falta la variable EMAIL_FROM en el archivo .env.local"
+    );
+  }
+
+  return { apiKey, fromEmail, fromName };
 };
 
 export const getDestinationEmail = (): string => {
   const email = process.env.EMAIL_TO;
-  
+
   if (!email) {
     throw new Error(
       "Falta la variable EMAIL_TO en el archivo .env.local"
