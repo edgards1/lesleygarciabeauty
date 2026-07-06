@@ -17,7 +17,7 @@ export function StepIndicator() {
 
   return (
     <div className="w-full overflow-x-auto scrollbar-hide">
-      <div className="flex items-center gap-0 min-w-max px-1 py-4">
+      <div className="flex items-center justify-center gap-0 min-w-max px-1 py-4">
         {STEPS.map((step, i) => {
           const isActive = currentStep === i
           const isCompleted = currentStep > i

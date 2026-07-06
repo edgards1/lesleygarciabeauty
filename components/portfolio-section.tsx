@@ -91,7 +91,7 @@ function PortfolioCard({
           observer.disconnect()
         }
       },
-      { rootMargin: "400px" }
+      { rootMargin: "200px" }
     )
 
     observer.observe(videoRef.current)
@@ -155,7 +155,7 @@ function PortfolioCard({
                     : "(max-width: 640px) 50vw, 25vw"
                 }
                 quality={80}
-                className={`absolute inset-0 object-cover transition-all duration-700 ease-out group-hover:scale-105 opacity-0 group-hover:opacity-100${item.hoverImage === "/img/novia_2.webp" || item.hoverImage === "/img/social_04.webp" ? " group-hover:object-[center_30%]" : ""}`}
+                className={`absolute inset-0 object-cover transition-opacity duration-700 ease-out group-hover:scale-105 opacity-0 group-hover:opacity-100${item.hoverImage === "/img/novia_2.webp" || item.hoverImage === "/img/social_04.webp" ? " group-hover:object-[center_30%]" : ""}`}
               />
             )}
           </>
@@ -176,7 +176,7 @@ function PortfolioCard({
                 }
                 priority={index < 2}
                 quality={80}
-                className={`absolute inset-0 object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
+                className={`absolute inset-0 object-cover transition-opacity duration-700 ease-out group-hover:scale-105 ${
                   isHovered ? "opacity-0" : "opacity-100"
                 }`}
               />
@@ -207,7 +207,7 @@ function PortfolioCard({
         {/* Play indicator */}
         {item.type === "video" && (
           <div
-            className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+            className={`absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ${
               isHovered ? "opacity-0 scale-90" : "opacity-100 scale-100"
             }`}
           >
@@ -224,7 +224,7 @@ function PortfolioCard({
         )}
 
         {/* Category */}
-        <div className="absolute bottom-4 left-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+        <div className="absolute bottom-4 left-4 z-10 opacity-0 group-hover:opacity-100 transition-[opacity,transform] duration-500 translate-y-2 group-hover:translate-y-0">
           <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[9px] font-medium uppercase tracking-[0.18em] text-white ring-1 ring-white/20">
             {primaryCategory}
           </span>
@@ -293,7 +293,7 @@ function StatCounter({
   return (
     <div
       ref={ref}
-      className={`text-center transition-all duration-700 ease-out ${
+      className={`text-center transition-[opacity,transform] duration-700 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
@@ -313,6 +313,7 @@ export function PortfolioSection() {
   const headingRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const refreshTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   const isFiltered = activeFilter !== "Todos"
 
@@ -323,7 +324,7 @@ export function PortfolioSection() {
     )
   }, [activeFilter])
 
-  // Heading word reveal
+  // Heading word reveal — runs once on mount
   useEffect(() => {
     const el = headingRef.current
     if (!el) return
@@ -349,12 +350,12 @@ export function PortfolioSection() {
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [activeFilter])
+  }, [])
 
-  // GSAP horizontal scroll
+  // GSAP horizontal scroll — desktop only
   useGSAP(
     () => {
-      if (isFiltered || !trackRef.current || !wrapRef.current) return
+      if (isFiltered || !trackRef.current || !wrapRef.current || window.innerWidth < 1024) return
 
       const track = trackRef.current
       const wrap = wrapRef.current
@@ -382,16 +383,57 @@ export function PortfolioSection() {
     { scope: sectionRef, dependencies: [isFiltered] }
   )
 
-  // Refresh on filter change
+  // Debounced ScrollTrigger refresh on filter change
   useEffect(() => {
-    const t = setTimeout(() => ScrollTrigger.refresh(), 300)
-    return () => clearTimeout(t)
+    clearTimeout(refreshTimer.current)
+    refreshTimer.current = setTimeout(() => ScrollTrigger.refresh(), 300)
+    return () => clearTimeout(refreshTimer.current)
   }, [activeFilter])
 
   // Cleanup on unmount
   useEffect(() => {
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+    return () => {
+      clearTimeout(refreshTimer.current)
+      ScrollTrigger.getAll().forEach((t) => t.kill())
+    }
   }, [])
+
+  const heading = (
+    <div
+      ref={headingRef}
+      className="bg-white dark:bg-stone-900 pt-12 pb-8 md:pt-12 md:pb-12"
+    >
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="text-center space-y-5">
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
+            <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500">
+              Portafolio
+            </span>
+            <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-tight">
+            <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
+              Trabajo
+            </span>
+            <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
+              que
+            </span>
+            <span className="hero-word inline-block">habla</span>
+            <br />
+            <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
+              por
+            </span>
+            <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
+              sí
+            </span>
+            <span className="hero-word inline-block italic">solo</span>
+          </h2>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <section
@@ -399,109 +441,37 @@ export function PortfolioSection() {
       id="portfolio"
       className="py-6 md:py-6 bg-white dark:bg-stone-900 transition-colors"
     >
+      {heading}
+
       {/* ---- HORIZONTAL SCROLL VIEW ---- */}
       {!isFiltered && (
-        <div ref={wrapRef} className="overflow-x-clip">
-          {/* Header */}
+        <div ref={wrapRef} className="overflow-x-clip will-change-transform">
           <div
-            ref={headingRef}
-            className="bg-white dark:bg-stone-900 pt-12 pb-8 md:pt-12 md:pb-12"
+            ref={trackRef}
+            className="flex gap-5 md:gap-6 pl-4 md:pl-8 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] pr-8 py-4"
           >
-            <div className="container mx-auto px-4 md:px-8">
-              <div className="text-center space-y-5">
-                <div className="flex items-center justify-center gap-3">
-                  <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-                  <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500">
-                    Portafolio
-                  </span>
-                  <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-                </div>
-
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-tight">
-                  <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
-                    Trabajo
-                  </span>
-                  <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
-                    que
-                  </span>
-                  <span className="hero-word inline-block">habla</span>
-                  <br />
-                  <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
-                    por
-                  </span>
-                  <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
-                    sí
-                  </span>
-                  <span className="hero-word inline-block italic">solo</span>
-                </h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Gallery track */}
-          <div>
-            <div
-              ref={trackRef}
-              className="flex gap-5 md:gap-6 pl-4 md:pl-8 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] pr-8 py-4 will-change-transform"
-            >
-              {portfolioData.map((item, i) => (
-                <PortfolioCard key={item.src} item={item} index={i} />
-              ))}
-              <div className="flex-shrink-0 w-[30vw] md:w-[20vw]" aria-hidden="true" />
-            </div>
+            {portfolioData.map((item, i) => (
+              <PortfolioCard key={item.src} item={item} index={i} />
+            ))}
+            <div className="flex-shrink-0 w-[30vw] md:w-[20vw]" aria-hidden="true" />
           </div>
         </div>
       )}
 
       {/* ---- FILTERED GRID VIEW ---- */}
       {isFiltered && (
-        <>
-          <div className="container mx-auto px-4 md:px-8">
-            <div
-              ref={headingRef}
-              className="text-center space-y-5 mb-16 md:mb-20"
-            >
-              <div className="flex items-center justify-center gap-3">
-                <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-                <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500">
-                  Portafolio
-                </span>
-                <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-              </div>
-
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-tight">
-                <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
-                  Trabajo
-                </span>
-                <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
-                  que
-                </span>
-                <span className="hero-word inline-block">habla</span>
-                <br />
-                <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
-                  por
-                </span>
-                <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5 italic">
-                  sí
-                </span>
-                <span className="hero-word inline-block italic">solo</span>
-              </h2>
-            </div>
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="portfolio-filtered-grid mb-16 md:mb-20">
+            {filteredImages.map((item, i) => (
+              <PortfolioCard
+                key={`${item.src}-${activeFilter}`}
+                item={item}
+                index={i}
+                variant="grid"
+              />
+            ))}
           </div>
-
-          <div className="container mx-auto px-4 md:px-8">
-            <div className="portfolio-filtered-grid mb-16 md:mb-20">
-              {filteredImages.map((item, i) => (
-                <PortfolioCard
-                  key={`${item.src}-${activeFilter}`}
-                  item={item}
-                  index={i}
-                  variant="grid"
-                />
-              ))}
-            </div>
-          </div>
-        </>
+        </div>
       )}
 
       {/* ---- STATS ---- */}

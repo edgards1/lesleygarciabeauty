@@ -30,7 +30,7 @@ class ResendService {
           from: `${config.fromName} <${config.fromEmail}>`,
           to: [destinationEmail],
           replyTo: data.email,
-          subject: `Nueva consulta de ${data.name} - ${data.service}`,
+          subject: `Solicitud de ${data.name} - ${data.service}`,
           html: generateEmailHTML(data),
           text: generateEmailText(data),
         });

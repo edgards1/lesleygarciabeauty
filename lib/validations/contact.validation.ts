@@ -17,25 +17,20 @@ export const contactFormSchema = z.object({
       /^\+?[\d\s\-()]+$/,
       "Formato de teléfono inválido. Usa solo números, espacios, guiones o paréntesis"
     ),
+  company: z
+    .string()
+    .max(200, "El nombre de la empresa no puede exceder 200 caracteres")
+    .optional(),
   service: z
     .string()
-    .min(1, "Debes seleccionar un servicio")
-    .max(100, "El servicio no puede exceder 100 caracteres"),
+    .min(1, "Debes seleccionar un tipo de proyecto"),
+  timeline: z
+    .string()
+    .optional(),
   message: z
     .string()
     .min(10, "El mensaje debe tener al menos 10 caracteres")
     .max(1000, "El mensaje no puede exceder 1000 caracteres"),
-  eventDate: z
-    .date()
-    .optional()
-    .refine(
-      (date) => !date || date >= new Date(new Date().setHours(0, 0, 0, 0)),
-      "La fecha del evento no puede ser en el pasado"
-    ),
-  budget: z.string().optional(),
-  contactPreference: z.enum(["email", "whatsapp", "both"], {
-    errorMap: () => ({ message: "Selecciona una preferencia de contacto" }),
-  }),
   honeypot: z.string().max(0).optional(),
 });
 

@@ -1,5 +1,10 @@
-import { google, type calendar_v3 } from "googleapis";
 import { SLOT_DURATION_MINUTES } from "@/lib/config/booking.config";
+import type { calendar_v3 } from "googleapis";
+
+async function getGoogle() {
+  const mod = await import("googleapis");
+  return mod.google;
+}
 
 interface CalendarConfig {
   serviceAccountEmail: string;
@@ -25,7 +30,8 @@ function getConfig(): CalendarConfig {
   };
 }
 
-function getAuthClient(config: CalendarConfig) {
+async function getAuthClient(config: CalendarConfig) {
+  const google = await getGoogle();
   const auth = new google.auth.JWT({
     email: config.serviceAccountEmail,
     key: config.privateKey,
@@ -34,9 +40,10 @@ function getAuthClient(config: CalendarConfig) {
   return auth;
 }
 
-function getCalendarClient(): calendar_v3.Calendar {
+async function getCalendarClient(): Promise<calendar_v3.Calendar> {
   const config = getConfig();
-  const auth = getAuthClient(config);
+  const auth = await getAuthClient(config);
+  const google = await getGoogle();
   return google.calendar({ version: "v3", auth });
 }
 
@@ -47,7 +54,7 @@ export interface BusySlot {
 
 export async function getBusySlots(date: string): Promise<BusySlot[]> {
   try {
-    const calendar = getCalendarClient();
+    const calendar = await getCalendarClient();
     const config = getConfig();
 
     const timeMin = new Date(`${date}T00:00:00-05:00`);
@@ -80,7 +87,7 @@ export async function createCalendarEvent(params: {
   endTime: string;
 }): Promise<string | null> {
   try {
-    const calendar = getCalendarClient();
+    const calendar = await getCalendarClient();
     const config = getConfig();
 
     const startDateTime = `${params.date}T${params.startTime}:00-05:00`;

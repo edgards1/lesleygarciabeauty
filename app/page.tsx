@@ -200,7 +200,7 @@ export default function MakeupArtistPortfolio() {
                 </span>
               </div>
             </FadeIn>
-            <div className="grid lg:grid-cols-3 gap-12 lg:gap-20 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <FadeIn delay={0.1} className="hidden lg:block">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -224,7 +224,7 @@ export default function MakeupArtistPortfolio() {
                     <span className="italic text-stone-500">de novia</span>
                   </h2>
                   <p className="text-base text-stone-400 leading-[1.7] mb-8 max-w-md">
-                    Una experiencia completa: prueba previa para perfeto el look,
+                    Una experiencia completa: prueba previa para perfecto el look,
                     y aplicación el día de tu boda. Mezclamos, probamos y
                     refinamos hasta que te sientas exactamente como imaginaste.
                   </p>
@@ -717,29 +717,60 @@ export default function MakeupArtistPortfolio() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="py-20 bg-white dark:bg-stone-900 transition-colors relative overflow-hidden"
+        className="py-20 sm:py-28 bg-stone-900 dark:bg-stone-950 transition-colors relative overflow-hidden"
       >
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-stone-100 dark:bg-stone-800 rounded-full blur-3xl opacity-30" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-stone-100 dark:bg-stone-800 rounded-full blur-3xl opacity-30" />
-        </div>
+        <div className="container mx-auto px-5 sm:px-8 relative z-10">
+          <div className="grid lg:grid-cols-[1fr_1.3fr] gap-16 lg:gap-24">
+            {/* Left — Info */}
+            <FadeIn className="flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-px w-8 bg-stone-700" />
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
+                    Contacto
+                  </span>
+                </div>
+                <h2 className="text-5xl md:text-6xl font-serif text-stone-100 leading-tight mb-6">
+                  Trabajemos
+                  <br />
+                  <span className="italic text-stone-600">juntos</span>
+                </h2>
+                <p className="text-base sm:text-lg text-stone-400 leading-relaxed max-w-md">
+                  Cuéntame sobre tu proyecto. Te enviaré una propuesta
+                  personalizada para campañas UGC, producciones y más.
+                </p>
+              </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <FadeIn className="text-center space-y-6 mb-20">
-            <h2 className="text-5xl md:text-6xl font-serif text-stone-900 dark:text-stone-100 leading-tight">
-              Agenda tu Experiencia
-            </h2>
-            <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
-              Estoy aquí para hacer realidad tu visión de belleza. Contáctame
-              para agendar tu cita y comenzar tu transformación.
-            </p>
-          </FadeIn>
+              {/* Contact info compact */}
+              <div className="hidden lg:block mt-16 space-y-0 divide-y divide-stone-800">
+                <div className="py-5 first:pt-0">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium mb-1">
+                    WhatsApp
+                  </p>
+                  <p className="text-stone-300 text-sm">(+593) 983366831</p>
+                </div>
+                <div className="py-5">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium mb-1">
+                    Email
+                  </p>
+                  <p className="text-stone-300 text-sm break-all">
+                    lesleygarciabeauty@gmail.com
+                  </p>
+                </div>
+                <div className="py-5">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium mb-1">
+                    Ubicación
+                  </p>
+                  <p className="text-stone-300 text-sm">Guayaquil, Ecuador</p>
+                </div>
+              </div>
+            </FadeIn>
 
-          {/* FORMULARIO DE CONTACTO */}
-          <FadeIn delay={0.2}>
-            <ContactForm />
-          </FadeIn>
+            {/* Right — Form */}
+            <FadeIn delay={0.2}>
+              <ContactForm />
+            </FadeIn>
+          </div>
         </div>
       </section>
 

@@ -2,11 +2,10 @@ export interface ContactFormData {
   name: string;
   email: string;
   phone: string;
+  company?: string;
   service: string;
+  timeline?: string;
   message: string;
-  eventDate?: Date;
-  budget?: string;
-  contactPreference: "email" | "whatsapp" | "both";
   honeypot?: string;
 }
 
