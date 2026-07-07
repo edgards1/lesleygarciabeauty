@@ -284,12 +284,13 @@
   .portfolio-filtered-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 16px;
   }
 
   @media (max-width: 1023px) {
     .portfolio-filtered-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
   }
 

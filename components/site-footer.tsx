@@ -14,7 +14,7 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-[#0a0a0a] text-white">
-      <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+      <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 xl:px-20">
         {/* Main: brand left, social right */}
         <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
           {/* Brand */}
@@ -26,6 +26,9 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 text-sm text-white/40 leading-relaxed">
               Maquillaje profesional y contenido UGC en Guayaquil.
+            </p>
+            <p className="mt-2 text-xs text-white/25">
+              Guayaquil, Ecuador
             </p>
           </div>
 
@@ -64,7 +67,7 @@ export function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-4 px-5 py-6 sm:flex-row sm:justify-between sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center gap-4 px-5 py-6 sm:flex-row sm:justify-between sm:px-8 lg:px-12 xl:px-20">
           <p className="text-xs text-white/20">
             &copy; {currentYear} Lesley Garcia Beauty. Todos los derechos
             reservados.
