@@ -4,11 +4,16 @@ import {
   createCalendarEvent,
   timeToEndTime,
 } from "@/lib/services/calendar.service";
-import {
-  generateConfirmationHTML,
-  generateConfirmationText,
-} from "@/lib/templates/email/confirmation.template";
+import { uploadReceiptToDrive } from "@/lib/services/drive.service";
 import { BANK_ACCOUNTS } from "@/lib/config/booking.config";
+import {
+  getDb,
+  initModels,
+  Business,
+  Client,
+  Cita,
+  BUSINESS_SLUG,
+} from "@/lib/database/connection";
 
 function getResendClient(): Resend {
   const apiKey = process.env.RESEND_API_KEY;
@@ -22,6 +27,17 @@ const LOCATION_LABELS: Record<string, string> = {
   outOfCity: "Fuera de la ciudad",
 };
 
+function getServiceDuration(serviceCategory: string): string {
+  const durations: Record<string, string> = {
+    novia: "3h",
+    social: "1h",
+    quinceanera: "1h",
+    ugc: "Variable",
+    automaquillaje: "2h",
+  };
+  return durations[serviceCategory] || "1h";
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -31,6 +47,7 @@ export async function POST(request: Request) {
       phone,
       service,
       servicePrice,
+      serviceCategory,
       locationType,
       address,
       reference,
@@ -53,77 +70,75 @@ export async function POST(request: Request) {
       );
     }
 
+    const db = getDb();
+    initModels(db);
+
+    // 1. Asegurar que el negocio existe
+    const [business] = await Business.findOrCreate({
+      where: { slug: BUSINESS_SLUG },
+      defaults: {
+        name: "Lesley García Beauty",
+        slug: BUSINESS_SLUG,
+        timezone: "America/Guayaquil",
+      },
+    });
+
+    // 2. Crear o recuperar cliente
+    const [client] = await Client.findOrCreate({
+      where: { email, businessId: business.id },
+      defaults: { businessId: business.id, name, email, phone },
+    });
+
+    // 3. Actualizar nombre/teléfono si cambiaron
+    if (client.name !== name || client.phone !== phone) {
+      await client.update({ name, phone });
+    }
+
+    // 4. Calcular datos derivados
     const endTime = timeToEndTime(timeSlot);
     const locationLabel = LOCATION_LABELS[locationType ?? "studio"] ?? "En estudio";
     const addressStr = address ? `${address}${reference ? ` (${reference})` : ""}` : "";
+    const category = serviceCategory || "social";
+    const duration = getServiceDuration(category);
 
-    let eventId: string | null = null;
-    try {
-      eventId = await createCalendarEvent({
-        summary: `🎨 ${service} — ${name}`,
-        description: [
-          `Cliente: ${name}`,
-          `Email: ${email}`,
-          `Teléfono: ${phone}`,
-          `Servicio: ${service} ($${servicePrice})`,
-          `Ubicación: ${locationLabel}${addressStr ? ` - ${addressStr}` : ""}`,
-          `Monto pagado: $${amountPaid} (${percentage}%)`,
-          `Código de seguimiento: ${trackingCode}`,
-          ``,
-          `Comprobante adjunto: ${receiptFileName}`,
-        ].join("\n"),
-        date,
-        startTime: timeSlot,
-        endTime,
-      });
-    } catch (calError) {
-      console.error("Error al crear evento en Calendar:", calError);
+    // 5. Subir comprobante a Google Drive
+    let comprobanteArchivo = receiptFileName
+    const driveResult = await uploadReceiptToDrive(
+      business.id,
+      receiptBase64 as string,
+      receiptFileName
+    )
+    if (driveResult) {
+      comprobanteArchivo = driveResult.webViewLink
     }
 
-    // Send confirmation email to client
-    try {
-      const resend = getResendClient();
-      const emailFrom = process.env.EMAIL_FROM;
-      const emailFromName = process.env.EMAIL_FROM_NAME || "Lesley García Beauty";
+    // 6. Persistir la cita en DB
+    const cita = await Cita.create({
+      negocioId: business.id,
+      clienteId: client.id,
+      servicioNombre: service,
+      servicioPrecio: Number(servicePrice),
+      servicioCategoria: category,
+      servicioDuracion: duration,
+      tipoUbicacion: locationType ?? "studio",
+      direccion: address ?? null,
+      referencia: reference ?? null,
+      latitud: null,
+      longitud: null,
+      fecha: date,
+      horaInicio: timeSlot,
+      horaFin: endTime,
+      montoPagado: Number(amountPaid),
+      porcentaje: Number(percentage),
+      codigoSeguimiento: trackingCode,
+      comprobanteArchivo,
+      estado: "pendiente_de_revision",
+      cargaCalendar: false,
+    });
 
-      await resend.emails.send({
-        from: `${emailFromName} <${emailFrom}>`,
-        to: [email],
-        subject: "✅ Reserva confirmada — Lesley García Beauty",
-        html: generateConfirmationHTML({
-          name,
-          email,
-          phone,
-          service,
-          servicePrice,
-          location: locationLabel,
-          address: addressStr,
-          date,
-          timeSlot,
-          amountPaid,
-          percentage,
-          trackingCode,
-        }),
-        text: generateConfirmationText({
-          name,
-          email,
-          phone,
-          service,
-          servicePrice,
-          location: locationLabel,
-          address: addressStr,
-          date,
-          timeSlot,
-          amountPaid,
-          percentage,
-          trackingCode,
-        }),
-      });
-    } catch (emailError) {
-      console.error("Error al enviar email al cliente:", emailError);
-    }
+    // Calendar se crea solo cuando admin aprueba el comprobante
 
-    // Send notification to admin with receipt
+    // 8. Enviar notificación al admin con comprobante
     try {
       const resend = getResendClient();
       const emailFrom = process.env.EMAIL_FROM;
@@ -147,7 +162,9 @@ export async function POST(request: Request) {
           <p><strong>Monto pagado:</strong> $${amountPaid} (${percentage}%)</p>
           <p><strong>Código de seguimiento:</strong> ${trackingCode}</p>
           <p><strong>Bancos:</strong> ${bankList}</p>
-          <p><strong>Evento Calendar ID:</strong> ${eventId ?? "No se pudo crear"}</p>
+          <p><strong>ID Cita:</strong> ${cita.id}</p>
+          <p><strong>Comprobante:</strong> <a href="${comprobanteArchivo}">Ver en Google Drive</a></p>
+          <p><strong>Estado:</strong> Pendiente de revisión</p>
         `;
 
         await resend.emails.send({
@@ -170,8 +187,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      eventId,
-      message: "Reserva confirmada exitosamente",
+      appointmentId: cita.id,
+      estado: "pendiente_de_revision",
+      message: "Reserva registrada — pendiente de revisión de comprobante",
     });
   } catch (error) {
     console.error("Error en confirm booking:", error);

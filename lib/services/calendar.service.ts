@@ -1,54 +1,22 @@
-import { google, type calendar_v3 } from "googleapis";
 import { SLOT_DURATION_MINUTES } from "@/lib/config/booking.config";
-
-interface CalendarConfig {
-  serviceAccountEmail: string;
-  privateKey: string;
-  calendarId: string;
-}
-
-function getConfig(): CalendarConfig {
-  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY;
-  const calendarId = process.env.GOOGLE_CALENDAR_ID;
-
-  if (!serviceAccountEmail || !privateKey || !calendarId) {
-    throw new Error(
-      "Faltan variables de entorno de Google Calendar. Revisa GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY y GOOGLE_CALENDAR_ID"
-    );
-  }
-
-  return {
-    serviceAccountEmail,
-    privateKey: privateKey.replace(/\\n/g, "\n"),
-    calendarId,
-  };
-}
-
-function getAuthClient(config: CalendarConfig) {
-  const auth = new google.auth.JWT({
-    email: config.serviceAccountEmail,
-    key: config.privateKey,
-    scopes: ["https://www.googleapis.com/auth/calendar"],
-  });
-  return auth;
-}
-
-function getCalendarClient(): calendar_v3.Calendar {
-  const config = getConfig();
-  const auth = getAuthClient(config);
-  return google.calendar({ version: "v3", auth });
-}
+import {
+  getCalendarClientForBusiness,
+  getCalendarIdForBusiness,
+} from "@/lib/services/calendar-oauth.service";
 
 export interface BusySlot {
   start: string;
   end: string;
 }
 
-export async function getBusySlots(date: string): Promise<BusySlot[]> {
+export async function getBusySlots(date: string, businessId?: string): Promise<BusySlot[]> {
   try {
-    const calendar = getCalendarClient();
-    const config = getConfig();
+    if (!businessId) return [];
+
+    const calendar = await getCalendarClientForBusiness(businessId);
+    const calendarId = await getCalendarIdForBusiness(businessId);
+
+    if (!calendar || !calendarId) return [];
 
     const timeMin = new Date(`${date}T00:00:00-05:00`);
     const timeMax = new Date(`${date}T23:59:59-05:00`);
@@ -57,11 +25,11 @@ export async function getBusySlots(date: string): Promise<BusySlot[]> {
       requestBody: {
         timeMin: timeMin.toISOString(),
         timeMax: timeMax.toISOString(),
-        items: [{ id: config.calendarId }],
+        items: [{ id: calendarId }],
       },
     });
 
-    const busy = response.data.calendars?.[config.calendarId]?.busy ?? [];
+    const busy = response.data.calendars?.[calendarId]?.busy ?? [];
     return busy.map((b) => ({
       start: b.start ?? "",
       end: b.end ?? "",
@@ -72,36 +40,41 @@ export async function getBusySlots(date: string): Promise<BusySlot[]> {
   }
 }
 
-export async function createCalendarEvent(params: {
-  summary: string;
-  description: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-}): Promise<string | null> {
+export async function createCalendarEvent(
+  params: {
+    summary: string;
+    description: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+  },
+  businessId?: string
+): Promise<string | null> {
   try {
-    const calendar = getCalendarClient();
-    const config = getConfig();
+    if (!businessId) {
+      console.log("Sin OAuth2 conectado — la cita solo se guardó en DB");
+      return null;
+    }
+
+    const calendar = await getCalendarClientForBusiness(businessId);
+    const calendarId = await getCalendarIdForBusiness(businessId);
+
+    if (!calendar || !calendarId) {
+      console.log("Sin OAuth2 conectado — la cita solo se guardó en DB");
+      return null;
+    }
 
     const startDateTime = `${params.date}T${params.startTime}:00-05:00`;
     const endDateTime = `${params.date}T${params.endTime}:00-05:00`;
 
     const response = await calendar.events.insert({
-      calendarId: config.calendarId,
+      calendarId,
       requestBody: {
         summary: params.summary,
         description: params.description,
-        start: {
-          dateTime: startDateTime,
-          timeZone: "America/Guayaquil",
-        },
-        end: {
-          dateTime: endDateTime,
-          timeZone: "America/Guayaquil",
-        },
-        reminders: {
-          useDefault: true,
-        },
+        start: { dateTime: startDateTime, timeZone: "America/Guayaquil" },
+        end: { dateTime: endDateTime, timeZone: "America/Guayaquil" },
+        reminders: { useDefault: true },
       },
     });
 

@@ -200,7 +200,7 @@ export default function MakeupArtistPortfolio() {
                 </span>
               </div>
             </FadeIn>
-            <div className="grid lg:grid-cols-3 gap-12 lg:gap-20 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <FadeIn delay={0.1} className="hidden lg:block">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image

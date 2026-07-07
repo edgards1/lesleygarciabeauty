@@ -10,6 +10,7 @@ const nextConfig = {
     unoptimized: true,
     qualities: [80, 88],
   },
+  serverExternalPackages: ["sequelize", "mysql2"],
 }
 
 export default nextConfig
