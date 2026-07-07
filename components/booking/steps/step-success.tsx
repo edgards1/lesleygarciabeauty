@@ -1,20 +1,25 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useBookingContext } from "@/components/booking/booking-context"
 import { BANK_ACCOUNTS, RESCHEDULE_POLICY } from "@/lib/config/booking.config"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { Button } from "@/components/ui/button"
-import { FaCheckCircle, FaWhatsapp } from "react-icons/fa"
+import { FaWhatsapp } from "react-icons/fa"
+import { FiClock } from "react-icons/fi"
 
 export function StepSuccess() {
   const { personalInfo, service, location, dateTime, payment, reset } = useBookingContext()
   const [submitting, setSubmitting] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const called = useRef(false)
 
   useEffect(() => {
+    if (called.current) return
+    called.current = true
+
     async function confirm() {
       if (!service || !dateTime || !payment) return
       try {
@@ -27,6 +32,7 @@ export function StepSuccess() {
             phone: personalInfo.phone,
             service: service.name,
             servicePrice: service.price,
+            serviceCategory: service.category,
             locationType: location?.type ?? "studio",
             address: location?.address ?? "",
             reference: location?.reference ?? "",
@@ -57,7 +63,7 @@ export function StepSuccess() {
       <div className="max-w-lg mx-auto text-center py-20">
         <div className="w-10 h-10 border-2 border-stone-900 dark:border-stone-100 border-t-transparent rounded-full animate-spin mx-auto mb-6" />
         <p className="text-stone-500 dark:text-stone-400 text-sm">
-          Confirmando tu reserva...
+          Procesando tu reserva...
         </p>
       </div>
     )
@@ -66,14 +72,14 @@ export function StepSuccess() {
   return (
     <div className="max-w-lg mx-auto text-center">
       <div className="mb-8">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-          <FaCheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
+          <FiClock className="w-8 h-8 text-amber-600 dark:text-amber-400" />
         </div>
         <h2 className="text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3">
-          ¡Reserva confirmada!
+          Reserva pendiente de revisión
         </h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          Te hemos enviado un correo con los detalles de tu reserva
+        <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed max-w-sm mx-auto">
+          Recibimos tu solicitud de reserva. Una vez que verifiquemos tu comprobante de pago, te enviaremos un correo de confirmación y un mensaje de WhatsApp con los detalles.
         </p>
       </div>
 
@@ -102,6 +108,20 @@ export function StepSuccess() {
           <Row label="Código" value={payment?.trackingCode ?? ""} />
         </div>
       </div>
+
+      {payment?.trackingCode && (
+        <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 p-4 mb-6">
+          <p className="text-xs text-amber-700 dark:text-amber-400 mb-1 font-medium">
+            Tu código de seguimiento
+          </p>
+          <p className="text-lg font-mono font-bold text-amber-900 dark:text-amber-200 tracking-widest">
+            {payment.trackingCode}
+          </p>
+          <p className="text-[11px] text-amber-600 dark:text-amber-500 mt-1">
+            Guárdalo para consultar el estado de tu reserva
+          </p>
+        </div>
+      )}
 
       {error && (
         <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 p-4 mb-6">

@@ -12,6 +12,7 @@ const nextConfig = {
     deviceSizes: [480, 640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
+  serverExternalPackages: ["sequelize", "mysql2"],
 }
 
 export default nextConfig
