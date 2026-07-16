@@ -65,7 +65,7 @@ export function PoliciesModal({ open, onOpenChange }: PoliciesModalProps) {
               4. Cancelaciones y Reembolsos
             </h3>
             <p>
-              Las cancelaciones deben notificarse con al menos 48 horas de anticipación. Cancelaciones fuera de ese plazo pueden estar sujetas a retención del depósito, según las políticas vigentes del negocio.
+              Las cancelaciones deben notificarse con al menos 48 horas de anticipación. Pueden estar sujetas a retención del depósito, según las políticas vigentes del negocio.
             </p>
           </section>
 
@@ -97,7 +97,7 @@ export function PoliciesModal({ open, onOpenChange }: PoliciesModalProps) {
             </h3>
             <p>
               Para cualquier consulta sobre estas políticas, contáctanos vía WhatsApp al
-              0983366831 o al correo valencia.fiorella_1999@hotmail.com.
+              <strong> 0983366831 </strong> o al correo <strong>valencia.fiorella_1999@hotmail.com</strong>.
             </p>
           </section>
         </div>

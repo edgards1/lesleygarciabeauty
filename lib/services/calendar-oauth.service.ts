@@ -5,13 +5,13 @@ import { encrypt, decrypt } from "@/lib/services/encryption.service"
 const SCOPES = ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/drive.file"]
 
 function getOAuth2Client() {
-  const clientId = process.env.GOOGLE_CLIENT_ID
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+  const clientId = process.env.AUTH_GOOGLE_ID
+  const clientSecret = process.env.AUTH_GOOGLE_SECRET
   const redirectUri = process.env.GOOGLE_REDIRECT_URI || "http://localhost:3000/api/auth/callback/google"
 
   if (!clientId || !clientSecret) {
     throw new Error(
-      "Faltan variables GOOGLE_CLIENT_ID o GOOGLE_CLIENT_SECRET"
+      "Faltan variables AUTH_GOOGLE_ID o AUTH_GOOGLE_SECRET"
     )
   }
 

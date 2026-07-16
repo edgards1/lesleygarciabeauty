@@ -64,6 +64,7 @@ export interface ClientAttributes {
   name: string;
   email: string;
   phone: string;
+  documentId: string;
 }
 
 export interface ClientCreationAttributes extends Optional<ClientAttributes, "id"> {}
@@ -77,6 +78,7 @@ export class Client
   declare name: string;
   declare email: string;
   declare phone: string;
+  declare documentId: string;
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
 }
@@ -200,6 +202,7 @@ export function initModels(db: Sequelize): void {
       name: { type: DataTypes.STRING(255), allowNull: false, field: "nombre" },
       email: { type: DataTypes.STRING(255), allowNull: false },
       phone: { type: DataTypes.STRING(50), allowNull: false, field: "telefono" },
+      documentId: { type: DataTypes.STRING(13), allowNull: false, field: "documento_id" },
     },
     {
       sequelize: db,

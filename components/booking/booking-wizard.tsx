@@ -28,16 +28,13 @@ function WizardContent() {
       {/* Header */}
       <div className="border-b border-stone-200 dark:border-stone-700">
         <div className="container mx-auto px-5 sm:px-8 py-6">
-          <div className="flex items-center justify-between mb-4">
-            <a href="/" className="text-lg font-serif text-stone-900 dark:text-stone-100 tracking-tight">
-              Lesley García
+            <a href="/" className="flex items-center justify-center mb-4">
+              <img
+                src="/icons/Logo_LG.svg"
+                className="h-10 w-auto me-3"
+              />
+              <p className="text-xl font-serif text-stone-900 dark:text-stone-100 tracking-tight">Lesley García</p>
             </a>
-            {currentStep < 5 && (
-              <span className="text-[11px] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider">
-                Paso {currentStep + 1} de 5
-              </span>
-            )}
-          </div>
           {currentStep < 5 && <StepIndicator />}
         </div>
       </div>

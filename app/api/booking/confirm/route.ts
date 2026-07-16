@@ -45,12 +45,15 @@ export async function POST(request: Request) {
       name,
       email,
       phone,
+      documentId,
       service,
       servicePrice,
       serviceCategory,
       locationType,
       address,
       reference,
+      lat,
+      lng,
       date,
       timeSlot,
       amountPaid,
@@ -86,12 +89,12 @@ export async function POST(request: Request) {
     // 2. Crear o recuperar cliente
     const [client] = await Client.findOrCreate({
       where: { email, businessId: business.id },
-      defaults: { businessId: business.id, name, email, phone },
+      defaults: { businessId: business.id, name, email, phone, documentId },
     });
 
-    // 3. Actualizar nombre/teléfono si cambiaron
-    if (client.name !== name || client.phone !== phone) {
-      await client.update({ name, phone });
+    // 3. Actualizar datos si cambiaron
+    if (client.name !== name || client.phone !== phone || client.documentId !== documentId) {
+      await client.update({ name, phone, documentId });
     }
 
     // 4. Calcular datos derivados
@@ -123,8 +126,8 @@ export async function POST(request: Request) {
       tipoUbicacion: locationType ?? "studio",
       direccion: address ?? null,
       referencia: reference ?? null,
-      latitud: null,
-      longitud: null,
+      latitud: lat != null ? Number(lat) : null,
+      longitud: lng != null ? Number(lng) : null,
       fecha: date,
       horaInicio: timeSlot,
       horaFin: endTime,

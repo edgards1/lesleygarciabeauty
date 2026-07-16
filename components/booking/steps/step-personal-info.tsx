@@ -45,11 +45,31 @@ export function StepPersonalInfo() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
+            name="documentId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                  Cédula / RUC
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Ej: 0999201411"
+                    {...field}
+                    className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Nombre completo
+                  Nombre completo / Razón social*
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -90,7 +110,7 @@ export function StepPersonalInfo() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Teléfono
+                  Whatsapp / Teléfono Celular
                 </FormLabel>
                 <FormControl>
                   <Input

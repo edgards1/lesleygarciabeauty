@@ -1,13 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
+import dynamic from "next/dynamic"
 import { useBookingContext } from "@/components/booking/booking-context"
 import type { LocationType } from "@/lib/types/booking.types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { FaArrowLeft, FaArrowRight, FaMapMarkerAlt } from "react-icons/fa"
+import { FaArrowLeft, FaArrowRight, FaMapMarkerAlt, FaSearch, FaSpinner, FaTimes } from "react-icons/fa"
 import { cn } from "@/lib/utils"
+
+const LocationPicker = dynamic(() => import("@/components/ui/location-picker").then((m) => m.LocationPicker), {
+  ssr: false,
+})
+
+interface SearchResult {
+  lat: string
+  lon: string
+  display_name: string
+}
 
 const LOCATION_OPTIONS: { value: LocationType; label: string; desc: string }[] = [
   { value: "studio", label: "En estudio", desc: "Te atenderemos en nuestro espacio" },
@@ -20,15 +31,83 @@ export function StepLocation() {
   const [type, setType] = useState<LocationType>(location?.type ?? "studio")
   const [address, setAddress] = useState(location?.address ?? "")
   const [reference, setReference] = useState(location?.reference ?? "")
+  const [lat, setLat] = useState<number | undefined>(location?.lat)
+  const [lng, setLng] = useState<number | undefined>(location?.lng)
   const [error, setError] = useState<string | null>(null)
+
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [searching, setSearching] = useState(false)
+  const [showResults, setShowResults] = useState(false)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const searchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (location) {
       setType(location.type)
       setAddress(location.address ?? "")
       setReference(location.reference ?? "")
+      setLat(location.lat)
+      setLng(location.lng)
     }
   }, [location])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowResults(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const doSearch = useCallback(async (q: string) => {
+    if (q.trim().length < 3) {
+      setSearchResults([])
+      setShowResults(false)
+      return
+    }
+    setSearching(true)
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=5&addressdetails=1&accept-language=es`,
+        { headers: { "User-Agent": "LesleyGarciaBeauty/1.0" } }
+      )
+      if (res.ok) {
+        const data: SearchResult[] = await res.json()
+        setSearchResults(data)
+        setShowResults(data.length > 0)
+      }
+    } catch {
+      // silent
+    } finally {
+      setSearching(false)
+    }
+  }, [])
+
+  function handleAddressInput(value: string) {
+    setAddress(value)
+    setError(null)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => doSearch(value), 350)
+  }
+
+  async function handleSelectResult(r: SearchResult) {
+    const newLat = parseFloat(r.lat)
+    const newLng = parseFloat(r.lon)
+    setLat(newLat)
+    setLng(newLng)
+    setAddress(r.display_name)
+    setShowResults(false)
+    setError(null)
+  }
+
+  function handlePositionChange(pos: { lat: number; lng: number }, displayName: string) {
+    setLat(pos.lat)
+    setLng(pos.lng)
+    setAddress(displayName)
+    setError(null)
+  }
 
   function handleContinue() {
     if (!service) return
@@ -45,11 +124,11 @@ export function StepLocation() {
     }
 
     if (!address.trim()) {
-      setError("Por favor ingresa la dirección completa")
+      setError("Por favor selecciona la ubicación en el mapa o ingresa la dirección")
       return
     }
 
-    setLocation({ type, address: address.trim(), reference: reference.trim() })
+    setLocation({ type, address: address.trim(), reference: reference.trim(), lat, lng })
     nextStep()
   }
 
@@ -111,26 +190,60 @@ export function StepLocation() {
 
       {(type === "home" || type === "outOfCity") && (
         <div className="space-y-4 mb-8">
-          <p className="text-xs text-stone-400 dark:text-stone-500 flex items-center gap-2">
-            <FaMapMarkerAlt className="w-3 h-3" />
-            Selecciona la ubicación en el mapa o escribe la dirección
-          </p>
-          <div className="w-full h-48 bg-stone-100 dark:bg-stone-800 rounded-xl flex items-center justify-center border border-stone-200 dark:border-stone-700">
-            <p className="text-xs text-stone-400 dark:text-stone-500">
-              Mapa — Requiere API key de Google Maps
-            </p>
-          </div>
-          <div>
-            <Label className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
+          {/* Address field with autocomplete */}
+          <div ref={searchRef} className="relative z-[1]">
+            <Label className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-1.5 block">
               Dirección completa
             </Label>
-            <Input
-              value={address}
-              onChange={(e) => { setAddress(e.target.value); setError(null) }}
-              placeholder="Calle, número, ciudad, sector..."
-              className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 h-12 rounded-xl text-sm mt-1.5"
-            />
+            <div className="relative">
+              <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 pointer-events-none" />
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => handleAddressInput(e.target.value)}
+                onFocus={() => { if (searchResults.length > 0) setShowResults(true) }}
+                placeholder="Busca una dirección o haz clic en el mapa..."
+                className="w-full h-12 pl-10 pr-9 text-sm rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900/80 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-900/10 dark:focus:ring-stone-100/10 focus:border-stone-400 dark:focus:border-stone-500 transition-all"
+              />
+              {searching ? (
+                <FaSpinner className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 animate-spin" />
+              ) : address ? (
+                <button
+                  type="button"
+                  onClick={() => { setAddress(""); setSearchResults([]); setShowResults(false) }}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-300"
+                >
+                  <FaTimes className="w-3 h-3" />
+                </button>
+              ) : null}
+            </div>
+
+            {/* Dropdown */}
+            {showResults && (
+              <ul className="absolute z-[9999] mt-1 w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-xl max-h-60 overflow-y-auto">
+                {searchResults.map((r, i) => (
+                  <li
+                    key={i}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSelectResult(r)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleSelectResult(r) }}
+                    className="px-4 py-3 text-xs text-stone-700 dark:text-stone-300 cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 border-b border-stone-100 dark:border-stone-800 last:border-0 transition-colors"
+                  >
+                    <p className="line-clamp-2">{r.display_name}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+
+          {/* Map */}
+          <LocationPicker
+            position={lat && lng ? { lat, lng } : null}
+            onPositionChange={handlePositionChange}
+          />
+
+          {/* Reference */}
           <div>
             <Label className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
               Referencia

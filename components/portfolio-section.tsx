@@ -731,7 +731,7 @@ export function PortfolioSection() {
       {/* ============================================================ */}
       {/*  STATS                                                        */}
       {/* ============================================================ */}
-      <div className="py-24 md:py-32 border-t border-stone-100 dark:border-stone-800">
+      {/* <div className="py-24 md:py-32 border-t border-stone-100 dark:border-stone-800">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             <StatCounter number="500+" label="Clientes Satisfechas" delay={0} />
@@ -739,7 +739,7 @@ export function PortfolioSection() {
             <StatCounter number="40+" label="Novias Maquilladas" delay={200} />
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   )
 }

@@ -34,7 +34,7 @@ interface BookingContextValue {
 const BookingContext = createContext<BookingContextValue | null>(null)
 
 const initialState = {
-  personalInfo: { name: "", email: "", phone: "" },
+  personalInfo: { name: "", email: "", phone: "", documentId: "" },
   service: null,
   location: null,
   dateTime: null,

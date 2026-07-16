@@ -18,6 +18,14 @@ export const personalInfoSchema = z.object({
       /^\+?[\d\s\-()]+$/,
       "Formato de teléfono inválido. Usa solo números, espacios, guiones o paréntesis"
     ),
+  documentId: z
+    .string()
+    .min(1, "La cédula o RUC es requerida")
+    .max(13, "La cédula o RUC no puede exceder 13 caracteres")
+    .regex(
+      /^\d+$/,
+      "La cédula o RUC debe contener solo números"
+    ),
 });
 
 export const serviceSchema = z.object({

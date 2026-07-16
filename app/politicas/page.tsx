@@ -459,10 +459,7 @@ export default function PoliticasPage() {
                     3. Cancelaciones
                   </h3>
                   <p>
-                    Las cancelaciones deben notificarse con al menos 48 horas de
-                    anticipación. Cancelaciones fuera de ese plazo pueden estar
-                    sujetas a retención del depósito, según las políticas
-                    vigentes del negocio.
+                    Las cancelaciones deben notificarse con al menos 48 horas de anticipación. Pueden estar sujetas a retención del depósito, según las políticas vigentes del negocio.
                   </p>
                 </div>
 

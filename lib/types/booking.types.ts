@@ -2,6 +2,7 @@ export interface PersonalInfo {
   name: string;
   email: string;
   phone: string;
+  documentId: string;
 }
 
 export interface SelectedService {

@@ -604,7 +604,7 @@ export default function MakeupArtistPortfolio() {
           </FadeIn>
 
           {/* Metrics Strip */}
-          <FadeIn delay={0.4}>
+          {/* <FadeIn delay={0.4}>
             <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-12">
               {[
                 { number: "50+", label: "Campañas UGC" },
@@ -622,7 +622,7 @@ export default function MakeupArtistPortfolio() {
                 </div>
               ))}
             </div>
-          </FadeIn>
+          </FadeIn> */}
 
           {/* Brand Logos Strip */}
           <FadeIn delay={0.5}>
