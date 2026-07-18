@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
+import { createPortal } from "react-dom"
 import dynamic from "next/dynamic"
 import { useBookingContext } from "@/components/booking/booking-context"
 import type { LocationType } from "@/lib/types/booking.types"
@@ -38,8 +39,10 @@ export function StepLocation() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [searching, setSearching] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({})
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-  const searchRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dropdownRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
     if (location) {
@@ -53,7 +56,8 @@ export function StepLocation() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      if (dropdownRef.current?.contains(e.target as Node)) return
+      if (inputRef.current && !inputRef.current.parentElement?.contains(e.target as Node)) {
         setShowResults(false)
       }
     }
@@ -85,11 +89,24 @@ export function StepLocation() {
     }
   }, [])
 
+  function updateDropdownPos() {
+    if (inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect()
+      setDropdownStyle({
+        position: "fixed",
+        top: `${rect.bottom + 4}px`,
+        left: `${rect.left}px`,
+        width: `${rect.width}px`,
+        zIndex: 99999,
+      })
+    }
+  }
+
   function handleAddressInput(value: string) {
     setAddress(value)
     setError(null)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => doSearch(value), 350)
+    debounceRef.current = setTimeout(() => { doSearch(value); updateDropdownPos() }, 350)
   }
 
   async function handleSelectResult(r: SearchResult) {
@@ -191,17 +208,18 @@ export function StepLocation() {
       {(type === "home" || type === "outOfCity") && (
         <div className="space-y-4 mb-8">
           {/* Address field with autocomplete */}
-          <div ref={searchRef} className="relative z-[1]">
+          <div>
             <Label className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-1.5 block">
               Dirección completa
             </Label>
             <div className="relative">
               <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 pointer-events-none" />
               <input
+                ref={inputRef}
                 type="text"
                 value={address}
                 onChange={(e) => handleAddressInput(e.target.value)}
-                onFocus={() => { if (searchResults.length > 0) setShowResults(true) }}
+                onFocus={() => { if (searchResults.length > 0) { updateDropdownPos(); setShowResults(true) } }}
                 placeholder="Busca una dirección o haz clic en el mapa..."
                 className="w-full h-12 pl-10 pr-9 text-sm rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900/80 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-900/10 dark:focus:ring-stone-100/10 focus:border-stone-400 dark:focus:border-stone-500 transition-all"
               />
@@ -217,31 +235,39 @@ export function StepLocation() {
                 </button>
               ) : null}
             </div>
-
-            {/* Dropdown */}
-            {showResults && (
-              <ul className="absolute z-[9999] mt-1 w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-xl max-h-60 overflow-y-auto">
-                {searchResults.map((r, i) => (
-                  <li
-                    key={i}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => handleSelectResult(r)}
-                    onKeyDown={(e) => { if (e.key === "Enter") handleSelectResult(r) }}
-                    className="px-4 py-3 text-xs text-stone-700 dark:text-stone-300 cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 border-b border-stone-100 dark:border-stone-800 last:border-0 transition-colors"
-                  >
-                    <p className="line-clamp-2">{r.display_name}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
+
+          {/* Dropdown via portal (above map) */}
+          {showResults && typeof window === "object" && createPortal(
+            <ul ref={dropdownRef} style={dropdownStyle} className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-xl max-h-60 overflow-y-auto">
+              {searchResults.map((r, i) => (
+                <li
+                  key={i}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleSelectResult(r)}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleSelectResult(r) }}
+                  className="px-4 py-3 text-xs text-stone-700 dark:text-stone-300 cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 border-b border-stone-100 dark:border-stone-800 last:border-0 transition-colors"
+                >
+                  <p className="line-clamp-2">{r.display_name}</p>
+                </li>
+              ))}
+            </ul>,
+            document.body
+          )}
 
           {/* Map */}
           <LocationPicker
             position={lat && lng ? { lat, lng } : null}
             onPositionChange={handlePositionChange}
           />
+
+          {/* Coordinates */}
+          {lat && lng && (
+            <p className="text-[11px] text-stone-400 dark:text-stone-500 text-center">
+              Coordenadas: {lat.toFixed(6)}, {lng.toFixed(6)}
+            </p>
+          )}
 
           {/* Reference */}
           <div>
