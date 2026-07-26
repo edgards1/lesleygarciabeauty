@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS servicios (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  negocio_id CHAR(36) NOT NULL,
+  categoria_id CHAR(36) NOT NULL,
+  nombre VARCHAR(255) NOT NULL,
+  descripcion TEXT,
+  precio_total DECIMAL(10,2) NOT NULL,
+  duracion_minutos INT NOT NULL,
+  porcentaje_anticipo INT DEFAULT 50,
+  disponible_domicilio BOOLEAN DEFAULT FALSE,
+  disponible_estudio BOOLEAN DEFAULT TRUE,
+  incluye JSON,
+  activo BOOLEAN DEFAULT TRUE,
+  orden INT DEFAULT 0,
+  redirige_whatsapp BOOLEAN DEFAULT FALSE,
+  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_serv_negocio (negocio_id),
+  INDEX idx_serv_categoria (categoria_id),
+  CONSTRAINT fk_serv_negocio FOREIGN KEY (negocio_id) REFERENCES negocios(id) ON DELETE CASCADE,
+  CONSTRAINT fk_serv_categoria FOREIGN KEY (categoria_id) REFERENCES categorias_servicios(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
