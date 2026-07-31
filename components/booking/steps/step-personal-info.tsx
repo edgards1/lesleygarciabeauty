@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -14,7 +13,15 @@ import {
 } from "@/components/ui/form"
 import { personalInfoSchema, type PersonalInfoInput } from "@/lib/validations/booking.validation"
 import { useBookingContext } from "@/components/booking/booking-context"
+import { StepHeader } from "@/components/booking/step-header"
 import { FaArrowRight } from "react-icons/fa"
+import { toast } from "sonner"
+
+const inputClass =
+  "h-12 w-full rounded-full border border-stone-300 bg-white px-5 font-sans text-sm text-stone-900 transition-all placeholder:text-stone-400/60 hover:border-stone-400 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500/10"
+
+const labelClass =
+  "font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500"
 
 export function StepPersonalInfo() {
   const { personalInfo, setPersonalInfo, nextStep } = useBookingContext()
@@ -30,35 +37,37 @@ export function StepPersonalInfo() {
     nextStep()
   }
 
+  function onInvalid() {
+    const result = personalInfoSchema.safeParse(form.getValues())
+    const first = result.success ? null : result.error.issues[0]
+    toast.error(first?.message ?? "Revisa los campos del formulario")
+  }
+
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3">
-          Tus datos
-        </h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          Para empezar, cuéntanos quién eres
-        </p>
-      </div>
+    <div>
+      <StepHeader
+        index={0}
+        eyebrow="Tus datos"
+        title={
+          <>
+            ¿Quién <span className="font-normal italic text-stone-500">eres</span>?
+          </>
+        }
+        description="Para empezar, cuéntanos quién eres. Solo usaremos tus datos para confirmar tu cita y contactarte."
+      />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-4">
           <FormField
             control={form.control}
             name="documentId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Cédula / RUC
-                </FormLabel>
+                <FormLabel className={labelClass}>Cédula / RUC</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Ej: 0999201411"
-                    {...field}
-                    className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300"
-                  />
+                  <input placeholder="0999201411" {...field} className={inputClass} />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
+                <FormMessage className="mt-1 font-sans text-xs text-stone-500" />
               </FormItem>
             )}
           />
@@ -68,17 +77,11 @@ export function StepPersonalInfo() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Nombre completo / Razón social*
-                </FormLabel>
+                <FormLabel className={labelClass}>Nombre completo / Razón social *</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Tu nombre completo"
-                    {...field}
-                    className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300"
-                  />
+                  <input placeholder="Tu nombre completo" {...field} className={inputClass} />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
+                <FormMessage className="mt-1 font-sans text-xs text-stone-500" />
               </FormItem>
             )}
           />
@@ -88,18 +91,16 @@ export function StepPersonalInfo() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Email
-                </FormLabel>
+                <FormLabel className={labelClass}>Email</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     type="email"
                     placeholder="tu@email.com"
                     {...field}
-                    className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300"
+                    className={inputClass}
                   />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
+                <FormMessage className="mt-1 font-sans text-xs text-stone-500" />
               </FormItem>
             )}
           />
@@ -109,31 +110,35 @@ export function StepPersonalInfo() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400">
-                  Whatsapp / Teléfono Celular
-                </FormLabel>
+                <FormLabel className={labelClass}>WhatsApp / Teléfono celular</FormLabel>
                 <FormControl>
-                  <Input
+                  <input
                     type="tel"
                     placeholder="+593 999 999 999"
                     {...field}
-                    className="bg-white dark:bg-stone-900/80 border-stone-200 dark:border-stone-700 focus:border-stone-900 dark:focus:border-stone-100 h-12 rounded-xl text-sm transition-all duration-300"
+                    className={inputClass}
                   />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500 dark:text-red-400 mt-1" />
+                <FormMessage className="mt-1 font-sans text-xs text-stone-500" />
               </FormItem>
             )}
           />
 
           <Button
             type="submit"
-            className="w-full bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 h-12 rounded-xl font-medium text-sm transition-all duration-300 hover:shadow-lg mt-4 group"
+            className="group mt-4 flex h-12 w-full items-center justify-center rounded-full bg-stone-900 font-sans text-sm font-semibold text-white transition-all duration-500 hover:bg-stone-700 active:scale-[0.98]"
           >
             <span className="flex items-center justify-center gap-2">
               Continuar
-              <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0.5">
+                <FaArrowRight className="h-3 w-3" />
+              </span>
             </span>
           </Button>
+
+          <p className="pt-1 text-center font-sans text-[11px] leading-relaxed text-stone-500/40">
+            Sin spam. Solo te escribimos sobre tu cita.
+          </p>
         </form>
       </Form>
     </div>

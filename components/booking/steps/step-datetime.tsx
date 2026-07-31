@@ -3,33 +3,31 @@
 import { useState, useEffect } from "react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
+import { motion, AnimatePresence, useReducedMotion } from "motion/react"
 import { useBookingContext } from "@/components/booking/booking-context"
+import { StepHeader } from "@/components/booking/step-header"
 import { TIME_SLOTS, WHATSAPP_NUMBER } from "@/lib/config/booking.config"
 import type { CalendarSlot } from "@/lib/types/booking.types"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { FaArrowLeft, FaArrowRight, FaWhatsapp, FaCalendarAlt } from "react-icons/fa"
+import { FaArrowLeft, FaArrowRight, FaWhatsapp } from "react-icons/fa"
+import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+
+const EASE = [0.32, 0.72, 0, 1] as const
 
 export function StepDateTime() {
   const { dateTime, setDateTime, prevStep, nextStep } = useBookingContext()
   const [date, setDate] = useState<Date | undefined>(dateTime?.date)
   const [selectedSlot, setSelectedSlot] = useState<string | null>(dateTime?.timeSlot ?? null)
-  const [calendarOpen, setCalendarOpen] = useState(false)
   const [slots, setSlots] = useState<CalendarSlot[]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const reduce = useReducedMotion()
 
   useEffect(() => {
     if (!date) return
     async function fetchAvailability() {
       setLoading(true)
-      setError(null)
       try {
         const dateStr = format(date as Date, "yyyy-MM-dd")
         const res = await fetch(`/api/calendar/availability?date=${dateStr}`)
@@ -49,7 +47,7 @@ export function StepDateTime() {
 
   function handleContinue() {
     if (!date || !selectedSlot) {
-      setError("Selecciona una fecha y un horario")
+      toast.error("Selecciona una fecha y un horario")
       return
     }
     setDateTime({ date, timeSlot: selectedSlot })
@@ -60,135 +58,161 @@ export function StepDateTime() {
   const allUnavailable = slots.length > 0 && !hasAvailableSlots
 
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3">
-          ¿Cuándo te gustaría?
-        </h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          Selecciona la fecha y el horario disponible
-        </p>
-      </div>
+    <div>
+      <StepHeader
+        index={3}
+        eyebrow="Fecha y hora"
+        title={
+          <>
+            ¿Cuándo te <span className="font-normal italic text-stone-500">gustaría</span>?
+          </>
+        }
+        description="Elige el día en el calendario y luego uno de los horarios disponibles."
+      />
 
-      <div className="space-y-6">
-        {/* Date picker */}
-        <div className="flex flex-col items-center">
-          <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full h-12 rounded-xl text-sm font-normal justify-start text-left border-stone-200 dark:border-stone-700",
-                  !date && "text-stone-400"
-                )}
-              >
-                <FaCalendarAlt className="mr-2 h-4 w-4 shrink-0" />
-                {date
-                  ? format(date, "dd 'de' MMMM 'de' yyyy", { locale: es })
-                  : "Selecciona una fecha"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="center">
+      <div className="grid gap-7 lg:grid-cols-[auto,1fr] lg:gap-10">
+        <div className="mx-auto w-fit lg:mx-0">
+          <div className="rounded-[1.5rem] bg-stone-100 p-1.5 ring-1 ring-stone-200">
+            <div className="rounded-[calc(1.5rem-0.25rem)] bg-white p-4">
               <Calendar
                 mode="single"
+                locale={es}
+                weekStartsOn={1}
                 selected={date}
                 onSelect={(d) => {
                   setDate(d)
                   setSelectedSlot(null)
-                  setCalendarOpen(false)
+                }}
+                classNames={{
+                  day: "relative h-9 w-9 p-0 text-center transition-colors duration-500",
+                  day_button:
+                    "relative z-10 flex h-full w-full items-center justify-center rounded-full font-sans text-sm transition-colors duration-500 focus:outline-none",
+                  weekday:
+                    "text-muted-foreground w-9 font-sans text-[9px] font-bold uppercase tracking-[0.15em]",
+                  selected: "bg-stone-900 text-white hover:bg-stone-900/90 rounded-full",
+                  today: "border border-stone-500 rounded-full",
+                  button_previous:
+                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-1 rounded-full",
+                  button_next:
+                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-1 rounded-full",
                 }}
                 disabled={(d) => {
                   const today = new Date()
                   today.setHours(0, 0, 0, 0)
                   return d < today || d.getDay() === 0
                 }}
-                initialFocus
               />
-            </PopoverContent>
-          </Popover>
+            </div>
+          </div>
         </div>
 
-        {/* Time slots */}
-        {date && (
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-3">
-              Horarios disponibles
-            </p>
-            {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <div className="w-5 h-5 border-2 border-stone-900 dark:border-stone-100 border-t-transparent rounded-full animate-spin" />
-              </div>
-            ) : (
-              <div className="grid grid-cols-3 gap-2">
-                {slots.map((slot) => {
-                  const isSelected = selectedSlot === slot.time
-                  return (
-                    <button
-                      key={slot.time}
-                      type="button"
-                      disabled={!slot.available}
-                      onClick={() => setSelectedSlot(slot.time)}
-                      className={cn(
-                        "h-12 rounded-xl text-sm font-medium transition-all duration-300",
-                        isSelected &&
-                          "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900",
-                        !isSelected &&
-                          slot.available &&
-                          "bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 hover:border-stone-900 dark:hover:border-stone-100 text-stone-700 dark:text-stone-300",
-                        !slot.available &&
-                          "bg-stone-100 dark:bg-stone-800 text-stone-300 dark:text-stone-600 cursor-not-allowed line-through"
-                      )}
-                    >
-                      {slot.time}
-                    </button>
-                  )
-                })}
-              </div>
-            )}
-
-            {allUnavailable && (
-              <div className="mt-6 text-center space-y-3">
-                <p className="text-sm text-stone-500 dark:text-stone-400">
-                  No hay horarios disponibles para esta fecha
+        <div className="min-h-[280px]">
+          <AnimatePresence mode="wait">
+            {date ? (
+              <motion.div
+                key="slots"
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -16, filter: "blur(4px)" }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                <p className="mb-3 font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500">
+                  Horarios disponibles
                 </p>
-                <a
-                  href={`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Hola%2C%20quiero%20consultar%20disponibilidad%20para%20el%20d%C3%ADa%20${date ? format(date, "dd/MM/yyyy") : ""}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 h-11 px-5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-medium transition-all duration-300"
-                >
-                  <FaWhatsapp className="w-4 h-4" />
-                  Consultar por WhatsApp
-                </a>
-              </div>
+
+                {loading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-stone-900 border-t-transparent" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-6">
+                    {slots.map((slot) => {
+                      const isSelected = selectedSlot === slot.time
+                      return (
+                        <button
+                          key={slot.time}
+                          type="button"
+                          disabled={!slot.available}
+                          onClick={() => setSelectedSlot(slot.time)}
+                          className={cn(
+                            "h-12 rounded-full font-sans text-sm font-semibold transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                            isSelected &&
+                              "bg-stone-900 text-white",
+                            !isSelected &&
+                              slot.available &&
+                              "border border-stone-300 bg-white text-stone-900 hover:border-stone-500 hover:text-stone-500",
+                            !slot.available &&
+                              "cursor-not-allowed bg-stone-100 text-stone-500/30 line-through"
+                          )}
+                        >
+                          {slot.time}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {allUnavailable && (
+                  <div className="mt-8 space-y-3 text-center">
+                    <p className="font-sans text-sm text-stone-500/50">
+                      No hay horarios disponibles para esta fecha
+                    </p>
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Hola%2C%20quiero%20consultar%20disponibilidad%20para%20el%20d%C3%ADa%20${date ? format(date, "dd/MM/yyyy") : ""}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#25D366] px-5 font-sans text-sm font-semibold text-white transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#1EBE5D] active:scale-[0.98]"
+                    >
+                      <FaWhatsapp className="h-4 w-4" />
+                      Consultar por WhatsApp
+                    </a>
+                  </div>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="no-date"
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -16, filter: "blur(4px)" }}
+                transition={{ duration: 0.5, ease: EASE }}
+                className="flex h-full min-h-[280px] flex-col items-center justify-center rounded-[1.5rem] border border-dashed border-stone-300 bg-white/60 p-10 text-center"
+              >
+                <p className="font-serif text-xl font-semibold italic text-stone-900">
+                  Elige una fecha
+                </p>
+                <p className="mt-3 max-w-xs font-sans text-sm text-stone-500/60">
+                  Selecciona un día en el calendario para ver los horarios disponibles.
+                </p>
+              </motion.div>
             )}
-          </div>
-        )}
+          </AnimatePresence>
+        </div>
       </div>
 
-      {error && (
-        <p className="text-xs text-red-500 dark:text-red-400 mt-4 text-center">{error}</p>
-      )}
-
-      <div className="flex gap-3 mt-8">
+      <div className="mt-8 flex gap-3">
         <Button
           type="button"
           variant="outline"
           onClick={prevStep}
-          className="flex-1 h-12 rounded-xl text-sm border-stone-200 dark:border-stone-700"
+          className="group h-12 flex-1 rounded-full border-stone-300 bg-transparent font-sans text-sm font-semibold text-stone-900 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-stone-50"
         >
-          <FaArrowLeft className="w-3.5 h-3.5 mr-2" />
-          Atrás
+          <span className="flex items-center justify-center gap-2">
+            <FaArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" />
+            Atrás
+          </span>
         </Button>
         <Button
           type="button"
           onClick={handleContinue}
           disabled={!date || !selectedSlot}
-          className="flex-1 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 h-12 rounded-xl text-sm group disabled:opacity-40"
+          className="group h-12 flex-1 rounded-full bg-stone-900 font-sans text-sm font-semibold text-white transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-stone-700 active:scale-[0.98] disabled:opacity-30"
         >
           <span className="flex items-center justify-center gap-2">
             Continuar
-            <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
+              <FaArrowRight className="h-3 w-3" />
+            </span>
           </span>
         </Button>
       </div>

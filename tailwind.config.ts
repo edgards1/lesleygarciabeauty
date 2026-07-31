@@ -13,10 +13,10 @@ const config: Config = {
   theme: {
   	extend: {
       fontFamily: {
-        bodoni: ['var(--font-playfair)'],
-        inter: ['var(--font-inter)'],
-        serif: ['var(--font-playfair)'],
-        sans: ['var(--font-inter)'],
+        bodoni: ['var(--font-display)', 'var(--font-bodoni)'],
+        inter: ['var(--font-sans)', 'var(--font-inter)'],
+        serif: ['var(--font-display)', 'var(--font-bodoni)'],
+        sans: ['var(--font-sans)', 'var(--font-inter)'],
       },
   		colors: {
   			background: 'hsl(var(--background))',

@@ -1,76 +1,71 @@
+import { QueryTypes } from "sequelize";
 import { getDb, initModels } from "../connection";
-import { ServiceCategory, Service } from "../models/index";
+import { ServiceCategory } from "../models/index";
 
-export interface ServiceWithIncludes {
+export interface ServiceRow {
   id: string;
-  name: string;
+  nombre: string;
   descripcion: string | null;
-  precioTotal: number;
-  duracionMinutos: number;
-  porcentajeAnticipo: number;
-  disponibleDomicilio: boolean;
-  disponibleEstudio: boolean;
-  incluye: string[] | null;
-  activo: boolean;
+  precio_total: number;
+  duracion_minutos: number;
+  porcentaje_anticipo: number;
+  disponible_domicilio: number;
+  disponible_estudio: number;
+  incluye: string | null;
   orden: number;
-  redirigeWhatsapp: boolean;
+  redirige_whatsapp: number;
+  categoria_id: string;
 }
 
-export interface CategoryWithServices {
+export interface CategoryRow {
   id: string;
   nombre: string;
   slug: string;
   orden: number;
-  servicios: ServiceWithIncludes[];
+  servicios: ServiceRow[];
 }
 
 export async function getCategoriesWithServices(
   negocioId: string
-): Promise<CategoryWithServices[]> {
+): Promise<CategoryRow[]> {
   const db = getDb();
   initModels(db);
 
   const categories = await ServiceCategory.findAll({
     where: { negocioId, activo: true },
     order: [["orden", "ASC"]],
-    include: [
-      {
-        model: Service,
-        required: false,
-        separate: true,
-        order: [["orden", "ASC"]],
-      },
-    ],
+    raw: true,
   });
 
-  // Sequelize populates the include via the hasMany association
-  return categories.map((cat) => {
-    const raw = cat.toJSON() as any;
-    return {
-      id: raw.id,
-      nombre: raw.nombre,
-      slug: raw.slug,
-      orden: raw.orden,
-      servicios: (raw.servicios || []).map((s: any) => ({
-        id: s.id,
-        name: s.nombre,
-        descripcion: s.descripcion,
-        precioTotal: parseFloat(s.precio_total),
-        duracionMinutos: s.duracion_minutos,
-        porcentajeAnticipo: s.porcentaje_anticipo,
-        disponibleDomicilio: s.disponible_domicilio,
-        disponibleEstudio: s.disponible_estudio,
-        incluye: s.incluye ?? null,
-        activo: s.activo,
-        orden: s.orden,
-        redirigeWhatsapp: s.redirige_whatsapp,
-      })),
-    };
-  });
+  const services = await db.query<ServiceRow>(
+    `SELECT s.*
+     FROM servicios s
+     JOIN categorias_servicios c ON s.categoria_id = c.id
+     WHERE c.negocio_id = :negocioId
+       AND c.activo = TRUE
+       AND s.activo = TRUE
+     ORDER BY c.orden ASC, s.orden ASC`,
+    {
+      replacements: { negocioId },
+      type: QueryTypes.SELECT,
+    }
+  );
+
+  return categories.map((cat: any) => ({
+    id: cat.id,
+    nombre: cat.nombre,
+    slug: cat.slug,
+    orden: cat.orden,
+    servicios: services.filter((s) => s.categoria_id === cat.id),
+  }));
 }
 
-export async function getServiceById(serviceId: string) {
+export async function getServiceById(serviceId: string): Promise<ServiceRow | null> {
   const db = getDb();
   initModels(db);
-  return Service.findByPk(serviceId, { raw: true });
+  const rows = await db.query<ServiceRow>(
+    `SELECT * FROM servicios WHERE id = :id AND activo = TRUE`,
+    { replacements: { id: serviceId }, type: QueryTypes.SELECT }
+  );
+  return (rows as ServiceRow[])[0] ?? null;
 }

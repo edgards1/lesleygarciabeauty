@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useRef, useEffect, useCallback, type ReactNode } from "react"
 import type {
   PersonalInfo,
   SelectedService,
@@ -13,6 +13,7 @@ import type {
 interface BookingContextValue {
   currentStep: number
   totalSteps: number
+  direction: number
   personalInfo: PersonalInfo
   service: SelectedService | null
   location: ServiceLocation | null
@@ -43,6 +44,7 @@ const initialState = {
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [currentStep, setCurrentStep] = useState(0)
+  const [direction, setDirection] = useState(1)
   const [personalInfo, setPersonalInfoState] = useState<PersonalInfo>(initialState.personalInfo)
   const [service, setServiceState] = useState<SelectedService | null>(initialState.service)
   const [location, setLocationState] = useState<ServiceLocation | null>(initialState.location)
@@ -50,21 +52,31 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const [payment, setPaymentState] = useState<PaymentInfo | null>(initialState.payment)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const currentStepRef = useRef(currentStep)
+  useEffect(() => {
+    currentStepRef.current = currentStep
+  }, [currentStep])
+
   const totalSteps = 6
 
   const nextStep = useCallback(() => {
+    setDirection(1)
     setCurrentStep((s) => Math.min(s + 1, totalSteps - 1))
   }, [totalSteps])
 
   const prevStep = useCallback(() => {
+    setDirection(-1)
     setCurrentStep((s) => Math.max(s - 1, 0))
   }, [])
 
   const goToStep = useCallback((step: number) => {
-    setCurrentStep(Math.max(0, Math.min(step, 5)))
+    const target = Math.max(0, Math.min(step, 5))
+    setDirection(target >= currentStepRef.current ? 1 : -1)
+    setCurrentStep(target)
   }, [])
 
   const reset = useCallback(() => {
+    setDirection(-1)
     setCurrentStep(0)
     setPersonalInfoState(initialState.personalInfo)
     setServiceState(initialState.service)
@@ -79,6 +91,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       value={{
         currentStep,
         totalSteps,
+        direction,
         personalInfo,
         service,
         location,

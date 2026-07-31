@@ -71,10 +71,10 @@ export function Dropzone({
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
       className={cn(
-        "border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300",
+        "cursor-pointer rounded-[1.25rem] border-2 border-dashed p-8 text-center transition-all duration-500",
         dragOver
-          ? "border-stone-900 bg-stone-50 dark:border-stone-100 dark:bg-stone-800"
-          : "border-stone-300 dark:border-stone-600 hover:border-stone-400 dark:hover:border-stone-500",
+          ? "border-stone-500 bg-stone-50"
+          : "border-stone-300 bg-white hover:border-stone-400",
         className
       )}
     >
@@ -87,18 +87,18 @@ export function Dropzone({
       />
       {fileName ? (
         <div className="space-y-1">
-          <p className="text-sm font-medium text-stone-900 dark:text-stone-100">
+          <p className="font-sans text-sm font-semibold text-stone-900">
             {fileName}
           </p>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+          <p className="font-sans text-xs text-stone-500/60">
             Haz clic para cambiar el archivo
           </p>
         </div>
       ) : (
         <div className="space-y-1">
-          <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 dark:bg-stone-800">
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 ring-1 ring-stone-200">
             <svg
-              className="h-5 w-5 text-stone-500 dark:text-stone-400"
+              className="h-5 w-5 text-stone-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -111,14 +111,14 @@ export function Dropzone({
               />
             </svg>
           </div>
-          <p className="text-sm text-stone-600 dark:text-stone-400">{label}</p>
-          <p className="text-xs text-stone-400 dark:text-stone-500">
+          <p className="font-sans text-sm text-stone-900/70">{label}</p>
+          <p className="font-sans text-xs text-stone-500/40">
             PNG, JPG, WEBP — Máx {maxSizeMB}MB
           </p>
         </div>
       )}
       {error && (
-        <p className="mt-2 text-xs text-red-500 dark:text-red-400">{error}</p>
+        <p className="mt-2 font-sans text-xs text-red-500">{error}</p>
       )}
     </div>
   )

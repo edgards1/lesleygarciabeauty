@@ -2,19 +2,24 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { motion, useReducedMotion } from "motion/react"
 import { useBookingContext } from "@/components/booking/booking-context"
-import { BANK_ACCOUNTS, RESCHEDULE_POLICY } from "@/lib/config/booking.config"
+import { RESCHEDULE_POLICY } from "@/lib/config/booking.config"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { Button } from "@/components/ui/button"
 import { FaWhatsapp } from "react-icons/fa"
 import { FiClock } from "react-icons/fi"
+import { toast } from "sonner"
+
+const EASE = [0.32, 0.72, 0, 1] as const
 
 export function StepSuccess() {
   const { personalInfo, service, location, dateTime, payment, reset } = useBookingContext()
   const [submitting, setSubmitting] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const called = useRef(false)
+  const reduce = useReducedMotion()
 
   useEffect(() => {
     if (called.current) return
@@ -53,7 +58,9 @@ export function StepSuccess() {
           throw new Error(data.error ?? "Error al confirmar la reserva")
         }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ocurrió un error. Te contactaremos por WhatsApp.")
+      const msg = err instanceof Error ? err.message : "Ocurrió un error. Te contactaremos por WhatsApp."
+      setError(msg)
+      toast.error(msg)
       } finally {
         setSubmitting(false)
       }
@@ -63,96 +70,133 @@ export function StepSuccess() {
 
   if (submitting) {
     return (
-      <div className="max-w-lg mx-auto text-center py-20">
-        <div className="w-10 h-10 border-2 border-stone-900 dark:border-stone-100 border-t-transparent rounded-full animate-spin mx-auto mb-6" />
-        <p className="text-stone-500 dark:text-stone-400 text-sm">
-          Procesando tu reserva...
-        </p>
+      <div className="mx-auto max-w-lg py-16 text-center">
+        <div className="mx-auto mb-6 h-10 w-10 animate-spin rounded-full border-2 border-stone-500 border-t-transparent" />
+        <p className="font-serif text-xl italic text-stone-900">Procesando tu reserva...</p>
+        <p className="mt-2 font-sans text-xs text-stone-500/50">Un momento, por favor.</p>
       </div>
     )
   }
 
   return (
-    <div className="max-w-lg mx-auto text-center">
-      <div className="mb-8">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
-          <FiClock className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+    <div className="text-center">
+      <motion.div
+        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20, filter: "blur(6px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.8, ease: EASE }}
+        className="mb-7"
+      >
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-stone-200 ring-1 ring-stone-300">
+          <FiClock className="h-6 w-6 text-stone-500" />
         </div>
-        <h2 className="text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3">
-          Reserva pendiente de revisión
+
+        <div className="mb-4 flex items-center justify-center gap-3">
+          <span className="h-px w-10 bg-stone-500" />
+          <span className="font-sans text-[10px] font-bold uppercase tracking-[0.3em] text-stone-500">
+            Reserva recibida
+          </span>
+          <span className="h-px w-10 bg-stone-500" />
+        </div>
+
+        <h2 className="font-serif text-[clamp(2.2rem,5vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-stone-900">
+          Tu cita está en
+          <br />
+          <span className="font-normal italic text-stone-500">buenas manos</span>
         </h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed max-w-sm mx-auto">
-          Recibimos tu solicitud de reserva. Una vez que verifiquemos tu comprobante de pago, te enviaremos un correo de confirmación y un mensaje de WhatsApp con los detalles.
+
+        <p
+          className="mt-3 text-xl text-stone-500/70"
+          style={{ fontFamily: "var(--font-caveat)" }}
+        >
+          gracias por confiar
         </p>
-      </div>
 
-      <div className="rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 p-6 text-left space-y-3 mb-8">
-        <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100 text-center mb-4">
-          Resumen de tu reserva
-        </h3>
-        <div className="space-y-2 text-sm">
-          <Row label="Cliente" value={personalInfo.name} />
-          <Row label="Email" value={personalInfo.email} />
-          <Row label="Teléfono" value={personalInfo.phone} />
-          <Row label="Servicio" value={service?.name ?? ""} />
-          {dateTime && (
-            <Row
-              label="Fecha y hora"
-              value={`${format(dateTime.date, "dd 'de' MMMM 'de' yyyy", { locale: es })} — ${dateTime.timeSlot}`}
-            />
-          )}
-          {location && location.type !== "studio" && location.address && (
-            <Row label="Dirección" value={location.address} />
-          )}
-          <Row
-            label="Total pagado"
-            value={`$${payment?.amount ?? 0} (${payment?.percentage ?? 50}%)`}
-          />
-          <Row label="Código" value={payment?.trackingCode ?? ""} />
-        </div>
-      </div>
+        <p className="mx-auto mt-3 max-w-md font-sans text-sm leading-relaxed text-stone-500/80">
+          Una vez que verifiquemos tu comprobante de pago, te enviaremos un correo de
+          confirmación y un mensaje de WhatsApp con los detalles.
+        </p>
+      </motion.div>
 
-      {payment?.trackingCode && (
-        <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 p-4 mb-6">
-          <p className="text-xs text-amber-700 dark:text-amber-400 mb-1 font-medium">
-            Tu código de seguimiento
+      <motion.div
+        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
+        className="mx-auto mb-5 max-w-lg rounded-[1.5rem] bg-stone-100 p-1.5 ring-1 ring-stone-200"
+      >
+        <div className="rounded-[calc(1.5rem-0.25rem)] bg-white p-5 text-left sm:p-6">
+          <p className="mb-4 text-center font-sans text-[10px] font-bold uppercase tracking-[0.3em] text-stone-500">
+            Resumen de tu reserva
           </p>
-          <p className="text-lg font-mono font-bold text-amber-900 dark:text-amber-200 tracking-widest">
-            {payment.trackingCode}
-          </p>
-          <p className="text-[11px] text-amber-600 dark:text-amber-500 mt-1">
-            Guárdalo para consultar el estado de tu reserva
-          </p>
+          <div className="space-y-3">
+            <Row label="Cliente" value={personalInfo.name} />
+            <Row label="Email" value={personalInfo.email} />
+            <Row label="Teléfono" value={personalInfo.phone} />
+            <Row label="Servicio" value={service?.name ?? ""} />
+            {dateTime && (
+              <Row
+                label="Fecha y hora"
+                value={`${format(dateTime.date, "dd 'de' MMMM 'de' yyyy", { locale: es })} — ${dateTime.timeSlot}`}
+              />
+            )}
+            {location && location.type !== "studio" && location.address && (
+              <Row label="Dirección" value={location.address} />
+            )}
+          </div>
+
+          <div className="my-6 border-t border-dashed border-stone-300" />
+
+          <div className="flex items-baseline justify-between gap-4">
+            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500/60">
+              Total pagado ({payment?.percentage ?? 50}%)
+            </span>
+            <span className="font-serif text-3xl font-semibold leading-none text-stone-900">
+              ${payment?.amount ?? 0}
+            </span>
+          </div>
+
+          {payment?.trackingCode && (
+            <div className="mt-6 rounded-[1rem] bg-stone-100 p-4 text-center ring-1 ring-stone-300">
+              <p className="font-sans text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500">
+                Tu código de seguimiento
+              </p>
+              <p className="mt-1.5 font-mono text-xl font-bold tracking-widest text-stone-900">
+                {payment.trackingCode}
+              </p>
+              <p className="mt-1.5 font-sans text-[11px] text-stone-500/50">
+                Guárdalo para consultar el estado de tu reserva
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </motion.div>
 
       {error && (
-        <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 p-4 mb-6">
-          <p className="text-xs text-amber-700 dark:text-amber-400 mb-2">{error}</p>
+        <div className="mx-auto mb-5 max-w-lg rounded-[1.25rem] border border-stone-300 bg-stone-50 p-4">
+          <p className="mb-2 font-sans text-xs text-stone-500">{error}</p>
           <a
             href={`https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20mi%20c%C3%B3digo%20de%20seguimiento%20es%20${payment?.trackingCode}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-medium text-green-600 dark:text-green-400 underline"
+            className="inline-flex items-center gap-2 font-sans text-xs font-semibold text-[#25D366] underline"
           >
-            <FaWhatsapp className="w-3 h-3" />
+            <FaWhatsapp className="h-3 w-3" />
             Contáctanos por WhatsApp
           </a>
         </div>
       )}
 
-      <div className="rounded-xl bg-stone-100 dark:bg-stone-800 p-4 mb-8">
-        <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+      <div className="mx-auto mb-5 max-w-lg">
+        <p className="font-sans text-[11px] leading-relaxed text-stone-500/50">
           {RESCHEDULE_POLICY}
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      <div className="flex flex-col justify-center gap-3 sm:flex-row">
         <Link href="/">
           <Button
             type="button"
             variant="outline"
-            className="h-12 rounded-xl text-sm border-stone-200 dark:border-stone-700 w-full sm:w-auto px-8"
+            className="h-12 w-full rounded-full border-stone-300 bg-transparent px-8 font-sans text-sm font-semibold text-stone-900 transition-all duration-500 hover:bg-stone-50 sm:w-auto"
           >
             Ir al inicio
           </Button>
@@ -161,7 +205,7 @@ export function StepSuccess() {
           <Button
             type="button"
             onClick={reset}
-            className="h-12 rounded-xl text-sm bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 px-8 w-full sm:w-auto"
+            className="h-12 w-full rounded-full bg-stone-900 px-8 font-sans text-sm font-semibold text-white transition-all duration-500 hover:bg-stone-700 active:scale-[0.98] sm:w-auto"
           >
             Agendar otra cita
           </Button>
@@ -173,11 +217,11 @@ export function StepSuccess() {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-2">
-      <span className="text-stone-500 dark:text-stone-400 text-[11px] uppercase tracking-wider shrink-0">
+    <div className="flex items-baseline justify-between gap-4">
+      <span className="shrink-0 font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500/60">
         {label}
       </span>
-      <span className="text-stone-900 dark:text-stone-100 text-sm font-medium text-right">
+      <span className="text-right font-sans text-[13px] font-semibold text-stone-900">
         {value}
       </span>
     </div>

@@ -1,76 +1,67 @@
 "use client"
 
 import { useBookingContext } from "@/components/booking/booking-context"
-import { cn } from "@/lib/utils"
+import { motion } from "motion/react"
 
-const STEPS = [
-  { num: 1, label: "Datos personales" },
-  { num: 2, label: "Servicio" },
-  { num: 3, label: "Ubicación" },
-  { num: 4, label: "Fecha y hora" },
-  { num: 5, label: "Pago" },
-  { num: 6, label: "Confirmación" },
+export const WIZARD_STEPS = [
+  { id: "personal", label: "Tus datos", sub: "¿Quién eres?" },
+  { id: "service", label: "Servicio", sub: "Elige tu experiencia" },
+  { id: "location", label: "Ubicación", sub: "¿Dónde te atendemos?" },
+  { id: "datetime", label: "Fecha", sub: "¿Cuándo te gustaría?" },
+  { id: "payment", label: "Pago", sub: "Confirma tu reserva" },
 ]
 
 export function StepIndicator() {
   const { currentStep } = useBookingContext()
 
   return (
-    <div className="w-full overflow-x-auto scrollbar-hide">
-      <div className="flex items-center justify-center gap-0 min-w-max px-1 py-4">
-        {STEPS.map((step, i) => {
-          const isActive = currentStep === i
-          const isCompleted = currentStep > i
-          const isLast = i === STEPS.length - 1
+    <nav aria-label="Progreso" className="flex items-center gap-0">
+      {WIZARD_STEPS.map((s, i) => {
+        const isActive = currentStep === i
+        const isDone = currentStep > i
 
-          return (
-            <div key={step.num} className="flex items-center">
-              <div className="flex items-center gap-2">
-                <div
-                  className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-all duration-300",
-                    isActive &&
-                      "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900",
-                    isCompleted &&
-                      "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900",
-                    !isActive &&
-                      !isCompleted &&
-                      "bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500"
-                  )}
-                >
-                  {isCompleted ? (
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : (
-                    step.num
-                  )}
-                </div>
-                <span
-                  className={cn(
-                    "hidden sm:block text-[11px] font-medium uppercase tracking-wider transition-colors duration-300",
-                    isActive && "text-stone-900 dark:text-stone-100",
-                    isCompleted && "text-stone-500 dark:text-stone-400",
-                    !isActive && !isCompleted && "text-stone-300 dark:text-stone-600"
-                  )}
-                >
-                  {step.label}
-                </span>
-              </div>
-              {!isLast && (
-                <div
-                  className={cn(
-                    "mx-3 h-px w-8 sm:w-12 transition-colors duration-300",
-                    isCompleted
-                      ? "bg-stone-900 dark:bg-stone-100"
-                      : "bg-stone-200 dark:bg-stone-700"
-                  )}
-                />
-              )}
+        return (
+          <div key={s.id} className="flex items-center">
+            <div className="flex items-center gap-2.5">
+              <motion.span
+                layout
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold transition-all duration-300 ${
+                  isDone
+                    ? "bg-stone-900 text-white"
+                    : isActive
+                      ? "bg-stone-700 text-white ring-2 ring-stone-400/25 ring-offset-2 ring-offset-white"
+                      : "border border-stone-300 bg-transparent text-stone-500/40"
+                }`}
+              >
+                {isDone ? (
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  i + 1
+                )}
+              </motion.span>
+              <span
+                className={`hidden text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors duration-300 md:block ${
+                  isDone || isActive ? "text-stone-900" : "text-stone-500/30"
+                }`}
+              >
+                {s.label}
+              </span>
             </div>
-          )
-        })}
-      </div>
-    </div>
+            {i < WIZARD_STEPS.length - 1 && (
+              <motion.div
+                className={`mx-3 h-px w-6 transition-colors duration-300 ${
+                  isDone ? "bg-stone-900" : "bg-stone-300"
+                }`}
+                layout
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              />
+            )}
+          </div>
+        )
+      })}
+    </nav>
   )
 }

@@ -17,7 +17,7 @@ interface LocationPickerProps {
 
 const markerIcon = new L.DivIcon({
   className: "",
-  html: `<div style="width:32px;height:32px;background:#1c1917;border:3px solid white;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3);transform:translate(-50%,-50%)"></div>`,
+  html: `<div style="width:32px;height:32px;background:#2D1B13;border:3px solid white;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3);transform:translate(-50%,-50%)"></div>`,
   iconSize: [32, 32],
   iconAnchor: [16, 16],
 })
@@ -27,9 +27,15 @@ function MapController({ position }: { position: Position | null }) {
   const initialized = useRef(false)
 
   useEffect(() => {
-    if (position && !initialized.current) {
+    if (!position) return
+    if (!initialized.current) {
       map.setView([position.lat, position.lng], 16, { animate: true })
       initialized.current = true
+    } else {
+      map.flyTo([position.lat, position.lng], Math.max(map.getZoom(), 15), {
+        animate: true,
+        duration: 0.8,
+      })
     }
   }, [position, map])
 
@@ -117,7 +123,7 @@ function DraggableMarker({
 
 export function LocationPicker({ position, onPositionChange }: LocationPickerProps) {
   return (
-    <div className="w-full h-64 rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700">
+    <div className="w-full h-64">
       <MapContainer
         center={[-2.206, -79.897]}
         zoom={13}
