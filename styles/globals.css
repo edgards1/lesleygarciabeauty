@@ -1,3 +1,6 @@
+/* Switzer (Fontshare) — editorial display family, weights 300/400 */
+@import url('https://api.fontshare.com/v2/css?f[]=switzer@300,400&display=swap');
+
 /* @tailwind directives are valid in Tailwind CSS projects */
 /* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind base;
@@ -16,6 +19,36 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+  /* Outline text — transparent fill with ink stroke (marquee headers on light canvas) */
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.28);
+    color: transparent;
+  }
+  .text-stroke-faint {
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.12);
+    color: transparent;
+  }
+  /* Outline variants for inverted (navy/dark) surfaces */
+  .text-stroke-bone {
+    -webkit-text-stroke: 1px rgba(255, 254, 247, 0.3);
+    color: transparent;
+  }
+  .text-stroke-bone-faint {
+    -webkit-text-stroke: 1px rgba(255, 254, 247, 0.14);
+    color: transparent;
+  }
+  /* Word-level reveal masks (splitWordsToMasks) */
+  .split-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+  .split-word {
+    display: inline-block;
+    will-change: transform;
   }
 }
 
@@ -57,6 +90,7 @@
     --font-playfair: "Playfair Display", "Times New Roman", serif;
     --font-caveat: "Caveat", cursive;
     --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-switzer: "Switzer", "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
   .font-serif {
@@ -269,6 +303,15 @@
     animation: ugc-marquee 40s linear infinite;
   }
 
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+
   /* Desktop nav active underline */
   .nav-link-active::after {
     content: "";
@@ -301,3 +344,154 @@
     }
   }
 }
+
+/* ------------------------------------------------------------- */
+/* Creative Giants Signature Components & Animation Styles       */
+/* ------------------------------------------------------------- */
+
+/* Button Rectangle Animation */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn .btn__rect {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0%;
+  width: 100%;
+  background-color: currentColor;
+  transition: height 0.65s cubic-bezier(0.625, 0.05, 0, 1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn:hover .btn__rect {
+  height: 100%;
+}
+
+.btn .btn__text {
+  position: relative;
+  z-index: 2;
+  transition: color 0.4s ease;
+}
+
+.btn:hover .btn__text {
+  color: #fffef7;
+}
+
+.theme-dark .btn:hover .btn__text {
+  color: #000000;
+}
+
+/* Underline Link Animation */
+.underline-link {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.underline-link::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transition: transform 0.65s cubic-bezier(0.625, 0.05, 0, 1);
+  transform-origin: right;
+  transform: scaleX(0);
+}
+
+.underline-link:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+/* Fluid Custom Cursor */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #000000;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  background-color: #ffffff;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+body:has(a:hover) .cursor-dot,
+body:has(button:hover) .cursor-dot,
+body:has([data-cursor]:hover) .cursor-dot {
+  width: 14px;
+  height: 14px;
+}
+
+.cursor-badge {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  background-color: #000000;
+  color: #fffef7;
+  font-size: 11px;
+  font-family: var(--font-switzer), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  pointer-events: none;
+  z-index: 9998;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translate(12px, 12px);
+  transition: opacity 0.3s ease;
+}
+
+body:has([data-cursor]:hover) .cursor-badge {
+  opacity: 1;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot,
+  .cursor-badge {
+    display: none !important;
+  }
+}
+
+/* Page Transition Curtain Columns */
+.transition_wrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 9990;
+}
+
+.transition_column {
+  flex: 1;
+  height: 100%;
+  background-color: #0d0f12;
+}
+
+/* Theme Utilities */
+.theme-light {
+  background-color: #fffef7;
+  color: #000000;
+}
+
+.theme-dark {
+  background-color: #0d0f12;
+  color: #fffef7;
+}
+

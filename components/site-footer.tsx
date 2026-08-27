@@ -7,66 +7,63 @@ const LEGAL_LINKS = [
   { label: "Reservas", href: "/politicas#reservas" },
 ] as const;
 
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/lesleygarciabeauty",
+    icon: FaInstagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/lesleygarciabeauty",
+    icon: FaFacebook,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F",
+    icon: FaWhatsapp,
+  },
+] as const;
+
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#0a0a0a] text-white">
-      <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 xl:px-20">
-        {/* Main: brand left, social right */}
-        <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
-          {/* Brand */}
-          <div className="max-w-sm">
-            <Link href="/" className="inline-block">
-              <p className="font-serif text-2xl italic tracking-tight text-white transition-colors hover:text-white/80">
-                Lesley Garcia
-              </p>
-            </Link>
-            <p className="mt-3 text-sm text-white/40 leading-relaxed">
-              Maquillaje profesional y contenido UGC en Guayaquil.
-            </p>
-            <p className="mt-2 text-xs text-white/25">
-              Guayaquil, Ecuador
-            </p>
-          </div>
+    <footer className="bg-bone-white text-ink-black border-t border-ink-black/10">
+      {/* Quiet wordmark */}
+      <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-20 py-16 md:py-24">
+        <Link href="/" className="inline-block">
+          <p className="font-display text-[clamp(2.5rem,8vw,6rem)] font-light leading-none tracking-[-0.04em] text-ink-black transition-colors hover:text-graphite">
+            Lesley García
+          </p>
+        </Link>
+        <p className="mt-4 text-sm text-graphite leading-relaxed max-w-md font-body">
+          Maquillaje profesional y contenido UGC en Guayaquil. Cada look cuenta una historia.
+        </p>
+      </div>
 
-          {/* Social */}
-          <div className="flex gap-3">
+      <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-8 lg:px-12 xl:px-20">
+        {/* Social — outline circles */}
+        <div className="flex gap-3 justify-center sm:justify-start">
+          {SOCIAL_LINKS.map((social) => (
             <a
-              href="https://www.instagram.com/lesleygarciabeauty"
+              key={social.label}
+              href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-white/15 text-white/60 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0a0a0a]"
+              aria-label={social.label}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-ash text-graphite transition-colors duration-300 hover:border-ink-black hover:text-ink-black"
             >
-              <FaInstagram className="h-4 w-4" />
+              <social.icon className="h-4 w-4" />
             </a>
-            <a
-              href="https://www.facebook.com/lesleygarciabeauty"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-white/15 text-white/60 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0a0a0a]"
-            >
-              <FaFacebook className="h-4 w-4" />
-            </a>
-            <a
-              href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20%C2%BFque%20tal%3F.%0AQuisiera%20agendar%20una%20cita%20contigo%E2%99%A5%EF%B8%8F"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-white/15 text-white/60 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0a0a0a]"
-            >
-              <FaWhatsapp className="h-4 w-4" />
-            </a>
-          </div>
+          ))}
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-ink-black/10">
         <div className="mx-auto flex max-w-[1600px] flex-col items-center gap-4 px-5 py-6 sm:flex-row sm:justify-between sm:px-8 lg:px-12 xl:px-20">
-          <p className="text-xs text-white/20">
+          <p className="text-xs text-ash font-body">
             &copy; {currentYear} Lesley Garcia Beauty. Todos los derechos
             reservados.
           </p>
@@ -76,20 +73,20 @@ export function SiteFooter() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-xs text-white/30 transition-colors duration-300 hover:text-white/70"
+                className="text-xs text-graphite transition-colors duration-300 hover:text-ink-black font-body"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <p className="text-xs text-white/20">
+          <p className="text-xs text-ash font-body">
             Desarrollado por{" "}
             <a
               href="https://www.linkedin.com/in/edgard-s1/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/40 transition-colors hover:text-white"
+              className="text-graphite transition-colors hover:text-ink-black"
             >
               Edgar Delgado
             </a>

@@ -1,81 +1,157 @@
-import { FaStar } from "react-icons/fa";
-import { Card, CardContent } from "@/components/ui/card";
-import { FadeIn } from "@/components/animations/fade-in";
-import { StaggerContainer } from "@/components/animations/stagger-container";
+"use client";
+
+import { useState, useCallback, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
     name: "Sarah Johnson",
     role: "Novia",
     content:
-      "¡Trabajo absolutamente impresionante! Me hizo sentir como una princesa el día de mi boda. El maquillaje duró todo el día y se veía perfecto en cada foto.",
-    rating: 5,
+      "Me hizo sentir como una princesa el dia de mi boda. El maquillaje duro todo el dia y se veia perfecto en cada foto.",
+    portrait: "/img/novia_2.webp",
   },
   {
     name: "Emma Davis",
     role: "Modelo",
     content:
-      "Profesional, talentosa y muy fácil de trabajar. Entiende exactamente qué look funciona mejor para cada sesión y siempre cumple.",
-    rating: 5,
+      "Profesional, talentosa y muy facil de trabajar. Entiende exactamente que look funciona mejor para cada sesion y siempre cumple.",
+    portrait: "/img/social_3.webp",
   },
   {
     name: "Lisa Chen",
-    role: "Ejecutiva Corporativa",
+    role: "Ejecutiva",
     content:
-      "La contrato para todos mis eventos importantes. Tiene un ojo increíble para los detalles y siempre me hace sentir segura y hermosa.",
-    rating: 5,
+      "La contrato para todos mis eventos importantes. Tiene un ojo increible para los detalles y siempre me hace sentir segura.",
+    portrait: "/img/ebano_2.webp",
   },
 ];
 
 export function TestimonialsSection() {
+  const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      setActive((prev) => (prev + dir + testimonials.length) % testimonials.length);
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (isPaused) return;
+    const t = setInterval(() => go(1), 6000);
+    return () => clearInterval(t);
+  }, [go, isPaused]);
+
+  const current = testimonials[active];
+
   return (
     <section
       id="testimonials"
-      className="py-20 bg-stone-50 dark:bg-stone-800 transition-colors"
+      className="overflow-hidden bg-bone-white transition-colors"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="container mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center space-y-4 mb-16">
-          <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-100">
-            Lo Que Dicen Mis Clientes
-          </h2>
-          <p className="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-            La satisfacción de mis clientes es mi mayor recompensa. Aquí
-            tienes algunas de sus experiencias.
-          </p>
-        </FadeIn>
-
-        <StaggerContainer className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card
-              key={index}
-              className="bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-700 hover:shadow-xl hover:scale-[1.02] transition-all duration-500 rounded-2xl"
-            >
-              <CardContent className="p-8 space-y-5">
-                <div className="flex justify-center">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className="w-4 h-4 fill-stone-900 dark:fill-stone-100 text-stone-900 dark:text-stone-100"
+      <div className="container mx-auto px-5 sm:px-8 py-28 md:py-40">
+        <div className="grid items-center gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-24">
+          {/* Left — overlapping portraits + controls */}
+          <div className="order-2 lg:order-1">
+            <div className="relative h-24">
+              {testimonials.map((t, i) => {
+                const pos = (i - active + testimonials.length) % testimonials.length;
+                return (
+                  <button
+                    key={t.name}
+                    type="button"
+                    onClick={() => setActive(i)}
+                    aria-label={`Ver testimonio de ${t.name}`}
+                    className={`absolute left-0 top-0 h-24 w-24 overflow-hidden rounded-full ring-4 ring-bone-white transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                      pos === 0
+                        ? "z-30 cursor-default"
+                        : "z-0 cursor-pointer hover:z-20"
+                    }`}
+                    style={{
+                      transform: `translateX(${pos * 72}px) scale(${pos === 0 ? 1 : 0.9})`,
+                    }}
+                  >
+                    <img
+                      src={t.portrait}
+                      alt={t.name}
+                      className="h-full w-full object-cover"
                     />
-                  ))}
+                    <span
+                      className={`absolute inset-0 bg-black/40 transition-opacity duration-500 ${
+                        pos === 0 ? "opacity-0" : "opacity-100"
+                      }`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Counter + arrows */}
+            <div className="mt-12 flex items-center gap-6">
+              <span className="font-label text-[10px] uppercase tracking-[0.25em] text-graphite tabular-nums">
+                {String(active + 1).padStart(2, "0")} /{" "}
+                {String(testimonials.length).padStart(2, "0")}
+              </span>
+              <span className="h-px w-16 bg-ash" />
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  aria-label="Testimonio anterior"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-ash text-ink-black transition-colors duration-300 hover:border-ink-black active:scale-95"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  aria-label="Siguiente testimonio"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-ash text-ink-black transition-colors duration-300 hover:border-ink-black active:scale-95"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+            </div>
+
+          {/* Right — minimalist typography quote */}
+          <div className="order-1 lg:order-2">
+            <h2 className="font-display font-light text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.15] tracking-[-0.02em] text-ink-black mb-12 max-w-xl">
+              Palabras que
+              <span className="italic text-graphite">
+                {" "}
+                quedan
+              </span>
+            </h2>
+
+            <div key={active} className="animate-fade-in-up">
+              <blockquote className="font-display font-light text-[clamp(1.6rem,3vw,2.6rem)] leading-[1.25] tracking-[-0.01em] text-ink-black max-w-2xl">
+                <span className="text-ash">
+                  &ldquo;
+                </span>
+                {current.content}
+                <span className="text-ash">
+                  &rdquo;
+                </span>
+              </blockquote>
+              <div className="mt-10 flex items-center gap-4">
+                <span className="h-px w-10 bg-ash" />
+                <div>
+                  <p className="text-sm font-normal text-ink-black font-body">
+                    {current.name}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-graphite mt-1 font-label">
+                    {current.role}
+                  </p>
                 </div>
-                <p className="text-stone-600 dark:text-stone-400 italic text-center leading-relaxed font-serif text-lg">
-                  &ldquo;{testimonial.content}&rdquo;
-                </p>
-                <div className="flex items-center justify-center space-x-3 pt-5 border-t border-stone-100 dark:border-stone-800">
-                  <div className="text-center">
-                    <div className="font-semibold text-stone-900 dark:text-stone-100 text-sm">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-xs text-stone-500 dark:text-stone-500 uppercase tracking-wider mt-0.5">
-                      {testimonial.role}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </StaggerContainer>
+              </div>
+</div>
+          </div>
+        </div>
       </div>
     </section>
   );

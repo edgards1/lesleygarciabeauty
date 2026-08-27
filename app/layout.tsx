@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, Caveat } from "next/font/google";
+import { Playfair_Display, Inter, Manrope, JetBrains_Mono, Caveat } from "next/font/google";
 // @ts-ignore: allow importing global CSS without module declarations
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -26,6 +26,18 @@ const inter = Inter({
   display: "swap",
 });
 
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Lesley García | Maquilladora Profesional",
   icons: {
@@ -41,9 +53,9 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
-        className={`${playfairDisplay.variable} ${caveat.variable} ${inter.variable} font-sans antialiased`}
+        className={`${playfairDisplay.variable} ${caveat.variable} ${inter.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

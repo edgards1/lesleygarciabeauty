@@ -106,7 +106,7 @@ export function ContactForm() {
   };
 
   return (
-    <div className="bg-white/[0.03] border border-white/10 p-8 md:p-10 lg:p-12">
+    <div className="border border-ink-black/10 p-8 md:p-10 lg:p-12">
       {/* Honeypot */}
       <div
         className="absolute -left-[9999px] opacity-0 h-0 w-0 overflow-hidden"
@@ -135,14 +135,14 @@ export function ContactForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Nombre completo *
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Tu nombre"
                         {...field}
-                        className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white placeholder:text-white/25 transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black placeholder:text-ash transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-red-400 mt-1" />
@@ -155,14 +155,14 @@ export function ContactForm() {
                 name="company"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Empresa / Marca
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Opcional"
                         {...field}
-                        className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white placeholder:text-white/25 transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black placeholder:text-ash transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-red-400 mt-1" />
@@ -177,7 +177,7 @@ export function ContactForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Email *
                     </FormLabel>
                     <FormControl>
@@ -185,7 +185,7 @@ export function ContactForm() {
                         type="email"
                         placeholder="tu@email.com"
                         {...field}
-                        className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white placeholder:text-white/25 transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black placeholder:text-ash transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-red-400 mt-1" />
@@ -198,7 +198,7 @@ export function ContactForm() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Telefono *
                     </FormLabel>
                     <FormControl>
@@ -206,7 +206,7 @@ export function ContactForm() {
                         type="tel"
                         placeholder="+593 999 999 999"
                         {...field}
-                        className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white placeholder:text-white/25 transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black placeholder:text-ash transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-red-400 mt-1" />
@@ -224,7 +224,7 @@ export function ContactForm() {
                 name="service"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Tipo de proyecto *
                     </FormLabel>
                     <Select
@@ -232,16 +232,16 @@ export function ContactForm() {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <SelectTrigger className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0">
                           <SelectValue placeholder="Selecciona el tipo de proyecto" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="rounded-none border-white/15 bg-[#0a0a0a] text-white">
+                      <SelectContent className="rounded-none border-ash bg-bone-white text-ink-black">
                         {serviceOptions.map((option) => (
                           <SelectItem
                             key={option.value}
                             value={option.value}
-                            className="text-sm focus:bg-white/10 focus:text-white"
+                            className="text-sm focus:bg-ash/20 focus:text-ink-black"
                           >
                             {option.label}
                           </SelectItem>
@@ -258,7 +258,7 @@ export function ContactForm() {
                 name="timeline"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                    <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                       Plazo estimado
                     </FormLabel>
                     <Select
@@ -266,16 +266,16 @@ export function ContactForm() {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 h-11 rounded-none px-0 text-sm text-white transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <SelectTrigger className="bg-transparent border-0 border-b border-ash focus:border-ink-black h-11 rounded-none px-0 text-sm text-ink-black transition-colors duration-300 focus-visible:ring-0 focus-visible:ring-offset-0">
                           <SelectValue placeholder="Cuando necesitas el proyecto?" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="rounded-none border-white/15 bg-[#0a0a0a] text-white">
+                      <SelectContent className="rounded-none border-ash bg-bone-white text-ink-black">
                         {timelineOptions.map((option) => (
                           <SelectItem
                             key={option.value}
                             value={option.value}
-                            className="text-sm focus:bg-white/10 focus:text-white"
+                            className="text-sm focus:bg-ash/20 focus:text-ink-black"
                           >
                             {option.label}
                           </SelectItem>
@@ -293,7 +293,7 @@ export function ContactForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-white/40">
+                      <FormLabel className="text-[11px] font-medium uppercase tracking-widest text-graphite font-label">
                         Detalles del proyecto *
                       </FormLabel>
                       <span
@@ -301,7 +301,7 @@ export function ContactForm() {
                           "text-[10px] tabular-nums",
                           messageValue.length > MAX_MESSAGE_LENGTH * 0.9
                             ? "text-red-400"
-                            : "text-white/30",
+                            : "text-ash",
                         )}
                       >
                         {messageValue.length}/{MAX_MESSAGE_LENGTH}
@@ -313,7 +313,7 @@ export function ContactForm() {
                         rows={4}
                         maxLength={MAX_MESSAGE_LENGTH}
                         {...field}
-                        className="bg-transparent border-0 border-b border-white/15 focus:border-white/50 rounded-none resize-none text-sm text-white placeholder:text-white/25 transition-colors duration-300 px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="bg-transparent border-0 border-b border-ash focus:border-ink-black rounded-none resize-none text-sm text-ink-black placeholder:text-ash transition-colors duration-300 px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-red-400 mt-1" />
@@ -328,17 +328,17 @@ export function ContactForm() {
             <Button
               type="submit"
               disabled={isSubmitting || !form.formState.isValid}
-              className="w-full bg-white hover:bg-white/90 text-[#0a0a0a] h-12 rounded-none font-medium text-[11px] tracking-[0.2em] uppercase transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed group"
+              className="w-full bg-ink-black hover:bg-ink-black/85 text-bone-white h-12 rounded-full font-normal text-sm tracking-normal transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed group font-body"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-[#0a0a0a] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-bone-white border-t-transparent rounded-full animate-spin" />
                   Enviando...
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-3">
                   Recibir Propuesta
-                  <span className="h-px w-5 bg-[#0a0a0a] transition-all duration-300 group-hover:w-8" />
+                  <span className="h-px w-5 bg-bone-white transition-all duration-300 group-hover:w-8" />
                 </span>
               )}
             </Button>
@@ -347,26 +347,26 @@ export function ContactForm() {
       </Form>
 
       {/* Mobile contact info */}
-      <div className="lg:hidden mt-10 space-y-0 divide-y divide-white/10 border-t border-white/10 pt-8">
+      <div className="lg:hidden mt-10 space-y-0 divide-y divide-ink-black/10 border-t border-ink-black/10 pt-8">
         <div className="py-4 first:pt-0">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-medium mb-1">
+          <p className="text-[9px] uppercase tracking-[0.3em] text-graphite font-medium mb-1 font-label">
             WhatsApp
           </p>
-          <p className="text-white/70 text-sm">(+593) 983366831</p>
+          <p className="text-graphite text-sm font-body">(+593) 983366831</p>
         </div>
         <div className="py-4">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-medium mb-1">
+          <p className="text-[9px] uppercase tracking-[0.3em] text-graphite font-medium mb-1 font-label">
             Email
           </p>
-          <p className="text-white/70 text-sm break-all">
+          <p className="text-graphite text-sm font-body break-all">
             lesleygarciabeauty@gmail.com
           </p>
         </div>
         <div className="py-4">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-medium mb-1">
+          <p className="text-[9px] uppercase tracking-[0.3em] text-graphite font-medium mb-1 font-label">
             Ubicacion
           </p>
-          <p className="text-white/70 text-sm">Guayaquil, Ecuador</p>
+          <p className="text-graphite text-sm font-body">Guayaquil, Ecuador</p>
         </div>
       </div>
     </div>

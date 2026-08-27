@@ -1,27 +1,36 @@
-import { AppleNav } from "@/components/apple-nav";
-import { HeroSection } from "@/components/hero-section";
-import { PortfolioSection } from "@/components/portfolio-section";
-import { SiteFooter } from "@/components/site-footer";
-import { TickerBanner } from "@/components/sections/ticker-banner";
-import { AboutSection } from "@/components/sections/about-section";
-import { ServicesSection } from "@/components/sections/services-section";
-import { UgcSection } from "@/components/sections/ugc-section";
-import { TestimonialsSection } from "@/components/sections/testimonials-section";
-import { ContactSection } from "@/components/sections/contact-section";
+import { LenisSmooth } from "@/components/lenis-smooth";
+import { PageCurtain } from "@/components/page-curtain";
+import { CreativeCursor } from "@/components/creative-cursor";
+import { CreativeNav } from "@/components/creative-nav";
+import { CreativeHero } from "@/components/sections/creative-hero";
+import { CreativeWhat } from "@/components/sections/creative-what";
+import { CreativeProjectsScroll } from "@/components/sections/creative-projects-scroll";
+import { CreativeParallax } from "@/components/sections/creative-parallax";
+import { CreativeTestimonials } from "@/components/sections/creative-testimonials";
+import { CreativeMarquee } from "@/components/sections/creative-marquee";
+import { CreativeNews } from "@/components/sections/creative-news";
+import { CreativeContact } from "@/components/sections/creative-contact";
+import { CreativeFooter } from "@/components/sections/creative-footer";
 
-export default function MakeupArtistPortfolio() {
+export default function LesleyGarciaBeautyHome() {
   return (
-    <div className="min-h-screen bg-white dark:bg-stone-900 transition-colors">
-      <AppleNav />
-      <TickerBanner />
-      <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <PortfolioSection />
-      <UgcSection />
-      <TestimonialsSection />
-      <ContactSection />
-      <SiteFooter />
+    <div className="min-h-screen bg-[#fffef7] text-[#0d0f12] font-display selection:bg-[#ffd001] selection:text-black">
+      <LenisSmooth>
+        <PageCurtain />
+        <CreativeCursor />
+        <CreativeNav />
+        <main className="w-full max-w-full overflow-x-hidden">
+          <CreativeHero />
+          <CreativeWhat />
+          <CreativeProjectsScroll />
+          <CreativeParallax />
+          <CreativeTestimonials />
+          <CreativeMarquee />
+          <CreativeNews />
+          <CreativeContact />
+        </main>
+        <CreativeFooter />
+      </LenisSmooth>
     </div>
   );
 }

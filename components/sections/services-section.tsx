@@ -1,240 +1,181 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa";
-import { FadeIn } from "@/components/animations/fade-in";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { splitWordsToMasks } from "@/lib/split-text";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const SERVICES = [
+  {
+    num: "01",
+    title: "Maquillaje de novia",
+    accent: "novia",
+    featured: true,
+    description:
+      "Prueba previa para definir el look perfecto y aplicación el día de la boda. Una experiencia completa, de principio a fin.",
+    image: "/img/novia_01.webp",
+    alt: "Maquillaje de novia",
+    href: "https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20de%20novia",
+  },
+  {
+    num: "02",
+    title: "Maquillaje social",
+    accent: "social",
+    description:
+      "Fiestas, graduaciones, noches especiales. Un look que destaque en persona y en foto, sin perder naturalidad.",
+    image: "/img/social_4.webp",
+    alt: "Maquillaje social",
+    href: "https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20social",
+  },
+  {
+    num: "03",
+    title: "Automaquillaje",
+    accent: "automaquillaje",
+    description:
+      "Sesión uno a uno donde aprendes técnicas para tu rostro, tu estilo y tu presupuesto. Sales con una rutina propia.",
+    image: "/img/ebano_1.webp",
+    alt: "Clase de automaquillaje",
+    href: "https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20curso%20de%20automaquillaje",
+  },
+  {
+    num: "04",
+    title: "Contenido UGC",
+    accent: "UGC",
+    description:
+      "Filmación, edición y entrega de contenido orgánico listo para publicar. Sin productor, sin complicaciones.",
+    image: "/img/social_010.webp",
+    alt: "Contenido UGC para marcas de belleza",
+    href: "https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20UGC",
+  },
+];
 
 export function ServicesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const words = splitWordsToMasks(titleRef.current!);
+
+        gsap.fromTo(
+          words,
+          { yPercent: 120, rotate: 1.5 },
+          {
+            yPercent: 0,
+            rotate: 0,
+            duration: 1.2,
+            stagger: 0.045,
+            ease: "power4.out",
+            scrollTrigger: { trigger: titleRef.current, start: "top 82%" },
+          },
+        );
+
+        const lastWord = words[words.length - 1];
+        if (lastWord) {
+          lastWord.style.fontStyle = "italic";
+          lastWord.style.color = "#666666";
+        }
+
+        gsap.fromTo(
+          "[data-service-card]",
+          { y: 56, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: "[data-services-grid]",
+              start: "top 78%",
+            },
+          }
+        );
+      });
+    },
+    { scope: sectionRef }
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="services"
-      className="relative z-10 bg-white dark:bg-stone-900 transition-colors"
+      className="relative overflow-hidden bg-bone-white"
     >
-      {/* Novia — editorial block */}
-      <div className="py-20 sm:py-28 bg-stone-900 dark:bg-stone-950">
-        <div className="container mx-auto px-5 sm:px-8">
-          <FadeIn>
-            <div className="flex items-center gap-4 mb-3">
-              <div className="h-px w-8 bg-stone-600" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
-                Para novias
-              </span>
-            </div>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <FadeIn delay={0.1} className="hidden lg:block">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/img/novia_01.webp"
-                  alt="Maquillaje de novia"
-                  fill
-                  sizes="50vw"
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div>
-                <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-800 select-none block mb-4">
-                  01
-                </span>
-                <h2 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-100 mb-4">
-                  Maquillaje
-                  <br />
-                  <span className="italic text-stone-500">de novia</span>
-                </h2>
-                <p className="text-base text-stone-400 leading-[1.7] mb-8 max-w-md">
-                  Una experiencia completa: prueba previa para perfecto el look,
-                  y aplicación el día de tu boda. Mezclamos, probamos y
-                  refinamos hasta que te sientas exactamente como imaginaste.
-                </p>
-                <a
-                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20de%20novia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 h-12 bg-white dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-stone-900 transition-all duration-300 hover:bg-stone-100 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
-                >
-                  Agendar Sesión de Prueba
-                  <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-                </a>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-
-      {/* Productos — cada servicio como un bloque editorial */}
-      {/* Social (1ro) — texto a la izquierda, fondo claro */}
-      <div className="py-20 sm:py-28 bg-white dark:bg-stone-900">
-        <div className="container mx-auto px-5 sm:px-8">
-          <FadeIn>
-            <div className="flex items-center gap-4 mb-3">
-              <div className="h-px w-8 bg-stone-300 dark:bg-stone-600" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
-                Para eventos
-              </span>
-            </div>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <FadeIn delay={0.1}>
-              <div>
-                <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-200 dark:text-stone-800 select-none block mb-4">
-                  02
-                </span>
-                <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100 mb-4">
-                  Maquillaje Social
-                </h3>
-                <p className="text-base text-stone-500 dark:text-stone-400 leading-[1.7] mb-8 max-w-md">
-                  Fiestas, graduaciones, noches especiales. Un look que
-                  destaque en persona y en foto, sin perder naturalidad.
-                </p>
-                <a
-                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20maquillaje%20social"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 h-12 bg-stone-900 dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-white dark:text-stone-900 transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
-                >
-                  Reservar Fecha
-                  <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-                </a>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2} className="hidden lg:block">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/img/social_4.webp"
-                  alt="Maquillaje Social"
-                  fill
-                  sizes="50vw"
-                  className="object-cover hover:scale-[1.02] transition-transform duration-500"
-                />
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-
-      {/* Automaquillaje (2do) — imagen a la izquierda, fondo oscuro como Novia */}
-      <div className="py-20 sm:py-28 bg-stone-900 dark:bg-stone-950">
-        <div className="container mx-auto px-5 sm:px-8">
-          <FadeIn>
-            <div className="flex items-center gap-4 mb-3">
-              <div className="h-px w-8 bg-stone-600" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
-                Para ti
-              </span>
-            </div>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <FadeIn delay={0.1} className="hidden lg:block order-last lg:order-first">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/img/ebano_1.webp"
-                  alt="Automaquillaje"
-                  fill
-                  sizes="50vw"
-                  className="object-cover hover:scale-[1.02] transition-transform duration-500"
-                />
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div className="lg:text-right">
-                <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-800 select-none block mb-4 lg:text-right">
-                  03
-                </span>
-                <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-100 mb-4">
-                  Automaquillaje
-                </h3>
-                <p className="text-base text-stone-400 leading-[1.7] mb-8 max-w-md lg:ml-auto">
-                  Sesión uno a uno donde aprendes técnicas para tu rostro, tu
-                  estilo y tu presupuesto. Sales con práctica y una rutina
-                  que puedes repetir cada día.
-                </p>
-                <a
-                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20curso%20de%20automaquillaje"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 h-12 bg-white dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-stone-900 transition-all duration-300 hover:bg-stone-100 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
-                >
-                  Agendar Clase
-                  <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-                </a>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-
-      {/* UGC (3ro) — texto a la izquierda, fondo claro */}
-      <div className="py-20 sm:py-28 bg-white dark:bg-stone-900">
-        <div className="container mx-auto px-5 sm:px-8">
-          <FadeIn>
-            <div className="flex items-center gap-4 mb-3">
-              <div className="h-px w-8 bg-stone-300 dark:bg-stone-600" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
-                Para marcas
-              </span>
-            </div>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <FadeIn delay={0.1}>
-              <div>
-                <span className="text-[8rem] sm:text-[10rem] font-serif italic leading-[0.8] text-stone-200 dark:text-stone-800 select-none block mb-4">
-                  04
-                </span>
-                <h3 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100 mb-4">
-                  Contenido UGC
-                </h3>
-                <p className="text-base text-stone-500 dark:text-stone-400 leading-[1.7] mb-8 max-w-md">
-                  Filmación, edición y entrega de contenido orgánico listo
-                  para publicar. Sin productor, sin complicaciones — las
-                  marcas lo suben tal cual.
-                </p>
-                <a
-                  href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20estoy%20interesada%20en%20el%20servicio%20de%20UGC"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 h-12 bg-stone-900 dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-white dark:text-stone-900 transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg active:scale-[0.98]"
-                >
-                  Solicitar Propuesta
-                  <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
-                </a>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2} className="hidden lg:block">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/img/social_010.webp"
-                  alt="Contenido UGC"
-                  fill
-                  sizes="50vw"
-                  className="object-cover hover:scale-[1.02] transition-transform duration-500"
-                />
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom CTA */}
-      <div className="border-t border-stone-200 dark:border-stone-700 py-16">
-        <div className="container mx-auto px-5 sm:px-8">
-          <FadeIn className="text-center">
-            <h3 className="text-2xl sm:text-3xl font-serif text-stone-900 dark:text-stone-100 mb-3 tracking-[-0.02em]">
-              ¿Necesitas algo <span className="italic">fuera de catálogo</span>?
-            </h3>
-            <p className="text-sm text-stone-500 dark:text-stone-400 mb-8 max-w-md mx-auto leading-[1.6]">
-              Cada cliente es única. Cuéntame lo que necesitas y creo un paquete a tu medida.
+      <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-20 py-28 md:py-40">
+        {/* Header */}
+        <div className="mb-16 flex flex-col gap-8 md:mb-24 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="mb-6 font-label text-[10px] uppercase tracking-[0.3em] text-graphite">
+              Servicios
             </p>
+            <h2
+              ref={titleRef}
+              className="font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light leading-[0.95] tracking-[-0.03em] text-ink-black max-w-3xl"
+            >
+              Cuatro maneras de brillar.
+            </h2>
+          </div>
+          <p className="max-w-sm text-sm leading-[1.7] text-graphite md:text-right font-body">
+            Del altar al set de filmación: cada servicio con acabado impecable,
+            técnica profesional y atención al detalle.
+          </p>
+        </div>
+
+        {/* Numbered cards 01-04 */}
+        <div
+          data-services-grid
+          className="grid gap-4 md:grid-cols-2"
+        >
+          {SERVICES.map((service) => (
             <a
-              href="https://api.whatsapp.com/send?phone=593983366831&text=Hola%2C%20necesito%20un%20servicio%20personalizado"
+              key={service.num}
+              data-service-card
+              href={service.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg"
+              className={`group relative flex flex-col overflow-hidden p-8 transition-colors duration-500 ease-out md:p-10 ${
+                service.featured
+                  ? "bg-candy-pink"
+                  : "border border-ink-black/10 bg-bone-white hover:border-ink-black"
+              }`}
             >
-              Consulta personalizada
-              <FaWhatsapp className="h-3.5 w-3.5 opacity-80" />
+              <div className="flex items-center justify-between">
+                <span className="font-label text-sm text-ash tabular-nums transition-colors duration-500 group-hover:text-ink-black">
+                  {service.num}
+                </span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-ink-black/15 text-graphite transition-colors duration-500 group-hover:border-ink-black group-hover:bg-ink-black group-hover:text-bone-white">
+                  <FaWhatsapp className="h-4 w-4" />
+                </span>
+              </div>
+
+              <h3 className="mt-14 font-display text-[clamp(1.7rem,3vw,2.4rem)] font-light tracking-[-0.02em] text-ink-black md:mt-20">
+                {service.title}
+              </h3>
+              <p className="mt-4 max-w-sm text-sm leading-[1.7] text-graphite font-body">
+                {service.description}
+              </p>
+
+              <div className="mt-10 aspect-[16/10] overflow-hidden bg-ash/20">
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  width={800}
+                  height={500}
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                />
+              </div>
             </a>
-          </FadeIn>
+          ))}
         </div>
       </div>
     </section>

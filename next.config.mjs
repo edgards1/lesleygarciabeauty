@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  reactCompiler: true,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -13,6 +11,9 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   serverExternalPackages: ["sequelize", "mysql2"],
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
 }
 
 export default nextConfig

@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
 const NAV_LINKS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/servicios", label: "Servicios" },

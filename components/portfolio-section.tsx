@@ -141,10 +141,10 @@ function PortfolioCard({
       onMouseEnter={item.type === "video" ? handleVideoEnter : undefined}
       onMouseLeave={item.type === "video" ? handleVideoLeave : undefined}
     >
-      {/* Outer shell — Double-Bezel */}
-      <div className="p-[3px] rounded-[1.25rem] bg-black/[0.04] dark:bg-white/[0.06] ring-1 ring-black/[0.04] dark:ring-white/[0.06] transition-all duration-[700ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:ring-black/[0.10] dark:group-hover:ring-white/[0.14] group-hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:group-hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)]">
+      {/* Outer shell — flat editorial (no bezel, no radius, no shadow) */}
+      <div className="transition-colors duration-[700ms] ease-[cubic-bezier(0.32,0.72,0,1)]">
         {/* Inner core */}
-        <div className="relative aspect-[3/4] rounded-[calc(1.25rem-3px)] overflow-hidden bg-stone-900 cursor-pointer">
+        <div className="relative aspect-[3/4] overflow-hidden bg-ash/20 cursor-pointer">
           {/* Image */}
           {item.type === "image" && (
             <>
@@ -159,7 +159,7 @@ function PortfolioCard({
                 }
                 priority={index < 2}
                 quality={80}
-                className="absolute inset-0 object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+                className="absolute inset-0 object-cover transition-all duration-[700ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
               />
               {item.hoverImage && (
                 <Image
@@ -228,9 +228,9 @@ function PortfolioCard({
                 isHovered ? "opacity-0 scale-[0.92]" : "opacity-100 scale-100"
               }`}
             >
-              <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/25 flex items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-bone-white/15 backdrop-blur-md ring-1 ring-bone-white/40 flex items-center justify-center">
                 <svg
-                  className="w-4 h-4 text-white ml-0.5"
+                  className="w-4 h-4 text-bone-white ml-0.5"
                   viewBox="0 0 12 14"
                   fill="currentColor"
                 >
@@ -244,14 +244,14 @@ function PortfolioCard({
           <div className="absolute bottom-0 left-0 right-0 p-4 z-10 opacity-0 group-hover:opacity-100 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] translate-y-2 group-hover:translate-y-0">
             <div className="flex items-end justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/60 mb-1 truncate">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-bone-white/80 mb-1 truncate font-label">
                   {primaryCategory}
                 </p>
-                <p className="text-sm font-medium text-white truncate leading-tight">
+                <p className="text-sm font-normal text-bone-white truncate leading-tight font-body">
                   {item.alt}
                 </p>
               </div>
-              <span className="text-[10px] font-medium text-white/30 tabular-nums flex-shrink-0">
+              <span className="text-[10px] font-normal text-bone-white/60 tabular-nums flex-shrink-0 font-label">
                 {String(index + 1).padStart(2, "0")}
               </span>
             </div>
@@ -316,10 +316,10 @@ function StatCounter({
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
-      <div className="text-4xl md:text-5xl font-serif text-stone-900 dark:text-stone-100 mb-2 tracking-tight">
+      <div className="text-4xl md:text-5xl font-display font-light text-ink-black mb-2 tracking-tight">
         <span className="stat-number">0</span>
       </div>
-      <div className="text-[9px] text-stone-400 dark:text-stone-500 uppercase tracking-[0.25em] font-medium">
+      <div className="text-[9px] text-graphite uppercase tracking-[0.25em] font-normal font-label">
         {label}
       </div>
     </div>
@@ -344,10 +344,10 @@ function FilterBar({
         <button
           key={cat}
           onClick={() => onSelect(cat)}
-          className={`px-3.5 py-1.5 rounded-full text-[10px] font-medium uppercase tracking-[0.18em] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          className={`px-3.5 py-1.5 rounded-full text-[10px] font-normal uppercase tracking-[0.18em] transition-colors duration-500 font-label ${
             activeFilter === cat
-              ? "bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900"
-              : "bg-transparent text-stone-400 dark:text-stone-500 ring-1 ring-stone-200 dark:ring-stone-700 hover:ring-stone-400 dark:hover:ring-stone-500 hover:text-stone-600 dark:hover:text-stone-300"
+              ? "bg-ink-black text-bone-white"
+              : "bg-transparent text-graphite ring-1 ring-ash hover:ring-ink-black hover:text-ink-black"
           }`}
         >
           {cat}
@@ -415,6 +415,26 @@ export function PortfolioSection() {
       observer.observe(el)
       cleanups.push(() => observer.disconnect())
     })
+
+    const cards = document.querySelectorAll<HTMLElement>("[data-card]")
+    gsap.set(cards, { opacity: 0, y: 48 })
+    const cardObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.08,
+            ease: "power4.out",
+          })
+          cardObserver.disconnect()
+        }
+      },
+      { rootMargin: "120px" }
+    )
+    if (wrapRef.current) cardObserver.observe(wrapRef.current)
+    cleanups.push(() => cardObserver.disconnect())
 
     return () => cleanups.forEach((fn) => fn())
   }, [])
@@ -522,18 +542,8 @@ export function PortfolioSection() {
   /* ---- Shared heading content ---- */
   const headingContent = (isMobile: boolean) => (
     <>
-      <div className={`flex items-center gap-3 ${isMobile ? "justify-center" : ""}`}>
-        <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-        <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500">
-          Portafolio
-        </span>
-        {!isMobile && (
-          <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-        )}
-      </div>
-
       {isMobile ? (
-        <h2 className="text-4xl md:text-5xl font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-[-0.02em]">
+        <h2 className="text-4xl md:text-5xl font-display font-light text-ink-black leading-[1.05] tracking-[-0.02em]">
           <span className="hero-word inline-block mr-3">Trabajo</span>
           <span className="hero-word inline-block mr-3">que</span>
           <span className="hero-word inline-block">habla</span>
@@ -543,19 +553,19 @@ export function PortfolioSection() {
           <span className="hero-word inline-block italic">solo</span>
         </h2>
       ) : (
-        <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-[-0.02em]">
+        <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-display font-light text-ink-black leading-[1.05] tracking-[-0.02em]">
           <span className="hero-word block">Trabajo</span>
-          <span className="hero-word block italic text-stone-400 dark:text-stone-500">
+          <span className="hero-word block italic text-graphite">
             que habla
           </span>
           <span className="hero-word block">por sí</span>
-          <span className="hero-word block italic text-stone-400 dark:text-stone-500">
+          <span className="hero-word block italic text-graphite">
             solo
           </span>
         </h2>
       )}
 
-      <p className={`text-sm text-stone-500 dark:text-stone-400 leading-relaxed ${isMobile ? "max-w-sm mx-auto" : "max-w-[260px]"}`}>
+      <p className={`text-sm text-graphite leading-relaxed font-body ${isMobile ? "max-w-sm mx-auto" : "max-w-[260px]"}`}>
         Maquillaje profesional y personalizado para novias, piel ebano, eventos especiales y ocasiones sociales. Cada proyecto es una obra de arte única que refleja la belleza individual de cada cliente.
       </p>
 
@@ -571,7 +581,7 @@ export function PortfolioSection() {
     <section
       ref={sectionRef}
       id="portfolio"
-      className="bg-white dark:bg-stone-900 transition-colors"
+      className="bg-bone-white transition-colors"
     >
       {/* ============================================================ */}
       {/*  HORIZONTAL SCROLL VIEW — always mounted, hidden when filtered */}
@@ -595,17 +605,17 @@ export function PortfolioSection() {
               <div className="flex items-center gap-3 pt-2">
                 <span
                   ref={currentNumRef}
-                  className="text-[10px] font-medium text-stone-900 dark:text-stone-100 tabular-nums w-5"
+                  className="text-[10px] font-normal text-ink-black tabular-nums w-5 font-label"
                 >
                   01
                 </span>
-                <div className="h-px flex-1 bg-stone-200 dark:bg-stone-700 relative overflow-hidden rounded-full">
+                <div className="h-px flex-1 bg-ink-black/15 relative overflow-hidden rounded-full">
                   <div
                     ref={progressBarRef}
-                    className="absolute inset-0 bg-stone-900 dark:bg-stone-100 origin-left will-change-transform"
+                    className="absolute inset-0 bg-ink-black origin-left will-change-transform"
                   />
                 </div>
-                <span className="text-[10px] font-medium text-stone-400 dark:text-stone-500 tabular-nums w-5 text-right">
+                <span className="text-[10px] font-normal text-graphite tabular-nums w-5 text-right font-label">
                   {String(totalItems).padStart(2, "0")}
                 </span>
               </div>
@@ -629,17 +639,17 @@ export function PortfolioSection() {
               <div className="flex items-center gap-3">
                 <span
                   ref={mobileNumRef}
-                  className="text-[10px] font-medium text-stone-900 dark:text-stone-100 tabular-nums w-5"
+                  className="text-[10px] font-normal text-ink-black tabular-nums w-5 font-label"
                 >
                   01
                 </span>
-                <div className="h-px flex-1 bg-stone-200 dark:bg-stone-700 relative overflow-hidden rounded-full">
+                <div className="h-px flex-1 bg-ink-black/15 relative overflow-hidden rounded-full">
                   <div
                     ref={mobileProgressRef}
-                    className="absolute inset-0 bg-stone-900 dark:bg-stone-100 origin-left will-change-transform transition-transform duration-150 ease-out"
+                    className="absolute inset-0 bg-ink-black origin-left will-change-transform transition-transform duration-150 ease-out"
                   />
                 </div>
-                <span className="text-[10px] font-medium text-stone-400 dark:text-stone-500 tabular-nums w-5 text-right">
+                <span className="text-[10px] font-normal text-graphite tabular-nums w-5 text-right font-label">
                   {String(totalItems).padStart(2, "0")}
                 </span>
               </div>
@@ -651,9 +661,9 @@ export function PortfolioSection() {
               className="relative px-4 md:px-8 lg:px-12 py-4 lg:py-0 lg:h-screen lg:flex lg:items-center overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide"
             >
               {/* Edge fade — left */}
-              <div className="absolute left-0 top-0 bottom-0 w-6 md:w-10 bg-gradient-to-r from-white dark:from-stone-900 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-6 md:w-10 bg-gradient-to-r from-bone-white to-transparent z-10 pointer-events-none" />
               {/* Edge fade — right */}
-              <div className="absolute right-0 top-0 bottom-0 w-6 md:w-10 bg-gradient-to-l from-white dark:from-stone-900 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-6 md:w-10 bg-gradient-to-l from-bone-white to-transparent z-10 pointer-events-none" />
 
               <div
                 ref={trackRef}
@@ -682,15 +692,7 @@ export function PortfolioSection() {
       <div className={`${isFiltered ? "" : "hidden"} py-32 md:py-40`}>
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center space-y-5 mb-20 md:mb-28">
-            <div className="flex items-center justify-center gap-3">
-              <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-              <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500">
-                Portafolio
-              </span>
-              <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-            </div>
-
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-900 dark:text-stone-100 leading-[1.05] tracking-[-0.02em]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-ink-black leading-[1.05] tracking-[-0.02em]">
               <span className="hero-word inline-block mr-3 md:mr-4 lg:mr-5">
                 Trabajo
               </span>

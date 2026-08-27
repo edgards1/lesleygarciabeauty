@@ -2,6 +2,7 @@ import Link from "next/link"
 import { auth, signOut } from "@/lib/auth"
 import { getDb, initModels, Cita, Business, BUSINESS_SLUG } from "@/lib/database/connection"
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
 export const dynamic = "force-dynamic"
 
 export default async function AdminDashboard() {

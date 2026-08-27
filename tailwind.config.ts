@@ -15,12 +15,27 @@ const config: Config = {
       fontFamily: {
         bodoni: ['var(--font-display)', 'var(--font-bodoni)'],
         inter: ['var(--font-sans)', 'var(--font-inter)'],
+        body: ['var(--font-switzer)', 'var(--font-inter)'],
+        label: ['var(--font-switzer)', 'var(--font-inter)'],
+        display: ['var(--font-switzer)', 'var(--font-inter)'],
         serif: ['var(--font-display)', 'var(--font-bodoni)'],
-        sans: ['var(--font-sans)', 'var(--font-inter)'],
+        sans: ['var(--font-geist-sans)', 'var(--font-sans)', 'var(--font-inter)'],
       },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+  			'bone-white': '#fffef7',
+  			'ink-black': '#000000',
+  			'graphite': '#666666',
+  			'ash': '#aaaaaa',
+  			'charcoal-scale': '#4d4c4a',
+  			'magenta-bloom': '#8a0467',
+  			'forest-teal': '#03624c',
+  			'powder-blue': '#a5c8eb',
+  			'candy-pink': '#ffacea',
+  			'mint-wash': '#a5ebd6',
+  			'navy-ink': '#101731',
+  			'signal-yellow': '#ffd001',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

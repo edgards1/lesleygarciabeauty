@@ -2,6 +2,7 @@ import { getDb, initModels, Business, BUSINESS_SLUG } from "@/lib/database/conne
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
 export const dynamic = "force-dynamic"
 
 export default async function AdminCalendarPage() {

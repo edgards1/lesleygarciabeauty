@@ -1,101 +1,187 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
-import { FadeIn } from "@/components/animations/fade-in";
-import aboutPhoto from "@/public/img/portada.png";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { splitWordsToMasks } from "@/lib/split-text";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const GALLERY = [
+  { src: "/img/ebano_1.webp", alt: "Piel ebano — textura y glow", offset: "self-end", speed: -10 },
+  { src: "/img/novia_1.webp", alt: "Maquillaje de novia en estudio", offset: "self-start", speed: 8 },
+  { src: "/img/social_9.jpg", alt: "Sesion social editorial", offset: "self-end", speed: -6 },
+];
+
+const STATS = [
+  { value: 5, suffix: "+", label: "Años de experiencia" },
+  { value: 40, suffix: "+", label: "Novias maquilladas" },
+  { value: 120, suffix: "+", label: "Looks creados" },
+];
+
+function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const numRef = useRef<HTMLSpanElement>(null);
+
+  useGSAP(() => {
+    const el = numRef.current;
+    if (!el) return;
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: value,
+      duration: 1.8,
+      ease: "power3.out",
+      snap: { val: 1 },
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        once: true,
+      },
+      onUpdate: () => {
+        el.textContent = String(Math.round(obj.val)) + suffix;
+      },
+    });
+  }, []);
+
+  return (
+    <div className="border-t border-ink-black/15 pt-6">
+      <p className="font-display text-5xl md:text-6xl font-light tracking-[-0.03em] text-ink-black tabular-nums">
+        <span ref={numRef}>0{suffix}</span>
+      </p>
+      <p className="mt-2 text-[10px] uppercase tracking-[0.25em] text-graphite font-label">
+        {label}
+      </p>
+    </div>
+  );
+}
 
 export function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const words = splitWordsToMasks(titleRef.current!);
+
+        gsap.fromTo(
+          words,
+          { yPercent: 120, rotate: 1.5 },
+          {
+            yPercent: 0,
+            rotate: 0,
+            duration: 1.2,
+            stagger: 0.045,
+            ease: "power4.out",
+            scrollTrigger: { trigger: titleRef.current, start: "top 82%" },
+          },
+        );
+
+        const italics = words.slice(-3);
+        italics.forEach((w) => {
+          w.style.fontStyle = "italic";
+          w.style.color = "#666666";
+        });
+
+        gsap.utils
+          .toArray<HTMLElement>("[data-parallax]", sectionRef.current)
+          .forEach((img) => {
+            const speed = Number(img.dataset.speed ?? 8);
+            gsap.fromTo(
+              img,
+              { yPercent: -speed },
+              {
+                yPercent: speed,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: img.closest("[data-figure]"),
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              }
+            );
+          });
+      });
+    },
+    { scope: sectionRef }
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="about"
-      className="relative min-h-screen overflow-hidden bg-white dark:bg-stone-900 transition-colors flex items-center"
+      className="relative overflow-hidden bg-bone-white"
     >
-      <div className="container mx-auto px-5 sm:px-8 w-full py-16">
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-10 lg:gap-16 items-stretch">
-          {/* Text column — vertically centered */}
-          <FadeIn
-            delay={0.15}
-            className="flex flex-col justify-center py-16 sm:py-20 lg:py-0"
-          >
-            <div className="space-y-7 max-w-3xl">
-              <div className="flex items-center gap-4">
-                <div className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-                <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 dark:text-stone-500 font-medium">
-                  Sobre mí
-                </span>
-              </div>
+      <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-20">
+        <div className="grid gap-16 py-28 md:py-40 lg:grid-cols-2 lg:gap-24">
+          {/* Left — pinned editorial column */}
+          <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
+            <div>
+              <p className="mb-6 font-label text-[10px] uppercase tracking-[0.3em] text-graphite">
+                De qué se trata todo esto
+              </p>
 
-              <h2 className="font-serif text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] tracking-[-0.02em] text-stone-900 dark:text-stone-100">
-                Lesley
-                <br />
-                <span className="italic text-stone-400 dark:text-stone-500">
-                  García
-                </span>
+              <h2
+                ref={titleRef}
+                className="font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light leading-[0.95] tracking-[-0.03em] text-ink-black max-w-xl"
+              >
+                La artista detrás del pincel.
               </h2>
 
-              <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 font-normal leading-relaxed">
-                Soy maquilladora profesional especializada en pieles ébano,
-                dedicada a crear looks que realzan la belleza natural de cada
-                mujer. Ofrezco maquillaje para bodas, quinceañeras y eventos
-                especiales con un acabado impecable y de larga duración.
+              <p className="mt-8 max-w-md text-[15px] leading-[1.8] text-graphite font-body">
+                Soy maquilladora profesional especializada en pieles ébano.
+                Cada look nace de un proceso: escuchar, observar tu piel y
+                construir un maquillaje que te represente — del altar a la
+                pasarela, con acabado impecable y de larga duración.
               </p>
-              <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 font-normal leading-relaxed">
-                Además, imparto cursos personalizados para quienes desean
-                aprender o perfeccionar técnicas profesionales de maquillaje
-                con un enfoque inclusivo y adaptado a cada tipo de piel.
+              <p className="mt-5 max-w-md text-[15px] leading-[1.8] text-graphite font-body">
+                También enseño automaquillaje y creo contenido UGC para marcas
+                de belleza que quieren conectar con audiencias reales.
               </p>
 
-              {/* Stats */}
-              <div className="flex items-center gap-8 pt-4">
-                <div>
-                  <p className="text-4xl font-serif font-light tracking-tight text-stone-900 dark:text-stone-100">
-                    5
-                    <span className="text-2xl text-stone-300 dark:text-stone-600">
-                      +
-                    </span>
-                  </p>
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500 font-medium mt-1">
-                    Años
-                  </p>
-                </div>
-                <div className="h-10 w-px bg-stone-200 dark:bg-stone-700" />
-                <div>
-                  <p className="text-4xl font-serif font-light tracking-tight text-stone-900 dark:text-stone-100">
-                    40
-                    <span className="text-2xl text-stone-300 dark:text-stone-600">
-                      +
-                    </span>
-                  </p>
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500 font-medium mt-1">
-                    Novias
-                  </p>
-                </div>
-              </div>
-
-              {/* CTA button */}
-              <div className="pt-4">
-                <a
-                  href="#services"
-                  className="group inline-flex h-12 items-center justify-center bg-stone-900 dark:bg-stone-100 px-7 text-[10px] font-medium uppercase tracking-[0.25em] text-white dark:text-stone-900 transition-all duration-300 hover:bg-stone-800 dark:hover:bg-stone-200 hover:shadow-lg"
-                >
-                  Ver servicios
-                  <span className="ml-3 inline-block h-px w-5 bg-current transition-all duration-300 group-hover:w-7" />
-                </a>
+              <div className="mt-14 grid grid-cols-3 gap-8">
+                {STATS.map((stat) => (
+                  <Stat key={stat.label} {...stat} />
+                ))}
               </div>
             </div>
-          </FadeIn>
+          </div>
 
-          {/* Portrait — fills the full column height */}
-          <FadeIn delay={0.3} className="relative min-h-[50vh] lg:min-h-0">
-            <div className="relative h-full w-full rounded-xl overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]">
-              <Image
-                src={aboutPhoto}
-                alt="Lesley García — maquilladora profesional"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="object-cover"
-              />
-            </div>
-          </FadeIn>
+          {/* Right — parallax gallery */}
+          <div className="flex flex-col gap-12 md:gap-16">
+            {GALLERY.map((item, index) => (
+              <figure
+                key={item.src}
+                data-figure
+                className={`relative w-[88%] md:w-[78%] ${item.offset}`}
+                style={{ marginTop: index === 0 ? undefined : "-4rem" }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-ash/20">
+                  <div
+                    data-parallax
+                    data-speed={item.speed}
+                    className="absolute -inset-y-[12%] inset-x-0 will-change-transform"
+                  >
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      sizes="(max-width: 1024px) 90vw, 40vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink-black/40 to-transparent" />
+                  <figcaption className="absolute bottom-5 left-5 font-label text-[10px] uppercase tracking-[0.25em] text-bone-white">
+                    {String(index + 1).padStart(2, "0")} — {item.alt}
+                  </figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>
